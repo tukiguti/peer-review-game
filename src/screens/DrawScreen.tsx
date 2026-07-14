@@ -25,6 +25,10 @@ export const DrawScreen = ({ state, dispatch, cards }: DrawScreenProps) => {
   );
 
   const pullLever = () => {
+    if (state.hand || state.drawAnimating) {
+      return;
+    }
+
     const hand = drawHand(cards, deckMode, genreMode, state.recentHands);
     playSound('lever', state.muted);
     navigator.vibrate?.(30);
@@ -65,8 +69,8 @@ export const DrawScreen = ({ state, dispatch, cards }: DrawScreenProps) => {
       />
 
       <div className={styles.actionBar}>
-        <button className={styles.leverButton} type="button" disabled={state.drawAnimating} onClick={pullLever}>
-          LEVER
+        <button className={styles.leverButton} type="button" disabled={state.drawAnimating || Boolean(state.hand)} onClick={pullLever}>
+          {state.hand ? '抽選済み' : 'LEVER — 3枚抽選'}
         </button>
         <button className={styles.primaryButton} type="button" disabled={!state.hand || state.drawAnimating} onClick={() => dispatch({ type: 'startPrepare' })}>
           テーマ確定

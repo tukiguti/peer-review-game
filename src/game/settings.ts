@@ -18,9 +18,17 @@ const STORAGE_KEY = 'peer-review-game-settings';
 const isStringArray = (value: unknown): value is string[] =>
   Array.isArray(value) && value.every((item) => typeof item === 'string');
 
+export const cleanPlayerNames = (playerNames: string[]): string[] =>
+  playerNames.map((name) => name.trim()).filter(Boolean).slice(0, 8);
+
+export const arePlayerNamesValid = (playerNames: string[]): boolean => {
+  const cleaned = cleanPlayerNames(playerNames);
+  return cleaned.length === playerNames.length && cleaned.length >= 3 && new Set(cleaned).size === cleaned.length;
+};
+
 export const normalizeSettings = (value: Partial<Settings>): Settings => {
   const playerNames = isStringArray(value.playerNames)
-    ? value.playerNames.map((name) => name.trim()).filter(Boolean).slice(0, 8)
+    ? cleanPlayerNames(value.playerNames)
     : DEFAULT_SETTINGS.playerNames;
 
   return {
@@ -32,7 +40,7 @@ export const normalizeSettings = (value: Partial<Settings>): Settings => {
     preparationEnabled:
       typeof value.preparationEnabled === 'boolean' ? value.preparationEnabled : DEFAULT_SETTINGS.preparationEnabled,
     rerollsPerPlayer:
-      typeof value.rerollsPerPlayer === 'number' && value.rerollsPerPlayer >= 0 && value.rerollsPerPlayer <= 3
+      typeof value.rerollsPerPlayer === 'number' && Number.isInteger(value.rerollsPerPlayer) && value.rerollsPerPlayer >= 0 && value.rerollsPerPlayer <= 3
         ? value.rerollsPerPlayer
         : DEFAULT_SETTINGS.rerollsPerPlayer,
     deckMode: value.deckMode === 'serious' || value.deckMode === 'neta' || value.deckMode === 'all' ? value.deckMode : DEFAULT_SETTINGS.deckMode,
@@ -61,5 +69,9 @@ export const saveSettings = (settings: Settings): void => {
     return;
   }
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(normalizeSettings(settings)));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(normalizeSettings(settings)));
+  } catch {
+    // ストレージが無効・容量超過でも、ゲーム自体は継続できる。
+  }
 };

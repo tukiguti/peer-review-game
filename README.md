@@ -17,6 +17,10 @@
 4. **判定** — 過半数 Accept で採択。発表者に +2点（満場一致なら +3点）
 5. 査読者も、**多数派側に投票していれば +1点**
 
+Accept の目安は「3枚をすべて使った」「問いと手法に筋が通った」「制約への工夫に納得できた」の3項目です。最終結果では総得点1位を「学会MVP」、発表で得た点が最多の人を「最優秀論文賞」として分けて表彰します。
+
+カードは汎用・ソフトウェア工学・セキュリティ・ファッションの4ジャンル、真面目寄せ・ネタ寄せの両方を収録しています（全297枚）。
+
 ## 開発
 
 ```bash
@@ -26,8 +30,11 @@ npm run test     # 得点計算・抽選ロジックのユニットテスト
 npm run build
 ```
 
+公開前の確認項目は [docs/spec.md](docs/spec.md) にまとめています。変更時は `npm test` と `npm run build` の両方を通してください。
+
 デプロイ: main への push で GitHub Pages に自動配信 → https://tukiguti.github.io/peer-review-game/
 
 ## ドキュメント
 
-- [docs/spec.md](docs/spec.md) — ルール・カード・スロット演出・技術構成の全仕様
+- [企画・ルールの正本](https://github.com/tukiguti/zikken/tree/main/playground/peer-review-game-plan) — ゲーム設計と進捗
+- [docs/spec.md](docs/spec.md) — 実装上の不変条件と公開前チェック

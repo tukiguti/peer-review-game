@@ -1,5 +1,5 @@
 import { applyScoring } from './scoring';
-import { DEFAULT_SETTINGS, normalizeSettings } from './settings';
+import { arePlayerNamesValid, DEFAULT_SETTINGS, normalizeSettings } from './settings';
 import type { Card, CardKind, GameState, Hand, Settings, Vote } from './types';
 
 export type GameAction =
@@ -18,7 +18,6 @@ export type GameAction =
   | { type: 'setCommentDraft'; comment: string }
   | { type: 'submitVote' }
   | { type: 'continueVoting' }
-  | { type: 'showResult' }
   | { type: 'nextTurn' }
   | { type: 'resetToSetup' };
 
@@ -27,6 +26,7 @@ const makePlayers = (settings: Settings) =>
     id: `p${index + 1}`,
     name,
     score: 0,
+    presentationScore: 0,
     rerollsLeft: settings.rerollsPerPlayer,
     acceptCount: 0,
     rejectCount: 0,
@@ -57,8 +57,14 @@ export const createInitialState = (settings = DEFAULT_SETTINGS): GameState => ({
 export const gameReducer = (state: GameState, action: GameAction): GameState => {
   switch (action.type) {
     case 'updateSettings':
-      return { ...state, settings: normalizeSettings(action.settings) };
+      // セットアップ中は空欄も入力途中の正当な状態。ここで正規化すると、
+      // 3人のうち1人を消した瞬間に既定名へ巻き戻って編集できなくなる。
+      return state.phase === 'setup' ? { ...state, settings: action.settings } : state;
     case 'startGame': {
+      if (state.phase !== 'setup' || !arePlayerNamesValid(action.settings.playerNames)) {
+        return state;
+      }
+
       const settings = normalizeSettings(action.settings);
       return {
         ...createInitialState(settings),
@@ -71,6 +77,10 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
     case 'setMuted':
       return { ...state, muted: action.muted };
     case 'drawHand':
+      if (state.phase !== 'draw' || state.hand || state.drawAnimating) {
+        return state;
+      }
+
       return {
         ...state,
         hand: action.hand,
@@ -79,14 +89,18 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         drawSpinKind: 'all',
       };
     case 'rerollCard': {
-      if (!state.hand) {
+      if (state.phase !== 'draw' || !state.hand || state.drawAnimating) {
         return state;
       }
 
       const kindIndex = kindToIndex(action.kind);
+      const presenter = state.players[state.presenterIndex];
+      if (!presenter || presenter.rerollsLeft <= 0 || state.hand[kindIndex].id === action.card.id) {
+        return state;
+      }
+
       const nextHand = [...state.hand] as Hand;
       nextHand[kindIndex] = action.card;
-      const presenter = state.players[state.presenterIndex];
 
       return {
         ...state,
@@ -100,18 +114,30 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
       };
     }
     case 'drawAnimationDone':
-      return { ...state, drawAnimating: false };
+      return state.phase === 'draw' ? { ...state, drawAnimating: false } : state;
     case 'startPrepare':
+      if (state.phase !== 'draw' || !state.hand || state.drawAnimating) {
+        return state;
+      }
+
       return {
         ...state,
         phase: state.settings.preparationEnabled ? 'prepare' : 'present',
         timerRemaining: state.settings.preparationEnabled ? 30 : state.settings.presentationSeconds,
       };
     case 'startPresent':
-      return { ...state, phase: 'present', timerRemaining: state.settings.presentationSeconds };
+      return state.phase === 'prepare'
+        ? { ...state, phase: 'present', timerRemaining: state.settings.presentationSeconds }
+        : state;
     case 'tickTimer':
-      return { ...state, timerRemaining: Math.max(0, state.timerRemaining - 1) };
+      return state.phase === 'prepare' || state.phase === 'present'
+        ? { ...state, timerRemaining: Math.max(0, state.timerRemaining - 1) }
+        : state;
     case 'startVote':
+      if (state.phase !== 'present') {
+        return state;
+      }
+
       return {
         ...state,
         phase: 'vote',
@@ -122,14 +148,18 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         commentDraft: '',
       };
     case 'openBallot':
-      return { ...state, voteStep: 'ballot', voteDraft: null, commentDraft: '' };
+      return state.phase === 'vote' && state.voteStep === 'handoff'
+        ? { ...state, voteStep: 'ballot', voteDraft: null, commentDraft: '' }
+        : state;
     case 'setVoteDraft':
-      return { ...state, voteDraft: action.vote };
+      return state.phase === 'vote' && state.voteStep === 'ballot' ? { ...state, voteDraft: action.vote } : state;
     case 'setCommentDraft':
-      return { ...state, commentDraft: action.comment.slice(0, 80) };
+      return state.phase === 'vote' && state.voteStep === 'ballot'
+        ? { ...state, commentDraft: action.comment.slice(0, 80) }
+        : state;
     case 'submitVote': {
       const voter = state.players[state.votingIndex];
-      if (!voter || !state.voteDraft) {
+      if (state.phase !== 'vote' || state.voteStep !== 'ballot' || !voter || !state.voteDraft) {
         return state;
       }
 
@@ -148,6 +178,10 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
       };
     }
     case 'continueVoting': {
+      if (state.phase !== 'vote' || state.voteStep !== 'submitted') {
+        return state;
+      }
+
       const nextIndex = nextVoterIndex(state, state.votingIndex + 1);
       const presenter = state.players[state.presenterIndex];
       return nextIndex === null
@@ -167,15 +201,8 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
             commentDraft: '',
           };
     }
-    case 'showResult':
-      return {
-        ...state,
-        phase: 'result',
-        resultScored: true,
-        players: state.resultScored ? state.players : applyScoring(state.players, state.players[state.presenterIndex].id, state.votes),
-      };
     case 'nextTurn': {
-      if (!state.hand) {
+      if (state.phase !== 'result' || !state.resultScored || !state.hand) {
         return state;
       }
 

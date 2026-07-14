@@ -46,6 +46,8 @@ export const applyScoring = (
     return {
       ...player,
       score: player.score + (deltaByPlayer.get(player.id) ?? 0),
+      presentationScore:
+        player.presentationScore + (player.id === presenterId ? (deltaByPlayer.get(player.id) ?? 0) : 0),
       acceptCount: player.acceptCount + (vote === 'accept' ? 1 : 0),
       rejectCount: player.rejectCount + (vote === 'reject' ? 1 : 0),
       unanimousAcceptedCount:

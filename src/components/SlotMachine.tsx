@@ -43,6 +43,29 @@ export const SlotMachine = ({ cards, hand, spinKey, spinKind, spinning, muted, o
   const reelRefs = useRef<ReelRefs[]>(KINDS.map(() => ({ track: null, shell: null })));
   const reelLoops = useMemo(() => KINDS.map((kind) => shuffle(cards[kind])), [cards]);
 
+  // 演出オフ時と停止直後も、中央の当選ラインを確定カードと一致させる。
+  useEffect(() => {
+    if (!hand || spinning) {
+      return;
+    }
+
+    KINDS.forEach((_, index) => {
+      const refs = reelRefs.current[index];
+      const loop = reelLoops[index];
+      const winnerIndex = Math.max(0, loop.findIndex((card) => card.id === hand[index].id));
+      const itemNodes = Array.from(refs.track?.children ?? []) as HTMLDivElement[];
+
+      itemNodes.forEach((node, row) => {
+        node.textContent = loop[(winnerIndex + row - 3 + loop.length * 20) % loop.length].text;
+      });
+      if (refs.track) {
+        refs.track.style.transform = `translateY(${-CARD_HEIGHT * 2}px)`;
+      }
+      refs.shell?.classList.remove(styles.reelSpinning);
+      refs.shell?.classList.add(styles.reelStopped);
+    });
+  }, [hand, reelLoops, spinning]);
+
   useEffect(() => {
     if (!hand || !spinning) {
       return undefined;

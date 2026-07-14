@@ -47,7 +47,10 @@ export const ResultScreen = ({ state, dispatch }: ScreenProps) => {
             {Object.entries(state.votes)
               .filter(([, vote]) => vote.comment)
               .map(([playerId, vote]) => (
-                <blockquote key={playerId}>{vote.comment}</blockquote>
+                <blockquote key={playerId}>
+                  <p>{vote.comment}</p>
+                  <footer>— {state.players.find((player) => player.id === playerId)?.name ?? '匿名査読者'}</footer>
+                </blockquote>
               ))}
             {Object.values(state.votes).every((vote) => !vote.comment) && <p>コメントなし</p>}
           </div>

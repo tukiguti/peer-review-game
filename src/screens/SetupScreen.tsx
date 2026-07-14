@@ -1,4 +1,5 @@
 import styles from '../App.module.css';
+import { arePlayerNamesValid, cleanPlayerNames } from '../game/settings';
 import type { ScreenProps } from './screenTypes';
 import type { DeckMode, GenreMode, Settings } from '../game/types';
 
@@ -6,8 +7,10 @@ const presentationOptions = [30, 60, 90, 120];
 
 export const SetupScreen = ({ state, dispatch }: ScreenProps) => {
   const settings = state.settings;
-  const validPlayers = settings.playerNames.map((name) => name.trim()).filter(Boolean);
-  const canStart = validPlayers.length >= 3 && validPlayers.length <= 8;
+  const validPlayers = cleanPlayerNames(settings.playerNames);
+  const hasDuplicateNames = new Set(validPlayers).size !== validPlayers.length;
+  const hasBlankNames = validPlayers.length !== settings.playerNames.length;
+  const canStart = arePlayerNamesValid(settings.playerNames);
 
   const update = (patch: Partial<Settings>) => {
     dispatch({ type: 'updateSettings', settings: { ...settings, ...patch } });
@@ -35,9 +38,14 @@ export const SetupScreen = ({ state, dispatch }: ScreenProps) => {
           <h3>プレイヤー名</h3>
           <div className={styles.nameList}>
             {settings.playerNames.map((name, index) => (
-              <label className={styles.nameRow} key={`${index}-${name}`}>
+              <label className={styles.nameRow} key={index}>
                 <span>{index + 1}</span>
-                <input value={name} maxLength={12} onChange={(event) => updateName(index, event.target.value)} />
+                <input
+                  aria-label={`プレイヤー${index + 1}の名前`}
+                  value={name}
+                  maxLength={12}
+                  onChange={(event) => updateName(index, event.target.value)}
+                />
                 <button type="button" disabled={settings.playerNames.length <= 3} onClick={() => removeName(index)}>
                   削除
                 </button>
@@ -116,8 +124,26 @@ export const SetupScreen = ({ state, dispatch }: ScreenProps) => {
         </section>
       </div>
 
+      <section className={`${styles.panel} ${styles.rulesPanel}`}>
+        <h3>遊び方</h3>
+        <ol>
+          <li>3枚のカードを引き、発表者が架空の研究を組み立てます。</li>
+          <li>分野・手法・制約をすべて使って、制限時間内に発表します。</li>
+          <li>ほかの人は「筋が通っていたか」を端末を回して秘密投票します。</li>
+          <li>過半数 Accept で発表者+2点、満場一致なら+3点。判定側と同じ票の査読者も+1点です。</li>
+        </ol>
+      </section>
+
       <div className={styles.actionBar}>
-        <p>{canStart ? `${validPlayers.length}人で開始できます` : '3〜8人を登録してください'}</p>
+        <p>
+          {canStart
+            ? `${validPlayers.length}人で開始できます`
+            : hasDuplicateNames
+              ? '同じ名前は使えません'
+              : hasBlankNames
+                ? '空欄のプレイヤー名を入力するか、その行を削除してください'
+              : '空欄のないプレイヤー名を3〜8人分登録してください'}
+        </p>
         <button className={styles.primaryButton} type="button" disabled={!canStart} onClick={() => dispatch({ type: 'startGame', settings })}>
           ゲーム開始
         </button>

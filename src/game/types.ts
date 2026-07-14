@@ -33,6 +33,7 @@ export type Player = {
   id: PlayerId;
   name: string;
   score: number;
+  presentationScore: number;
   rerollsLeft: number;
   acceptCount: number;
   rejectCount: number;
