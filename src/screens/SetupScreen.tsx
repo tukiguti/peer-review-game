@@ -1,6 +1,6 @@
 import styles from '../App.module.css';
 import type { ScreenProps } from './screenTypes';
-import type { DeckMode, Settings } from '../game/types';
+import type { DeckMode, GenreMode, Settings } from '../game/types';
 
 const presentationOptions = [30, 60, 90, 120];
 
@@ -81,6 +81,16 @@ export const SetupScreen = ({ state, dispatch }: ScreenProps) => {
               <option value={1}>1回</option>
               <option value={2}>2回</option>
               <option value={3}>3回</option>
+            </select>
+          </label>
+          <label className={styles.fieldLine}>
+            <span>ジャンル</span>
+            <select value={settings.genreMode} onChange={(event) => update({ genreMode: event.target.value as GenreMode })}>
+              <option value="all">全部</option>
+              <option value="se">ソフトウェア工学</option>
+              <option value="security">セキュリティ</option>
+              <option value="fashion">ファッション</option>
+              <option value="general">汎用</option>
             </select>
           </label>
           <label className={styles.fieldLine}>

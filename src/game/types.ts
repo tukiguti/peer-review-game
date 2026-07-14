@@ -2,6 +2,8 @@ export type Phase = 'setup' | 'draw' | 'prepare' | 'present' | 'vote' | 'result'
 
 export type CardTone = 'serious' | 'neta';
 export type DeckMode = 'serious' | 'neta' | 'all';
+export type CardGenre = 'general' | 'se' | 'security' | 'fashion';
+export type GenreMode = CardGenre | 'all';
 export type CardKind = 'field' | 'method' | 'constraint';
 export type Vote = 'accept' | 'reject';
 export type PlayerId = string;
@@ -10,6 +12,7 @@ export type Card = {
   id: string;
   text: string;
   tone: CardTone;
+  genre: CardGenre;
 };
 
 export type CardsByKind = Record<CardKind, Card[]>;
@@ -22,6 +25,7 @@ export type Settings = {
   preparationEnabled: boolean;
   rerollsPerPlayer: number;
   deckMode: DeckMode;
+  genreMode: GenreMode;
   reducedMotion: boolean;
 };
 

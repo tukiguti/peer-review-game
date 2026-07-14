@@ -1,110 +1,1790 @@
 {
   "field": [
-    { "id": "f001", "text": "大規模言語モデル", "tone": "serious" },
-    { "id": "f002", "text": "量子コンピューティング", "tone": "serious" },
-    { "id": "f003", "text": "自動運転", "tone": "serious" },
-    { "id": "f004", "text": "腸内細菌叢", "tone": "serious" },
-    { "id": "f005", "text": "気候変動適応", "tone": "serious" },
-    { "id": "f006", "text": "都市交通渋滞", "tone": "serious" },
-    { "id": "f007", "text": "睡眠の質", "tone": "serious" },
-    { "id": "f008", "text": "認知症の早期発見", "tone": "serious" },
-    { "id": "f009", "text": "農業用ドローン", "tone": "serious" },
-    { "id": "f010", "text": "地震予知", "tone": "serious" },
-    { "id": "f011", "text": "材料強度", "tone": "serious" },
-    { "id": "f012", "text": "ソフトウェア開発生産性", "tone": "serious" },
-    { "id": "f013", "text": "教育格差", "tone": "serious" },
-    { "id": "f014", "text": "再生可能エネルギー貯蔵", "tone": "serious" },
-    { "id": "f015", "text": "感染症の流行予測", "tone": "serious" },
-    { "id": "f016", "text": "サイバーセキュリティ", "tone": "serious" },
-    { "id": "f017", "text": "深海生態系", "tone": "serious" },
-    { "id": "f018", "text": "折り紙工学", "tone": "serious" },
-    { "id": "f019", "text": "建築音響", "tone": "serious" },
-    { "id": "f020", "text": "労働時間と幸福度", "tone": "serious" },
-    { "id": "f021", "text": "コンビニの入店音", "tone": "neta" },
-    { "id": "f022", "text": "味噌の熟成", "tone": "neta" },
-    { "id": "f023", "text": "猫の液体性", "tone": "neta" },
-    { "id": "f024", "text": "大学生の課題提出時刻", "tone": "neta" },
-    { "id": "f025", "text": "満員電車の圧力分布", "tone": "neta" },
-    { "id": "f026", "text": "推し活の経済効果", "tone": "neta" },
-    { "id": "f027", "text": "ラーメン二郎の待ち行列", "tone": "neta" },
-    { "id": "f028", "text": "中世写本の落書き", "tone": "neta" },
-    { "id": "f029", "text": "ソシャゲの課金心理", "tone": "neta" },
-    { "id": "f030", "text": "学会の懇親会の会話", "tone": "neta" },
-    { "id": "f031", "text": "教授の説教の長さ", "tone": "neta" },
-    { "id": "f032", "text": "研究室の冷蔵庫", "tone": "neta" },
-    { "id": "f033", "text": "エスカレーターの立ち位置", "tone": "neta" },
-    { "id": "f034", "text": "たけのこの里の断面", "tone": "neta" },
-    { "id": "f035", "text": "スロットの目押し精度", "tone": "neta" },
-    { "id": "f036", "text": "深夜テンションの創造性", "tone": "neta" },
-    { "id": "f037", "text": "論文の謝辞", "tone": "neta" },
-    { "id": "f038", "text": "実験ノートの筆圧", "tone": "neta" },
-    { "id": "f039", "text": "卒業式の胴上げ", "tone": "neta" },
-    { "id": "f040", "text": "学食の待ち時間", "tone": "neta" }
+    {
+      "id": "f001",
+      "text": "大規模言語モデル",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f002",
+      "text": "量子コンピューティング",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f003",
+      "text": "自動運転",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f004",
+      "text": "腸内細菌叢",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f005",
+      "text": "気候変動適応",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f006",
+      "text": "都市交通渋滞",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f007",
+      "text": "睡眠の質",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f008",
+      "text": "認知症の早期発見",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f009",
+      "text": "農業用ドローン",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f010",
+      "text": "地震予知",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f011",
+      "text": "材料強度",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f012",
+      "text": "ソフトウェア開発生産性",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f013",
+      "text": "教育格差",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f014",
+      "text": "再生可能エネルギー貯蔵",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f015",
+      "text": "感染症の流行予測",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f016",
+      "text": "サイバーセキュリティ",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f017",
+      "text": "深海生態系",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f018",
+      "text": "折り紙工学",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f019",
+      "text": "建築音響",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f020",
+      "text": "労働時間と幸福度",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "f021",
+      "text": "コンビニの入店音",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f022",
+      "text": "味噌の熟成",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f023",
+      "text": "猫の液体性",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f024",
+      "text": "大学生の課題提出時刻",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f025",
+      "text": "満員電車の圧力分布",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f026",
+      "text": "推し活の経済効果",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f027",
+      "text": "ラーメン二郎の待ち行列",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f028",
+      "text": "中世写本の落書き",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f029",
+      "text": "ソシャゲの課金心理",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f030",
+      "text": "学会の懇親会の会話",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f031",
+      "text": "教授の説教の長さ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f032",
+      "text": "研究室の冷蔵庫",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f033",
+      "text": "エスカレーターの立ち位置",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f034",
+      "text": "たけのこの里の断面",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f035",
+      "text": "スロットの目押し精度",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f036",
+      "text": "深夜テンションの創造性",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f037",
+      "text": "論文の謝辞",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f038",
+      "text": "実験ノートの筆圧",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f039",
+      "text": "卒業式の胴上げ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "f040",
+      "text": "学食の待ち時間",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "se-f01",
+      "text": "技術的負債",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f02",
+      "text": "コードレビュー",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f03",
+      "text": "CI/CDパイプライン",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f04",
+      "text": "マイクロサービス分割",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f05",
+      "text": "リファクタリング",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f06",
+      "text": "静的解析ツール",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f07",
+      "text": "テスト自動化",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f08",
+      "text": "アジャイル開発",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f09",
+      "text": "要求工学",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f10",
+      "text": "ソフトウェアアーキテクチャ",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f11",
+      "text": "バグ予測モデル",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f12",
+      "text": "プログラム合成",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f13",
+      "text": "型システム",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f14",
+      "text": "デプロイ頻度",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f15",
+      "text": "オンコール対応",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f16",
+      "text": "ペアプログラミング",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f17",
+      "text": "レガシーコード移行",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f18",
+      "text": "API設計",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f19",
+      "text": "依存関係の更新",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f20",
+      "text": "可観測性(Observability)",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f21",
+      "text": "コードの可読性",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f22",
+      "text": "LLMによるコード生成",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f23",
+      "text": "オープンソースの持続性",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f24",
+      "text": "開発者の生産性",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f25",
+      "text": "インシデントの事後分析",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-f26",
+      "text": "動かないビルド",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f27",
+      "text": "誰も読まないREADME",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f28",
+      "text": "巨大なプルリクエスト",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f29",
+      "text": "コメントアウトされたコード",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f30",
+      "text": "「後で直す」というTODO",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f31",
+      "text": "変数名で30分の議論",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f32",
+      "text": "金曜日のデプロイ",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f33",
+      "text": "3年間放置されたIssue",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f34",
+      "text": "Excelで書かれた仕様書",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f35",
+      "text": "コピペされたStack Overflow",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f36",
+      "text": "インデントの宗教戦争",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f37",
+      "text": "触るなと言われた関数",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f38",
+      "text": "退職者しか知らないバッチ",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f39",
+      "text": "一度も落ちたことがない本番",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f40",
+      "text": "ローカルでは動く現象",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f41",
+      "text": "「なるはや」という締切",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-f42",
+      "text": "マージ後に消えるコンフリクト",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "sec-f01",
+      "text": "ゼロデイ脆弱性",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f02",
+      "text": "サプライチェーン攻撃",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f03",
+      "text": "フィッシング検知",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f04",
+      "text": "ランサムウェア",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f05",
+      "text": "多要素認証",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f06",
+      "text": "サイドチャネル攻撃",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f07",
+      "text": "マルウェア解析",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f08",
+      "text": "侵入検知システム",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f09",
+      "text": "脆弱性開示ポリシー",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f10",
+      "text": "ソーシャルエンジニアリング",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f11",
+      "text": "IoT機器の認証",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f12",
+      "text": "暗号鍵の管理",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f13",
+      "text": "ログの改ざん検知",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f14",
+      "text": "プライバシー保護機械学習",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f15",
+      "text": "セキュリティ教育",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f16",
+      "text": "ペネトレーションテスト",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f17",
+      "text": "ゼロトラスト",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f18",
+      "text": "プロンプトインジェクション",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f19",
+      "text": "難読化とリバースエンジニアリング",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f20",
+      "text": "ボットネットの観測",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f21",
+      "text": "パスワードの再利用",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f22",
+      "text": "ディープフェイク詐欺",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f23",
+      "text": "内部不正の検知",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f24",
+      "text": "付箋に書かれたパスワード",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f25",
+      "text": "共有アカウント",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f26",
+      "text": "退職者のアカウント",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f27",
+      "text": "USBメモリを拾う人間",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f28",
+      "text": "admin/admin",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f29",
+      "text": "パスワードの定期変更",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f30",
+      "text": "画面共有に映る認証情報",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f31",
+      "text": "情シスへの申請書",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f32",
+      "text": "標的型メール訓練の引っかかり率",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f33",
+      "text": "入館証の貸し借り",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f34",
+      "text": "警告ダイアログを閉じる速度",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f35",
+      "text": "「うちは狙われない」という信念",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f36",
+      "text": "会議室のホワイトボードの消し忘れ",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-f37",
+      "text": "肩越しに覗く人",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "fa-f01",
+      "text": "バーチャル試着",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f02",
+      "text": "コーディネート推薦",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f03",
+      "text": "ファストファッションの環境負荷",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f04",
+      "text": "体型と既製服のサイズ",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f05",
+      "text": "生成AIによるデザイン支援",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f06",
+      "text": "古着の循環",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f07",
+      "text": "サイズ表記の標準化",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f08",
+      "text": "素材の質感の定量化",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f09",
+      "text": "衣服による自己表現",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f10",
+      "text": "トレンド予測",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f11",
+      "text": "3Dボディスキャン",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f12",
+      "text": "色と印象の関係",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f13",
+      "text": "ECサイトの返品率",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f14",
+      "text": "サステナブル素材",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f15",
+      "text": "ストリートスナップの解析",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f16",
+      "text": "着脱しやすい高齢者向けの服",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f17",
+      "text": "職場の服装規範",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f18",
+      "text": "写真からの服属性推定",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f19",
+      "text": "アバターの服装",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f20",
+      "text": "障害のある人のための衣服設計",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f21",
+      "text": "制服とアイデンティティ",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f22",
+      "text": "試着室の体験設計",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f23",
+      "text": "古着のトレーサビリティ",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f24",
+      "text": "研究室の服装の地味さ",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f25",
+      "text": "学会発表のスーツ着用率",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f26",
+      "text": "全身黒のワードローブ",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f27",
+      "text": "学部ごとのパーカー率",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f28",
+      "text": "就活スーツの均一性",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f29",
+      "text": "「私服」と言い張るユニクロ",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f30",
+      "text": "白衣の下の服",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f31",
+      "text": "オンライン会議の上半身",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f32",
+      "text": "インターン初日の服",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f33",
+      "text": "徹夜明けの服装",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f34",
+      "text": "教授のネクタイの柄",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-f35",
+      "text": "学会Tシャツの寿命",
+      "tone": "neta",
+      "genre": "fashion"
+    }
   ],
   "method": [
-    { "id": "m001", "text": "ランダム化比較試験(RCT)", "tone": "serious" },
-    { "id": "m002", "text": "エスノグラフィ調査", "tone": "serious" },
-    { "id": "m003", "text": "メタアナリシス", "tone": "serious" },
-    { "id": "m004", "text": "有限要素法シミュレーション", "tone": "serious" },
-    { "id": "m005", "text": "深層学習による分類", "tone": "serious" },
-    { "id": "m006", "text": "眼球運動計測", "tone": "serious" },
-    { "id": "m007", "text": "fMRIによる脳活動計測", "tone": "serious" },
-    { "id": "m008", "text": "大規模アンケート(n=10000)", "tone": "serious" },
-    { "id": "m009", "text": "ケーススタディ(n=1)", "tone": "serious" },
-    { "id": "m010", "text": "参与観察", "tone": "serious" },
-    { "id": "m011", "text": "A/Bテスト", "tone": "serious" },
-    { "id": "m012", "text": "時系列解析", "tone": "serious" },
-    { "id": "m013", "text": "質的コーディング", "tone": "serious" },
-    { "id": "m014", "text": "二重盲検法", "tone": "serious" },
-    { "id": "m015", "text": "制御実験室での再現", "tone": "serious" },
-    { "id": "m016", "text": "センサログの常時収集", "tone": "serious" },
-    { "id": "m017", "text": "インタビュー(半構造化)", "tone": "serious" },
-    { "id": "m018", "text": "数理モデルによる定式化", "tone": "serious" },
-    { "id": "m019", "text": "クラウドソーシングでの人手評価", "tone": "serious" },
-    { "id": "m020", "text": "縦断調査(10年間)", "tone": "serious" },
-    { "id": "m021", "text": "LLMに全部やらせる", "tone": "neta" },
-    { "id": "m022", "text": "著者の内省", "tone": "neta" },
-    { "id": "m023", "text": "X(旧Twitter)での聞き込み", "tone": "neta" },
-    { "id": "m024", "text": "目視でカウント", "tone": "neta" },
-    { "id": "m025", "text": "ChatGPTとの対話ログの分析", "tone": "neta" },
-    { "id": "m026", "text": "学部生を無給で動員", "tone": "neta" },
-    { "id": "m027", "text": "深夜のノリで実装", "tone": "neta" },
-    { "id": "m028", "text": "先行研究の図をトレース", "tone": "neta" },
-    { "id": "m029", "text": "指導教員の直感", "tone": "neta" },
-    { "id": "m030", "text": "居酒屋でのブレスト", "tone": "neta" },
-    { "id": "m031", "text": "統計を使わず眺める", "tone": "neta" },
-    { "id": "m032", "text": "とりあえずp値を出す", "tone": "neta" }
+    {
+      "id": "m001",
+      "text": "ランダム化比較試験(RCT)",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m002",
+      "text": "エスノグラフィ調査",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m003",
+      "text": "メタアナリシス",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m004",
+      "text": "有限要素法シミュレーション",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m005",
+      "text": "深層学習による分類",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m006",
+      "text": "眼球運動計測",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m007",
+      "text": "fMRIによる脳活動計測",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m008",
+      "text": "大規模アンケート(n=10000)",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m009",
+      "text": "ケーススタディ(n=1)",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m010",
+      "text": "参与観察",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m011",
+      "text": "A/Bテスト",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m012",
+      "text": "時系列解析",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m013",
+      "text": "質的コーディング",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m014",
+      "text": "二重盲検法",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m015",
+      "text": "制御実験室での再現",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m016",
+      "text": "センサログの常時収集",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m017",
+      "text": "インタビュー(半構造化)",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m018",
+      "text": "数理モデルによる定式化",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m019",
+      "text": "クラウドソーシングでの人手評価",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m020",
+      "text": "縦断調査(10年間)",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m021",
+      "text": "LLMに全部やらせる",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m022",
+      "text": "著者の内省",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m023",
+      "text": "X(旧Twitter)での聞き込み",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m024",
+      "text": "目視でカウント",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m025",
+      "text": "ChatGPTとの対話ログの分析",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m026",
+      "text": "学部生を無給で動員",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m027",
+      "text": "深夜のノリで実装",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m028",
+      "text": "先行研究の図をトレース",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m029",
+      "text": "指導教員の直感",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m030",
+      "text": "居酒屋でのブレスト",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m031",
+      "text": "統計を使わず眺める",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m032",
+      "text": "とりあえずp値を出す",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "se-m01",
+      "text": "リポジトリマイニング(MSR)",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m02",
+      "text": "静的解析による欠陥検出",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m03",
+      "text": "開発者を被験者にした制御実験",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m04",
+      "text": "GitHubの大規模収集",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m05",
+      "text": "コードメトリクスの相関分析",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m06",
+      "text": "ミューテーションテスト",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m07",
+      "text": "開発者への半構造化インタビュー",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m08",
+      "text": "コミット履歴の差分追跡",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m09",
+      "text": "LLM生成コードのベンチマーク評価",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m10",
+      "text": "コード読解時の視線計測",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m11",
+      "text": "git blameで犯人を探す",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-m12",
+      "text": "深夜のホットフィックス",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-m13",
+      "text": "「動いたのでヨシ」駆動",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-m14",
+      "text": "Copilotに聞く",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-m15",
+      "text": "とりあえずログを仕込む",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "sec-m01",
+      "text": "ハニーポットによる観測",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m02",
+      "text": "ファジング",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m03",
+      "text": "形式手法による検証",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m04",
+      "text": "静的バイナリ解析",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m05",
+      "text": "疑似フィッシングメールの送信実験",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m06",
+      "text": "ダークウェブの観測",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m07",
+      "text": "CTF形式の課題での評価",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m08",
+      "text": "脅威モデリング",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m09",
+      "text": "レッドチーム演習",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m10",
+      "text": "通信トラフィックの異常検知",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m11",
+      "text": "とりあえずnmapを撃つ",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m12",
+      "text": "攻撃者の気持ちになる",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m13",
+      "text": "自分の所属組織で試す",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m14",
+      "text": "検体を1つ動かしてみる",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "fa-m01",
+      "text": "3Dボディスキャンによる計測",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m02",
+      "text": "拡散モデルによる画像生成",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m03",
+      "text": "被験者への着用実験",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m04",
+      "text": "ECサイトのログ解析",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m05",
+      "text": "SNS画像の大規模収集",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m06",
+      "text": "一対比較法による印象評価",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m07",
+      "text": "視線計測(服のどこを見るか)",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m08",
+      "text": "布の物理シミュレーション",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m09",
+      "text": "色彩の官能評価",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m10",
+      "text": "街ゆく人に声をかける",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m11",
+      "text": "インスタを眺める",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m12",
+      "text": "自分で着てみる",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m13",
+      "text": "友人に「どう?」と聞く",
+      "tone": "neta",
+      "genre": "fashion"
+    }
   ],
   "constraint": [
-    { "id": "c001", "text": "被験者は3人まで", "tone": "serious" },
-    { "id": "c002", "text": "予算は1万円", "tone": "serious" },
-    { "id": "c003", "text": "実験期間は一晩", "tone": "serious" },
-    { "id": "c004", "text": "先行研究が1本も存在しない", "tone": "serious" },
-    { "id": "c005", "text": "データは全て手作業で収集", "tone": "serious" },
-    { "id": "c006", "text": "再現実験ができない", "tone": "serious" },
-    { "id": "c007", "text": "統計的有意差が出なかった", "tone": "serious" },
-    { "id": "c008", "text": "倫理審査に落ちた前提で語れ", "tone": "serious" },
-    { "id": "c009", "text": "使える機材は自分のノートPCのみ", "tone": "serious" },
-    { "id": "c010", "text": "被験者は全員が身内", "tone": "serious" },
-    { "id": "c011", "text": "締切は明日", "tone": "serious" },
-    { "id": "c012", "text": "実験装置が途中で壊れた", "tone": "serious" },
-    { "id": "c013", "text": "効果量が極めて小さい", "tone": "serious" },
-    { "id": "c014", "text": "対照群が用意できない", "tone": "serious" },
-    { "id": "c015", "text": "実験は全て遠隔で行われた", "tone": "serious" },
-    { "id": "c016", "text": "査読者の1人は自分の指導教員", "tone": "neta" },
-    { "id": "c017", "text": "研究費は自腹", "tone": "neta" },
-    { "id": "c018", "text": "共著者が全員音信不通", "tone": "neta" },
-    { "id": "c019", "text": "実験データを1つ消してしまった", "tone": "neta" },
-    { "id": "c020", "text": "タイトルに「深層」を必ず入れろ", "tone": "neta" },
-    { "id": "c021", "text": "図表は1枚も作れない", "tone": "neta" },
-    { "id": "c022", "text": "この研究の社会的意義を3回言え", "tone": "neta" },
-    { "id": "c023", "text": "中間発表で既に一度落ちている", "tone": "neta" },
-    { "id": "c024", "text": "ライバル研究室が3日前に同じ論文を出した", "tone": "neta" },
-    { "id": "c025", "text": "学部1年生でも分かるように話せ", "tone": "neta" },
-    { "id": "c026", "text": "「新規性はどこ？」に必ず答えろ", "tone": "neta" },
-    { "id": "c027", "text": "なぜか予算だけ1億円ある", "tone": "neta" },
-    { "id": "c028", "text": "実は再現性が無いと薄々気づいている", "tone": "neta" },
-    { "id": "c029", "text": "被験者は全員が猫", "tone": "neta" },
-    { "id": "c030", "text": "発表中に「限界」と3回言え", "tone": "neta" }
+    {
+      "id": "c001",
+      "text": "被験者は3人まで",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c002",
+      "text": "予算は1万円",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c003",
+      "text": "実験期間は一晩",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c004",
+      "text": "先行研究が1本も存在しない",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c005",
+      "text": "データは全て手作業で収集",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c006",
+      "text": "再現実験ができない",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c007",
+      "text": "統計的有意差が出なかった",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c008",
+      "text": "倫理審査に落ちた前提で語れ",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c009",
+      "text": "使える機材は自分のノートPCのみ",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c010",
+      "text": "被験者は全員が身内",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c011",
+      "text": "締切は明日",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c012",
+      "text": "実験装置が途中で壊れた",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c013",
+      "text": "効果量が極めて小さい",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c014",
+      "text": "対照群が用意できない",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c015",
+      "text": "実験は全て遠隔で行われた",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c016",
+      "text": "査読者の1人は自分の指導教員",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c017",
+      "text": "研究費は自腹",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c018",
+      "text": "共著者が全員音信不通",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c019",
+      "text": "実験データを1つ消してしまった",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c020",
+      "text": "タイトルに「深層」を必ず入れろ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c021",
+      "text": "図表は1枚も作れない",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c022",
+      "text": "この研究の社会的意義を3回言え",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c023",
+      "text": "中間発表で既に一度落ちている",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c024",
+      "text": "ライバル研究室が3日前に同じ論文を出した",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c025",
+      "text": "学部1年生でも分かるように話せ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c026",
+      "text": "「新規性はどこ？」に必ず答えろ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c027",
+      "text": "なぜか予算だけ1億円ある",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c028",
+      "text": "実は再現性が無いと薄々気づいている",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c029",
+      "text": "被験者は全員が猫",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c030",
+      "text": "発表中に「限界」と3回言え",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "se-c01",
+      "text": "テストが1本も無い",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-c02",
+      "text": "CIが常に赤い",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-c03",
+      "text": "対象リポジトリが非公開",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-c04",
+      "text": "ビルドが再現できない",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-c05",
+      "text": "コミット履歴が全てsquash済み",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-c06",
+      "text": "被験者は現役エンジニア3人",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-c07",
+      "text": "本番のログが取得できない",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-c08",
+      "text": "本番でしか再現しない",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-c09",
+      "text": "仕様書が存在しない",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-c10",
+      "text": "レビューが「LGTM」しか返ってこない",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-c11",
+      "text": "リリースは今夜",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-c12",
+      "text": "前任者は既に退職した",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-c13",
+      "text": "実装した本人も理由を覚えていない",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-c14",
+      "text": "そのコードはLLMが書いた",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "sec-c01",
+      "text": "倫理審査が通っていない",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c02",
+      "text": "実データを組織外に出せない",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c03",
+      "text": "攻撃コードは公開できない",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c04",
+      "text": "検体が1件しかない",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c05",
+      "text": "本番環境では試せない",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c06",
+      "text": "被験者に目的を伏せる必要がある",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c07",
+      "text": "被害組織が匿名を希望している",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c08",
+      "text": "情報システム課に怒られた",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c09",
+      "text": "実験中に本当に侵入された",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c10",
+      "text": "匿名化したはずが個人を特定できる",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c11",
+      "text": "学内ネットワークで実施した",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c12",
+      "text": "「それ違法では」と言われた",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c13",
+      "text": "検証機が学生の私物",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "fa-c01",
+      "text": "被験者の体型データが集まらない",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c02",
+      "text": "実物の服が用意できない",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c03",
+      "text": "画像の権利処理ができない",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c04",
+      "text": "評価者間で主観がばらつく",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c05",
+      "text": "被写体は著者ひとり",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c06",
+      "text": "季節が合わない",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c07",
+      "text": "モデルは友人にタダで頼んだ",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c08",
+      "text": "撮影場所は研究室",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c09",
+      "text": "「センスがない」と査読者に言われた",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c10",
+      "text": "服は全部借り物",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c11",
+      "text": "予算はTシャツ3枚分",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c12",
+      "text": "流行が半年で変わった",
+      "tone": "neta",
+      "genre": "fashion"
+    }
   ]
 }

@@ -7,8 +7,11 @@ export const DEFAULT_SETTINGS: Settings = {
   preparationEnabled: true,
   rerollsPerPlayer: 2,
   deckMode: 'all',
+  genreMode: 'all',
   reducedMotion: false,
 };
+
+const GENRE_MODES: Settings['genreMode'][] = ['all', 'general', 'se', 'security', 'fashion'];
 
 const STORAGE_KEY = 'peer-review-game-settings';
 
@@ -33,6 +36,9 @@ export const normalizeSettings = (value: Partial<Settings>): Settings => {
         ? value.rerollsPerPlayer
         : DEFAULT_SETTINGS.rerollsPerPlayer,
     deckMode: value.deckMode === 'serious' || value.deckMode === 'neta' || value.deckMode === 'all' ? value.deckMode : DEFAULT_SETTINGS.deckMode,
+    genreMode: GENRE_MODES.includes(value.genreMode as Settings['genreMode'])
+      ? (value.genreMode as Settings['genreMode'])
+      : DEFAULT_SETTINGS.genreMode,
     reducedMotion: typeof value.reducedMotion === 'boolean' ? value.reducedMotion : DEFAULT_SETTINGS.reducedMotion,
   };
 };

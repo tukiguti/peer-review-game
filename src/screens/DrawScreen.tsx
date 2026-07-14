@@ -3,7 +3,7 @@ import { playSound } from '../audio/sound';
 import { CardView } from '../components/CardView';
 import { SlotMachine } from '../components/SlotMachine';
 import styles from '../App.module.css';
-import { drawHand, filterCardsByMode, rerollCard } from '../game/draw';
+import { drawHand, filterCards, rerollCard } from '../game/draw';
 import { currentPresenter } from '../game/selectors';
 import type { CardKind, CardsByKind } from '../game/types';
 import type { DrawScreenProps } from './screenTypes';
@@ -13,18 +13,19 @@ const KINDS: CardKind[] = ['field', 'method', 'constraint'];
 export const DrawScreen = ({ state, dispatch, cards }: DrawScreenProps) => {
   const presenter = currentPresenter(state);
   const canReroll = Boolean(state.hand && !state.drawAnimating && presenter.rerollsLeft > 0);
+  const { deckMode, genreMode } = state.settings;
   // 毎レンダーで新しい配列を渡すとリールが再シャッフルされ、停止位置と表示がずれる
   const reelCards: CardsByKind = useMemo(
     () => ({
-      field: filterCardsByMode(cards.field, state.settings.deckMode),
-      method: filterCardsByMode(cards.method, state.settings.deckMode),
-      constraint: filterCardsByMode(cards.constraint, state.settings.deckMode),
+      field: filterCards(cards.field, deckMode, genreMode),
+      method: filterCards(cards.method, deckMode, genreMode),
+      constraint: filterCards(cards.constraint, deckMode, genreMode),
     }),
-    [cards, state.settings.deckMode],
+    [cards, deckMode, genreMode],
   );
 
   const pullLever = () => {
-    const hand = drawHand(cards, state.settings.deckMode, state.recentHands);
+    const hand = drawHand(cards, deckMode, genreMode, state.recentHands);
     playSound('lever', state.muted);
     navigator.vibrate?.(30);
     dispatch({ type: 'drawHand', hand, animate: !state.settings.reducedMotion });
@@ -35,7 +36,7 @@ export const DrawScreen = ({ state, dispatch, cards }: DrawScreenProps) => {
       return;
     }
 
-    const card = rerollCard(cards, state.settings.deckMode, state.recentHands, kind, state.hand);
+    const card = rerollCard(cards, deckMode, genreMode, state.recentHands, kind, state.hand);
     playSound('lever', state.muted);
     navigator.vibrate?.(30);
     dispatch({ type: 'rerollCard', kind, card, animate: !state.settings.reducedMotion });
