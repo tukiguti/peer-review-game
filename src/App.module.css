@@ -1,0 +1,629 @@
+.appShell {
+  min-height: 100vh;
+  padding: 20px clamp(12px, 3vw, 36px) 32px;
+}
+
+.topBar {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin: 0 auto 18px;
+  max-width: 1180px;
+}
+
+.topBar h1,
+.screen h2,
+.panel h3,
+.reelColumn h3 {
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.topBar h1 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+.main {
+  margin: 0 auto;
+  max-width: 1180px;
+}
+
+.screen {
+  display: grid;
+  gap: 20px;
+}
+
+.screenHeader,
+.turnHeader {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.screenHeader h2,
+.turnHeader h2 {
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+}
+
+.eyebrow {
+  color: #5b6778;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  margin: 0 0 4px;
+  text-transform: uppercase;
+}
+
+.muteButton,
+.primaryButton,
+.secondaryButton,
+.leverButton {
+  border: 0;
+  border-radius: 8px;
+  font-weight: 800;
+  min-height: 44px;
+  padding: 10px 16px;
+}
+
+.muteButton,
+.secondaryButton {
+  background: #ffffff;
+  border: 1px solid #c7d0df;
+  color: #253044;
+}
+
+.primaryButton {
+  background: #1957d2;
+  color: #ffffff;
+  min-width: 140px;
+}
+
+.leverButton {
+  background: #d9480f;
+  box-shadow: inset 0 -4px 0 rgb(0 0 0 / 18%);
+  color: #ffffff;
+  font-size: 1.1rem;
+  min-width: 160px;
+}
+
+.setupGrid,
+.resultGrid,
+.finalGrid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+}
+
+.panel {
+  background: #ffffff;
+  border: 1px solid #d4dbea;
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgb(32 42 58 / 8%);
+  padding: 18px;
+}
+
+.panel h3 {
+  font-size: 1.1rem;
+  margin-bottom: 14px;
+}
+
+.nameList {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.nameRow,
+.fieldLine,
+.toggleLine {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.nameRow span {
+  background: #e8edf5;
+  border-radius: 999px;
+  display: grid;
+  flex: 0 0 28px;
+  font-weight: 800;
+  height: 28px;
+  place-items: center;
+}
+
+.nameRow input,
+.fieldLine select,
+.commentBox textarea {
+  background: #f8fafc;
+  border: 1px solid #c7d0df;
+  border-radius: 8px;
+  color: #18202b;
+  min-height: 42px;
+  padding: 9px 11px;
+  width: 100%;
+}
+
+.nameRow button {
+  background: #f0f3f8;
+  border: 1px solid #c7d0df;
+  border-radius: 8px;
+  min-height: 38px;
+  padding: 8px 10px;
+}
+
+.fieldLine {
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.fieldLine span {
+  color: #3b4658;
+  font-weight: 700;
+}
+
+.fieldLine select {
+  max-width: 220px;
+}
+
+.toggleLine {
+  font-weight: 700;
+  margin-top: 12px;
+}
+
+.actionBar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.actionBar p {
+  color: #5b6778;
+  font-weight: 700;
+  margin: 0 auto 0 0;
+}
+
+.slotMachine {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.reelColumn {
+  background: #111827;
+  border: 1px solid #344052;
+  border-radius: 8px;
+  color: #ffffff;
+  min-width: 0;
+  padding: 12px;
+}
+
+.reelColumn h3 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.reelWindow {
+  background: linear-gradient(180deg, #0f172a, #243044 48%, #0f172a);
+  border: 1px solid #58657a;
+  border-radius: 8px;
+  height: 174px;
+  overflow: hidden;
+  position: relative;
+}
+
+.reelWindow::before,
+.reelWindow::after {
+  content: "";
+  height: 44px;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  z-index: 2;
+}
+
+.reelWindow::before {
+  background: linear-gradient(180deg, #0f172a, transparent);
+  top: 0;
+}
+
+.reelWindow::after {
+  background: linear-gradient(0deg, #0f172a, transparent);
+  bottom: 0;
+}
+
+.reelTrack {
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  will-change: transform;
+}
+
+.reelItem {
+  align-items: center;
+  display: flex;
+  font-size: clamp(0.76rem, 1.5vw, 1rem);
+  font-weight: 800;
+  height: 58px;
+  justify-content: center;
+  line-height: 1.22;
+  overflow-wrap: anywhere;
+  padding: 0 8px;
+  text-align: center;
+}
+
+.reelSpinning .reelTrack {
+  filter: blur(1.5px);
+}
+
+.reelStopped {
+  box-shadow: 0 0 0 2px #f8c146 inset;
+}
+
+.reelStatus {
+  color: #c7d0df;
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.cardGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.confirmedCards {
+  animation: zoomGlow 360ms ease-out both;
+}
+
+.cardWithAction {
+  display: grid;
+  gap: 10px;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #ccd5e4;
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  min-height: 158px;
+  padding: 16px;
+}
+
+.compactCard {
+  min-height: 120px;
+}
+
+.cardKind,
+.cardTone {
+  color: #5b6778;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.card strong {
+  align-items: center;
+  display: flex;
+  font-size: clamp(1.05rem, 2.2vw, 1.45rem);
+  line-height: 1.28;
+  overflow-wrap: anywhere;
+}
+
+.timerPanel {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.timerDial {
+  border-radius: 50%;
+  display: grid;
+  height: 78px;
+  place-items: center;
+  width: 78px;
+}
+
+.timerDial span {
+  align-items: center;
+  background: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  font-size: 1.4rem;
+  font-weight: 900;
+  height: 58px;
+  justify-content: center;
+  width: 58px;
+}
+
+.timerPanel p {
+  color: #5b6778;
+  font-weight: 800;
+  margin: 0;
+}
+
+.timerWarning .timerDial {
+  animation: pulseWarn 600ms ease-in-out infinite alternate;
+}
+
+.hintGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.hintGrid span {
+  background: #eef4ff;
+  border: 1px solid #c8d8f6;
+  border-radius: 8px;
+  font-weight: 800;
+  padding: 12px;
+}
+
+.presentationStage {
+  align-items: center;
+  background: #18202b;
+  border-radius: 8px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  min-height: 150px;
+  padding: 22px;
+  text-align: center;
+}
+
+.presentationStage p {
+  font-size: clamp(1.1rem, 2.4vw, 1.8rem);
+  font-weight: 900;
+  margin: 0;
+}
+
+.voteScreen {
+  margin: 0 auto;
+  max-width: 760px;
+}
+
+.passPanel,
+.ballotPanel {
+  background: #ffffff;
+  border: 1px solid #d4dbea;
+  border-radius: 8px;
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+  min-height: 360px;
+  padding: clamp(22px, 5vw, 48px);
+  text-align: center;
+}
+
+.bigName {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 900;
+  margin: 0;
+}
+
+.voteButtons {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(130px, 220px));
+  width: min(100%, 480px);
+}
+
+.acceptButton,
+.rejectButton {
+  border: 3px solid transparent;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 900;
+  min-height: 82px;
+}
+
+.acceptButton {
+  background: #20804d;
+}
+
+.rejectButton {
+  background: #b42318;
+}
+
+.selectedVote {
+  border-color: #18202b;
+  box-shadow: 0 0 0 4px #f8c146;
+}
+
+.commentBox {
+  display: grid;
+  font-weight: 800;
+  gap: 8px;
+  text-align: left;
+  width: min(100%, 560px);
+}
+
+.commentBox textarea {
+  resize: vertical;
+}
+
+.resultStampWrap {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  padding: 6px 0;
+}
+
+.resultStamp {
+  border: 6px solid currentColor;
+  border-radius: 8px;
+  font-size: clamp(2.4rem, 9vw, 6.5rem);
+  font-weight: 1000;
+  line-height: 1;
+  padding: 14px 22px;
+  transform: rotate(-4deg);
+}
+
+.acceptedStamp {
+  color: #20804d;
+}
+
+.rejectedStamp {
+  color: #b42318;
+}
+
+.voteRevealList,
+.comments,
+.awardList,
+.scoreTable {
+  display: grid;
+  gap: 10px;
+}
+
+.voteReveal,
+.scoreRow,
+.awardList p {
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid #dbe2ee;
+  border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin: 0;
+  padding: 10px 12px;
+}
+
+.voteReveal strong {
+  font-weight: 900;
+}
+
+.comments blockquote {
+  background: #f8fafc;
+  border-left: 5px solid #1957d2;
+  margin: 0;
+  overflow-wrap: anywhere;
+  padding: 10px 12px;
+}
+
+.rank {
+  background: #18202b;
+  border-radius: 999px;
+  color: #ffffff;
+  display: grid;
+  flex: 0 0 30px;
+  font-weight: 900;
+  height: 30px;
+  place-items: center;
+}
+
+.scoreRow span:nth-child(2) {
+  flex: 1;
+  font-weight: 800;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.awardList p {
+  align-items: flex-start;
+  display: grid;
+  justify-content: stretch;
+}
+
+.awardList strong {
+  color: #5b6778;
+}
+
+@keyframes zoomGlow {
+  0% {
+    filter: drop-shadow(0 0 0 rgb(248 193 70 / 0%));
+    transform: scale(0.96);
+  }
+  100% {
+    filter: drop-shadow(0 0 18px rgb(248 193 70 / 45%));
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseWarn {
+  from {
+    filter: none;
+  }
+  to {
+    filter: drop-shadow(0 0 12px rgb(217 72 15 / 58%));
+  }
+}
+
+@media (max-width: 760px) {
+  .topBar,
+  .screenHeader,
+  .turnHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .slotMachine,
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .reelWindow {
+    height: 174px;
+  }
+
+  .fieldLine {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .fieldLine select {
+    max-width: none;
+  }
+
+  .voteButtons {
+    grid-template-columns: 1fr;
+  }
+
+  .actionBar {
+    justify-content: stretch;
+  }
+
+  .actionBar button {
+    width: 100%;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  .appShell {
+    padding-top: 10px;
+  }
+
+  .topBar {
+    margin-bottom: 10px;
+  }
+
+  .screen {
+    gap: 12px;
+  }
+
+  .reelWindow {
+    height: 174px;
+  }
+
+  .card {
+    min-height: 112px;
+  }
+
+  .passPanel,
+  .ballotPanel {
+    min-height: 260px;
+    padding: 18px;
+  }
+}
