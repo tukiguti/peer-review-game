@@ -38,18 +38,23 @@ export const SetupScreen = ({ state, dispatch }: ScreenProps) => {
           <h3>プレイヤー名</h3>
           <div className={styles.nameList}>
             {settings.playerNames.map((name, index) => (
-              <label className={styles.nameRow} key={index}>
-                <span>{index + 1}</span>
+              <div className={styles.nameRow} key={index}>
+                <span aria-hidden="true">{index + 1}</span>
                 <input
                   aria-label={`プレイヤー${index + 1}の名前`}
                   value={name}
                   maxLength={12}
                   onChange={(event) => updateName(index, event.target.value)}
                 />
-                <button type="button" disabled={settings.playerNames.length <= 3} onClick={() => removeName(index)}>
+                <button
+                  aria-label={`プレイヤー${index + 1}を削除`}
+                  type="button"
+                  disabled={settings.playerNames.length <= 3}
+                  onClick={() => removeName(index)}
+                >
                   削除
                 </button>
-              </label>
+              </div>
             ))}
           </div>
           <button
@@ -135,14 +140,14 @@ export const SetupScreen = ({ state, dispatch }: ScreenProps) => {
       </section>
 
       <div className={styles.actionBar}>
-        <p>
+        <p aria-live="polite" role="status">
           {canStart
             ? `${validPlayers.length}人で開始できます`
             : hasDuplicateNames
               ? '同じ名前は使えません'
               : hasBlankNames
                 ? '空欄のプレイヤー名を入力するか、その行を削除してください'
-              : '空欄のないプレイヤー名を3〜8人分登録してください'}
+                : '空欄のないプレイヤー名を3〜8人分登録してください'}
         </p>
         <button className={styles.primaryButton} type="button" disabled={!canStart} onClick={() => dispatch({ type: 'startGame', settings })}>
           ゲーム開始

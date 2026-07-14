@@ -42,6 +42,7 @@ export const VoteScreen = ({ state, dispatch }: ScreenProps) => {
           </div>
           <div className={styles.voteButtons}>
             <button
+              aria-pressed={state.voteDraft === 'accept'}
               className={`${styles.acceptButton} ${state.voteDraft === 'accept' ? styles.selectedVote : ''}`}
               type="button"
               onClick={() => dispatch({ type: 'setVoteDraft', vote: 'accept' })}
@@ -49,6 +50,7 @@ export const VoteScreen = ({ state, dispatch }: ScreenProps) => {
               Accept
             </button>
             <button
+              aria-pressed={state.voteDraft === 'reject'}
               className={`${styles.rejectButton} ${state.voteDraft === 'reject' ? styles.selectedVote : ''}`}
               type="button"
               onClick={() => dispatch({ type: 'setVoteDraft', vote: 'reject' })}

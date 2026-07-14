@@ -250,4 +250,36 @@ describe('game reducer', () => {
     expect(state.players.map((player) => player.unanimousAcceptedCount)).toEqual([1, 1, 1]);
     expect(gameReducer(state, { type: 'resetToSetup' }).phase).toBe('setup');
   });
+
+  it('8人3周でも各発表者を飛ばして7人が1回ずつ投票する', () => {
+    const maxSettings: Settings = {
+      ...settings,
+      playerNames: Array.from({ length: 8 }, (_, index) => `参加者${index + 1}`),
+      rounds: 3,
+    };
+    let state = gameReducer(createInitialState(maxSettings), { type: 'startGame', settings: maxSettings });
+
+    for (let turn = 0; turn < 24; turn += 1) {
+      const presenterId = state.players[state.presenterIndex].id;
+      state = gameReducer(state, { type: 'drawHand', hand: firstHand, animate: false });
+      state = gameReducer(state, { type: 'startPrepare' });
+      state = gameReducer(state, { type: 'startVote' });
+
+      while (state.phase === 'vote') {
+        state = gameReducer(state, { type: 'openBallot' });
+        state = gameReducer(state, { type: 'setVoteDraft', vote: 'accept' });
+        state = gameReducer(state, { type: 'submitVote' });
+        state = gameReducer(state, { type: 'continueVoting' });
+      }
+
+      expect(Object.keys(state.votes)).toHaveLength(7);
+      expect(state.votes[presenterId]).toBeUndefined();
+      state = gameReducer(state, { type: 'nextTurn' });
+    }
+
+    expect(state.phase).toBe('final');
+    expect(state.players.map((player) => player.score)).toEqual(Array(8).fill(30));
+    expect(state.players.map((player) => player.presentationScore)).toEqual(Array(8).fill(9));
+    expect(state.recentHands).toHaveLength(3);
+  });
 });

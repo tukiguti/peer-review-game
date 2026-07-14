@@ -28,7 +28,13 @@ export const App = () => {
           <p className={styles.eyebrow}>1画面パスプレイ</p>
           <h1>査読ゲーム</h1>
         </div>
-        <button className={styles.muteButton} type="button" onClick={() => dispatch({ type: 'setMuted', muted: !state.muted })}>
+        <button
+          aria-label={state.muted ? '効果音をオンにする' : '効果音をミュートする'}
+          aria-pressed={state.muted}
+          className={styles.muteButton}
+          type="button"
+          onClick={() => dispatch({ type: 'setMuted', muted: !state.muted })}
+        >
           {state.muted ? 'ミュート中' : '音あり'}
         </button>
       </header>
