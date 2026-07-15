@@ -1,36 +1,31 @@
 import styles from '../App.module.css';
-import { findUnavailableCardKind } from '../game/draw';
-import { kindLabel } from '../game/reducer';
-import { areCardKindsValid, arePlayerNamesValid, cleanPlayerNames, MAX_CARD_COUNT, MIN_CARD_COUNT } from '../game/settings';
+import { canDrawCardSlots } from '../game/draw';
+import { areCardSlotsValid, arePlayerNamesValid, cleanPlayerNames, MAX_CARD_COUNT, MIN_CARD_COUNT } from '../game/settings';
 import type { CardsScreenProps } from './screenTypes';
-import type { CardKind, DeckMode, GenreMode, Settings } from '../game/types';
+import type { CardKind, CardSlot, DeckMode, GenreMode, Settings } from '../game/types';
 
 const presentationOptions = [30, 60, 90, 120];
 
-const CARD_PRESETS: { label: string; description: string; kinds: CardKind[] }[] = [
-  { label: '標準3枚', description: '分野・手法・制約', kinds: ['field', 'method', 'constraint'] },
-  { label: '分野×3', description: '3テーマを合体', kinds: ['field', 'field', 'field'] },
-  { label: 'ライト2枚', description: '分野・手法', kinds: ['field', 'method'] },
-  { label: '盛り盛り4枚', description: '分野2枚・手法・制約', kinds: ['field', 'field', 'method', 'constraint'] },
+const slots = (kinds: CardKind[], tone: DeckMode = 'all'): CardSlot[] => kinds.map((kind) => ({ kind, tone }));
+
+const CARD_PRESETS: { label: string; description: string; slots: CardSlot[] }[] = [
+  { label: '標準3枚', description: '分野・手法・制約', slots: slots(['field', 'method', 'constraint']) },
+  { label: '分野×3', description: '3テーマを合体', slots: slots(['field', 'field', 'field']) },
+  { label: 'ライト2枚', description: '分野・手法', slots: slots(['field', 'method']) },
+  { label: '盛り盛り4枚', description: '分野2枚・手法・制約', slots: slots(['field', 'field', 'method', 'constraint']) },
 ];
 
-const sameKinds = (left: CardKind[], right: CardKind[]): boolean =>
-  left.length === right.length && left.every((kind, index) => kind === right[index]);
+const sameSlots = (left: CardSlot[], right: CardSlot[]): boolean =>
+  left.length === right.length
+  && left.every((slot, index) => slot.kind === right[index].kind && slot.tone === right[index].tone);
 
 export const SetupScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
   const settings = state.settings;
   const validPlayers = cleanPlayerNames(settings.playerNames);
   const hasDuplicateNames = new Set(validPlayers).size !== validPlayers.length;
   const hasBlankNames = validPlayers.length !== settings.playerNames.length;
-  const unavailableKind = findUnavailableCardKind(
-    cards,
-    settings.deckMode,
-    settings.genreMode,
-    settings.cardKinds,
-    settings.rerollsPerPlayer,
-  );
-  const cardKindsValid = areCardKindsValid(settings.cardKinds) && !unavailableKind;
-  const canStart = arePlayerNamesValid(settings.playerNames) && cardKindsValid;
+  const cardSlotsValid = areCardSlotsValid(settings.cardSlots) && canDrawCardSlots(cards, settings.genreMode, settings.cardSlots);
+  const canStart = arePlayerNamesValid(settings.playerNames) && cardSlotsValid;
 
   const update = (patch: Partial<Settings>) => {
     dispatch({ type: 'updateSettings', settings: { ...settings, ...patch } });
@@ -47,13 +42,21 @@ export const SetupScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
   };
 
   const updateCardKind = (index: number, kind: CardKind) => {
-    const cardKinds = [...settings.cardKinds];
-    cardKinds[index] = kind;
-    update({ cardKinds });
+    const cardSlots = settings.cardSlots.map((slot, currentIndex) => currentIndex === index ? { ...slot, kind } : slot);
+    update({ cardSlots });
+  };
+
+  const updateCardTone = (index: number, tone: DeckMode) => {
+    const cardSlots = settings.cardSlots.map((slot, currentIndex) => currentIndex === index ? { ...slot, tone } : slot);
+    update({ cardSlots });
+  };
+
+  const updateAllCardTones = (tone: DeckMode) => {
+    update({ cardSlots: settings.cardSlots.map((slot) => ({ ...slot, tone })) });
   };
 
   const removeCardSlot = (index: number) => {
-    update({ cardKinds: settings.cardKinds.filter((_, currentIndex) => currentIndex !== index) });
+    update({ cardSlots: settings.cardSlots.filter((_, currentIndex) => currentIndex !== index) });
   };
 
   return (
@@ -136,14 +139,6 @@ export const SetupScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
               <option value="general">汎用</option>
             </select>
           </label>
-          <label className={styles.fieldLine}>
-            <span>使用デッキ</span>
-            <select value={settings.deckMode} onChange={(event) => update({ deckMode: event.target.value as DeckMode })}>
-              <option value="serious">真面目寄せ</option>
-              <option value="neta">ネタ寄せ</option>
-              <option value="all">全部</option>
-            </select>
-          </label>
           <label className={styles.toggleLine}>
             <input
               type="checkbox"
@@ -163,14 +158,14 @@ export const SetupScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
           <p className={styles.settingHelp}>1〜5枚。1〜2枚は遊びやすく、4〜5枚は90秒以上の発表がおすすめです。</p>
           <div className={styles.compositionPresets}>
             {CARD_PRESETS.map((preset) => {
-              const selected = sameKinds(settings.cardKinds, preset.kinds);
+              const selected = sameSlots(settings.cardSlots, preset.slots);
               return (
                 <button
                   aria-pressed={selected}
                   className={`${styles.presetButton} ${selected ? styles.selectedPreset : ''}`}
                   type="button"
                   key={preset.label}
-                  onClick={() => update({ cardKinds: [...preset.kinds] })}
+                  onClick={() => update({ cardSlots: preset.slots.map((slot) => ({ ...slot })) })}
                 >
                   <strong>{preset.label}</strong>
                   <span>{preset.description}</span>
@@ -179,23 +174,39 @@ export const SetupScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
             })}
           </div>
 
+          <div className={styles.toneBatch} role="group" aria-label="全スロットの雰囲気を一括変更">
+            <span>雰囲気を一括変更</span>
+            <button aria-pressed={settings.cardSlots.every((slot) => slot.tone === 'all')} type="button" onClick={() => updateAllCardTones('all')}>おまかせ</button>
+            <button aria-pressed={settings.cardSlots.every((slot) => slot.tone === 'serious')} type="button" onClick={() => updateAllCardTones('serious')}>真面目</button>
+            <button aria-pressed={settings.cardSlots.every((slot) => slot.tone === 'neta')} type="button" onClick={() => updateAllCardTones('neta')}>ネタ</button>
+          </div>
+
           <div className={styles.compositionList}>
-            {settings.cardKinds.map((kind, index) => (
+            {settings.cardSlots.map((slot, index) => (
               <div className={styles.compositionRow} key={index}>
                 <span>{index + 1}</span>
                 <select
                   aria-label={`カード${index + 1}の種類`}
-                  value={kind}
+                  value={slot.kind}
                   onChange={(event) => updateCardKind(index, event.target.value as CardKind)}
                 >
                   <option value="field">分野</option>
                   <option value="method">手法</option>
                   <option value="constraint">制約</option>
                 </select>
+                <select
+                  aria-label={`カード${index + 1}の雰囲気`}
+                  value={slot.tone}
+                  onChange={(event) => updateCardTone(index, event.target.value as DeckMode)}
+                >
+                  <option value="all">おまかせ</option>
+                  <option value="serious">真面目</option>
+                  <option value="neta">ネタ</option>
+                </select>
                 <button
                   aria-label={`カード${index + 1}を削除`}
                   type="button"
-                  disabled={settings.cardKinds.length <= MIN_CARD_COUNT}
+                  disabled={settings.cardSlots.length <= MIN_CARD_COUNT}
                   onClick={() => removeCardSlot(index)}
                 >
                   削除
@@ -206,14 +217,14 @@ export const SetupScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
           <button
             className={styles.secondaryButton}
             type="button"
-            disabled={settings.cardKinds.length >= MAX_CARD_COUNT}
-            onClick={() => update({ cardKinds: [...settings.cardKinds, 'field'] })}
+            disabled={settings.cardSlots.length >= MAX_CARD_COUNT}
+            onClick={() => update({ cardSlots: [...settings.cardSlots, { kind: 'field', tone: 'all' }] })}
           >
             カードを追加
           </button>
-          {unavailableKind && (
+          {!cardSlotsValid && (
             <p className={styles.compositionError} role="alert">
-              現在のジャンル・デッキでは「{kindLabel(unavailableKind)}」の候補が足りません。枚数を減らすか、絞り込みを変更してください。
+              現在のジャンル・雰囲気では候補が足りません。枚数を減らすか、各スロットの雰囲気を変更してください。
             </p>
           )}
         </section>
@@ -232,8 +243,8 @@ export const SetupScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
       <div className={styles.actionBar}>
         <p aria-live="polite" role="status">
           {canStart
-            ? `${validPlayers.length}人・カード${settings.cardKinds.length}枚で開始できます`
-            : !cardKindsValid
+            ? `${validPlayers.length}人・カード${settings.cardSlots.length}枚で開始できます`
+            : !cardSlotsValid
               ? 'カード構成または絞り込みを調整してください'
               : hasDuplicateNames
               ? '同じ名前は使えません'

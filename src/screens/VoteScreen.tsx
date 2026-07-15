@@ -36,7 +36,7 @@ export const VoteScreen = ({ state, dispatch }: ScreenProps) => {
           <p className={styles.bigName}>{voter.name}さんの判定</p>
           <div className={styles.reviewCriteria}>
             <strong>Accept の目安</strong>
-            <span>全{state.settings.cardKinds.length}枚を使った</span>
+            <span>全{state.settings.cardSlots.length}枚を使った</span>
             <span>カード同士のつなぎ方に筋が通った</span>
             <span>制約への言い訳・工夫に納得できた</span>
           </div>

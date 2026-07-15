@@ -17,6 +17,10 @@ export type Card = {
 
 export type CardsByKind = Record<CardKind, Card[]>;
 export type Hand = Card[];
+export type CardSlot = {
+  kind: CardKind;
+  tone: DeckMode;
+};
 
 export type Settings = {
   playerNames: string[];
@@ -24,9 +28,8 @@ export type Settings = {
   presentationSeconds: number;
   preparationEnabled: boolean;
   rerollsPerPlayer: number;
-  deckMode: DeckMode;
   genreMode: GenreMode;
-  cardKinds: CardKind[];
+  cardSlots: CardSlot[];
   reducedMotion: boolean;
 };
 

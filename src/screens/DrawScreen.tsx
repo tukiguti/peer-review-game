@@ -5,21 +5,16 @@ import { SlotMachine } from '../components/SlotMachine';
 import styles from '../App.module.css';
 import { drawHand, filterCards, hasRerollCandidate, rerollCard } from '../game/draw';
 import { currentPresenter } from '../game/selectors';
-import type { CardsByKind } from '../game/types';
 import type { CardsScreenProps } from './screenTypes';
 
 export const DrawScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
   const presenter = currentPresenter(state);
   const canReroll = Boolean(state.hand && !state.drawAnimating && presenter.rerollsLeft > 0);
-  const { cardKinds, deckMode, genreMode } = state.settings;
+  const { cardSlots, genreMode } = state.settings;
   // 毎レンダーで新しい配列を渡すとリールが再シャッフルされ、停止位置と表示がずれる
-  const reelCards: CardsByKind = useMemo(
-    () => ({
-      field: filterCards(cards.field, deckMode, genreMode),
-      method: filterCards(cards.method, deckMode, genreMode),
-      constraint: filterCards(cards.constraint, deckMode, genreMode),
-    }),
-    [cards, deckMode, genreMode],
+  const reelCards = useMemo(
+    () => cardSlots.map((slot) => filterCards(cards[slot.kind], slot.tone, genreMode)),
+    [cardSlots, cards, genreMode],
   );
 
   const pullLever = () => {
@@ -27,7 +22,7 @@ export const DrawScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
       return;
     }
 
-    const hand = drawHand(cards, deckMode, genreMode, state.recentHands, cardKinds);
+    const hand = drawHand(cards, genreMode, state.recentHands, cardSlots);
     playSound('lever', state.muted);
     navigator.vibrate?.(30);
     dispatch({ type: 'drawHand', hand, animate: !state.settings.reducedMotion });
@@ -38,8 +33,8 @@ export const DrawScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
       return;
     }
 
-    const kind = cardKinds[index];
-    const card = rerollCard(cards, deckMode, genreMode, state.recentHands, kind, state.hand);
+    const slot = cardSlots[index];
+    const card = rerollCard(cards, genreMode, state.recentHands, slot, state.hand);
     playSound('lever', state.muted);
     navigator.vibrate?.(30);
     dispatch({ type: 'rerollCard', index, card, animate: !state.settings.reducedMotion });
@@ -58,8 +53,8 @@ export const DrawScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
       </div>
 
       <SlotMachine
-        cards={reelCards}
-        cardKinds={cardKinds}
+        reelCards={reelCards}
+        cardSlots={cardSlots}
         hand={state.hand}
         spinKey={state.drawSpinKey}
         spinIndex={state.drawSpinIndex}
@@ -70,7 +65,7 @@ export const DrawScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
 
       <div className={styles.actionBar}>
         <button className={styles.leverButton} type="button" disabled={state.drawAnimating || Boolean(state.hand)} onClick={pullLever}>
-          {state.hand ? '抽選済み' : `LEVER — ${cardKinds.length}枚抽選`}
+          {state.hand ? '抽選済み' : `LEVER — ${cardSlots.length}枚抽選`}
         </button>
         <button className={styles.primaryButton} type="button" disabled={!state.hand || state.drawAnimating} onClick={() => dispatch({ type: 'startPrepare' })}>
           テーマ確定
@@ -80,11 +75,11 @@ export const DrawScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
       {state.hand && !state.drawAnimating && (
         <div className={`${styles.cardGrid} ${styles.confirmedCards}`}>
           {state.hand.map((card, index) => {
-            const kind = cardKinds[index];
-            const canRerollThisCard = canReroll && hasRerollCandidate(cards, deckMode, genreMode, kind, state.hand!);
+            const slot = cardSlots[index];
+            const canRerollThisCard = canReroll && hasRerollCandidate(cards, genreMode, slot, state.hand!);
             return (
-              <div className={styles.cardWithAction} key={`${index}-${kind}`}>
-                <CardView card={card} kind={kind} slotNumber={index + 1} />
+              <div className={styles.cardWithAction} key={`${index}-${slot.kind}-${slot.tone}`}>
+                <CardView card={card} kind={slot.kind} slotNumber={index + 1} />
                 {canRerollThisCard && (
                   <button className={styles.secondaryButton} type="button" onClick={() => reroll(index)}>
                     🔄 引き直し

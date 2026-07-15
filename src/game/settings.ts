@@ -1,8 +1,12 @@
-import type { CardKind, Settings } from './types';
+import type { CardKind, CardSlot, DeckMode, Settings } from './types';
 
 export const MIN_CARD_COUNT = 1;
 export const MAX_CARD_COUNT = 5;
-export const STANDARD_CARD_KINDS: CardKind[] = ['field', 'method', 'constraint'];
+export const STANDARD_CARD_SLOTS: CardSlot[] = [
+  { kind: 'field', tone: 'all' },
+  { kind: 'method', tone: 'all' },
+  { kind: 'constraint', tone: 'all' },
+];
 
 export const DEFAULT_SETTINGS: Settings = {
   playerNames: ['田中', '佐藤', '鈴木'],
@@ -10,9 +14,8 @@ export const DEFAULT_SETTINGS: Settings = {
   presentationSeconds: 60,
   preparationEnabled: true,
   rerollsPerPlayer: 2,
-  deckMode: 'all',
   genreMode: 'all',
-  cardKinds: STANDARD_CARD_KINDS,
+  cardSlots: STANDARD_CARD_SLOTS,
   reducedMotion: false,
 };
 
@@ -26,11 +29,30 @@ const isStringArray = (value: unknown): value is string[] =>
 const isCardKind = (value: unknown): value is CardKind =>
   value === 'field' || value === 'method' || value === 'constraint';
 
+const isDeckMode = (value: unknown): value is DeckMode =>
+  value === 'serious' || value === 'neta' || value === 'all';
+
 export const areCardKindsValid = (value: unknown): value is CardKind[] =>
   Array.isArray(value)
   && value.length >= MIN_CARD_COUNT
   && value.length <= MAX_CARD_COUNT
   && value.every(isCardKind);
+
+export const areCardSlotsValid = (value: unknown): value is CardSlot[] =>
+  Array.isArray(value)
+  && value.length >= MIN_CARD_COUNT
+  && value.length <= MAX_CARD_COUNT
+  && value.every((slot) => (
+    typeof slot === 'object'
+    && slot !== null
+    && isCardKind((slot as Partial<CardSlot>).kind)
+    && isDeckMode((slot as Partial<CardSlot>).tone)
+  ));
+
+type LegacySettingsInput = Partial<Settings> & {
+  cardKinds?: unknown;
+  deckMode?: unknown;
+};
 
 export const cleanPlayerNames = (playerNames: string[]): string[] =>
   playerNames.map((name) => name.trim()).filter(Boolean).slice(0, 8);
@@ -40,10 +62,16 @@ export const arePlayerNamesValid = (playerNames: string[]): boolean => {
   return cleaned.length === playerNames.length && cleaned.length >= 3 && new Set(cleaned).size === cleaned.length;
 };
 
-export const normalizeSettings = (value: Partial<Settings>): Settings => {
+export const normalizeSettings = (value: LegacySettingsInput): Settings => {
   const playerNames = isStringArray(value.playerNames)
     ? cleanPlayerNames(value.playerNames)
     : DEFAULT_SETTINGS.playerNames;
+  const legacyTone = isDeckMode(value.deckMode) ? value.deckMode : 'all';
+  const cardSlots = areCardSlotsValid(value.cardSlots)
+    ? value.cardSlots.map((slot) => ({ ...slot }))
+    : areCardKindsValid(value.cardKinds)
+      ? value.cardKinds.map((kind) => ({ kind, tone: legacyTone }))
+      : STANDARD_CARD_SLOTS.map((slot) => ({ ...slot }));
 
   return {
     playerNames: playerNames.length >= 3 ? playerNames : DEFAULT_SETTINGS.playerNames,
@@ -57,11 +85,10 @@ export const normalizeSettings = (value: Partial<Settings>): Settings => {
       typeof value.rerollsPerPlayer === 'number' && Number.isInteger(value.rerollsPerPlayer) && value.rerollsPerPlayer >= 0 && value.rerollsPerPlayer <= 3
         ? value.rerollsPerPlayer
         : DEFAULT_SETTINGS.rerollsPerPlayer,
-    deckMode: value.deckMode === 'serious' || value.deckMode === 'neta' || value.deckMode === 'all' ? value.deckMode : DEFAULT_SETTINGS.deckMode,
     genreMode: GENRE_MODES.includes(value.genreMode as Settings['genreMode'])
       ? (value.genreMode as Settings['genreMode'])
       : DEFAULT_SETTINGS.genreMode,
-    cardKinds: areCardKindsValid(value.cardKinds) ? [...value.cardKinds] : [...STANDARD_CARD_KINDS],
+    cardSlots,
     reducedMotion: typeof value.reducedMotion === 'boolean' ? value.reducedMotion : DEFAULT_SETTINGS.reducedMotion,
   };
 };
@@ -73,7 +100,7 @@ export const loadSettings = (): Settings => {
 
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? normalizeSettings(JSON.parse(raw) as Partial<Settings>) : DEFAULT_SETTINGS;
+    return raw ? normalizeSettings(JSON.parse(raw) as LegacySettingsInput) : DEFAULT_SETTINGS;
   } catch {
     return DEFAULT_SETTINGS;
   }

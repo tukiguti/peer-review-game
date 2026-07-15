@@ -32,7 +32,7 @@ export const PresentScreen = ({ state, dispatch }: ScreenProps) => {
 
       <div className={styles.cardGrid}>
         {state.hand.map((card, index) => (
-          <CardView card={card} kind={state.settings.cardKinds[index]} slotNumber={index + 1} key={`${index}-${card.id}`} compact />
+          <CardView card={card} kind={state.settings.cardSlots[index].kind} slotNumber={index + 1} key={`${index}-${card.id}`} compact />
         ))}
       </div>
 
