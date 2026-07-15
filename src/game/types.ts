@@ -16,7 +16,7 @@ export type Card = {
 };
 
 export type CardsByKind = Record<CardKind, Card[]>;
-export type Hand = [Card, Card, Card];
+export type Hand = Card[];
 
 export type Settings = {
   playerNames: string[];
@@ -26,6 +26,7 @@ export type Settings = {
   rerollsPerPlayer: number;
   deckMode: DeckMode;
   genreMode: GenreMode;
+  cardKinds: CardKind[];
   reducedMotion: boolean;
 };
 
@@ -59,7 +60,7 @@ export type GameState = {
   timerRemaining: number;
   drawAnimating: boolean;
   drawSpinKey: number;
-  drawSpinKind: CardKind | 'all';
+  drawSpinIndex: number | 'all';
   voteStep: 'handoff' | 'ballot' | 'submitted';
   voteDraft: Vote | null;
   commentDraft: string;

@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { availableCards, drawHand, filterCards } from './draw';
+import { availableCards, drawHand, filterCards, findUnavailableCardKind, hasRerollCandidate, rerollCard } from './draw';
 import { createInitialState, gameReducer } from './reducer';
 import { calculateScoring } from './scoring';
-import { arePlayerNamesValid, DEFAULT_SETTINGS, normalizeSettings } from './settings';
+import { areCardKindsValid, arePlayerNamesValid, DEFAULT_SETTINGS, normalizeSettings } from './settings';
 import cardsData from '../data/cards.json';
-import type { CardsByKind, Hand, Settings, VoteEntry } from './types';
+import type { CardKind, CardsByKind, Hand, Settings, VoteEntry } from './types';
 
 const cards = cardsData as CardsByKind;
 
@@ -71,7 +71,7 @@ describe('draw', () => {
       constraint: [{ id: 'c1', text: 'C1', tone: 'serious', genre: 'general' }],
     };
 
-    const hand = drawHand(cardsByKind, 'serious', 'all', [['f1', 'm1', 'c1']], () => 0);
+    const hand = drawHand(cardsByKind, 'serious', 'all', [['f1', 'm1', 'c1']], ['field', 'method', 'constraint'], () => 0);
 
     expect(hand.map((card) => card.id)).toEqual(['f1', 'm1', 'c1']);
   });
@@ -98,6 +98,44 @@ describe('draw', () => {
     ];
 
     expect(filterCards(cards, 'neta', 'se').map((card) => card.id)).toEqual(['se2']);
+  });
+
+  it('分野×3でも重複しない3枚を引く', () => {
+    const hand = drawHand(cards, 'all', 'general', [], ['field', 'field', 'field'], () => 0);
+
+    expect(hand).toHaveLength(3);
+    expect(hand.every((card) => card.genre === 'general')).toBe(true);
+    expect(new Set(hand.map((card) => card.id)).size).toBe(3);
+  });
+
+  it('1〜5枚の任意構成を指定順で引く', () => {
+    const cardKinds = ['constraint', 'field', 'method', 'field', 'constraint'] as const;
+    const hand = drawHand(cards, 'all', 'all', [], [...cardKinds], () => 0);
+
+    expect(hand).toHaveLength(5);
+    expect(hand.map((card) => card.id)).toEqual([
+      cards.constraint[0].id,
+      cards.field[0].id,
+      cards.method[0].id,
+      cards.field[1].id,
+      cards.constraint[1].id,
+    ]);
+  });
+
+  it('同種カードで未使用候補があれば引き直せる', () => {
+    const hand = drawHand(cards, 'serious', 'general', [], ['field', 'field', 'field'], () => 0);
+
+    expect(hasRerollCandidate(cards, 'serious', 'general', 'field', hand)).toBe(true);
+    const replacement = rerollCard(cards, 'serious', 'general', [], 'field', hand, () => 0);
+    expect(hand.map((card) => card.id)).not.toContain(replacement.id);
+  });
+
+  it('絞り込み後の候補数と引き直し用の予備1枚を検証する', () => {
+    const fourMethods = Array(4).fill('method') as CardKind[];
+
+    expect(findUnavailableCardKind(cards, 'neta', 'fashion', fourMethods, 0)).toBeUndefined();
+    expect(findUnavailableCardKind(cards, 'neta', 'fashion', fourMethods, 1)).toBe('method');
+    expect(findUnavailableCardKind(cards, 'neta', 'fashion', [...fourMethods, 'method'], 0)).toBe('method');
   });
 });
 
@@ -152,6 +190,21 @@ describe('settings', () => {
       DEFAULT_SETTINGS.rerollsPerPlayer,
     );
   });
+
+  it('カード構成は1〜5枚を保存し、不正な構成は標準3枚へ戻す', () => {
+    expect(areCardKindsValid(['field'])).toBe(true);
+    expect(areCardKindsValid(['field', 'field', 'field', 'method', 'constraint'])).toBe(true);
+    expect(areCardKindsValid([])).toBe(false);
+    expect(areCardKindsValid(Array(6).fill('field'))).toBe(false);
+    expect(areCardKindsValid(['field', 'unknown'])).toBe(false);
+
+    expect(normalizeSettings({ ...DEFAULT_SETTINGS, cardKinds: ['field', 'field', 'field'] }).cardKinds).toEqual([
+      'field',
+      'field',
+      'field',
+    ]);
+    expect(normalizeSettings({ ...DEFAULT_SETTINGS, cardKinds: [] }).cardKinds).toEqual(['field', 'method', 'constraint']);
+  });
 });
 
 describe('game reducer', () => {
@@ -181,10 +234,22 @@ describe('game reducer', () => {
 
     expect(gameReducer(state, { type: 'drawHand', hand: secondHand, animate: false })).toBe(state);
 
-    state = gameReducer(state, { type: 'rerollCard', kind: 'field', card: secondHand[0], animate: false });
+    state = gameReducer(state, { type: 'rerollCard', index: 0, card: secondHand[0], animate: false });
     expect(state.hand?.[0].id).toBe(secondHand[0].id);
     expect(state.players[0].rerollsLeft).toBe(0);
-    expect(gameReducer(state, { type: 'rerollCard', kind: 'method', card: secondHand[1], animate: false })).toBe(state);
+    expect(gameReducer(state, { type: 'rerollCard', index: 1, card: secondHand[1], animate: false })).toBe(state);
+  });
+
+  it('同じ種類が複数あっても指定したスロットだけを引き直す', () => {
+    const fieldSettings = { ...settings, cardKinds: ['field', 'field', 'field'] as CardKind[] };
+    const fieldHand = [cards.field[0], cards.field[1], cards.field[2]];
+    let state = gameReducer(createInitialState(fieldSettings), { type: 'startGame', settings: fieldSettings });
+    state = gameReducer(state, { type: 'drawHand', hand: fieldHand, animate: false });
+    state = gameReducer(state, { type: 'rerollCard', index: 1, card: cards.field[3], animate: false });
+
+    expect(state.hand?.map((card) => card.id)).toEqual([cards.field[0].id, cards.field[3].id, cards.field[2].id]);
+    expect(state.drawSpinIndex).toBe(1);
+    expect(state.players[0].rerollsLeft).toBe(0);
   });
 
   it('全員の秘密投票後だけ得点し、同数ならReject側だけを加点する', () => {

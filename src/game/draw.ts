@@ -1,7 +1,5 @@
 import type { Card, CardKind, CardsByKind, DeckMode, GenreMode, Hand } from './types';
 
-const KINDS: CardKind[] = ['field', 'method', 'constraint'];
-
 export const filterCards = (cards: Card[], mode: DeckMode, genre: GenreMode): Card[] =>
   cards.filter((card) => (mode === 'all' || card.tone === mode) && (genre === 'all' || card.genre === genre));
 
@@ -27,10 +25,22 @@ export const drawHand = (
   mode: DeckMode,
   genre: GenreMode,
   recentHands: string[][],
+  cardKinds: CardKind[],
   random: () => number = Math.random,
 ): Hand => {
   const recentCardIds = flattenRecentCardIds(recentHands);
-  return KINDS.map((kind) => pickCard(availableCards(cardsByKind[kind], mode, genre, recentCardIds), random)) as Hand;
+  const selected: Card[] = [];
+
+  for (const kind of cardKinds) {
+    const selectedIds = new Set(selected.map((card) => card.id));
+    const preferred = availableCards(cardsByKind[kind], mode, genre, recentCardIds)
+      .filter((card) => !selectedIds.has(card.id));
+    const fallback = filterCards(cardsByKind[kind], mode, genre)
+      .filter((card) => !selectedIds.has(card.id));
+    selected.push(pickCard(preferred.length > 0 ? preferred : fallback, random));
+  }
+
+  return selected;
 };
 
 export const rerollCard = (
@@ -46,5 +56,36 @@ export const rerollCard = (
   const currentIds = new Set(currentHand.map((card) => card.id));
   const pool = availableCards(cardsByKind[kind], mode, genre, recentCardIds);
   const candidates = pool.filter((card) => !currentIds.has(card.id));
-  return pickCard(candidates.length > 0 ? candidates : pool, random);
+  const fallback = filterCards(cardsByKind[kind], mode, genre).filter((card) => !currentIds.has(card.id));
+  return pickCard(candidates.length > 0 ? candidates : fallback, random);
+};
+
+export const hasRerollCandidate = (
+  cardsByKind: CardsByKind,
+  mode: DeckMode,
+  genre: GenreMode,
+  kind: CardKind,
+  currentHand: Hand,
+): boolean => {
+  const currentIds = new Set(currentHand.map((card) => card.id));
+  return filterCards(cardsByKind[kind], mode, genre).some((card) => !currentIds.has(card.id));
+};
+
+export const findUnavailableCardKind = (
+  cardsByKind: CardsByKind,
+  mode: DeckMode,
+  genre: GenreMode,
+  cardKinds: CardKind[],
+  rerollsPerPlayer: number,
+): CardKind | undefined => {
+  const counts = cardKinds.reduce<Record<CardKind, number>>(
+    (result, kind) => ({ ...result, [kind]: result[kind] + 1 }),
+    { field: 0, method: 0, constraint: 0 },
+  );
+
+  return (['field', 'method', 'constraint'] as CardKind[]).find((kind) => {
+    const availableCount = filterCards(cardsByKind[kind], mode, genre).length;
+    const reserveForReroll = rerollsPerPlayer > 0 && counts[kind] > 0 ? 1 : 0;
+    return counts[kind] + reserveForReroll > availableCount;
+  });
 };

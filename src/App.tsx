@@ -40,7 +40,7 @@ export const App = () => {
       </header>
 
       <main className={styles.main}>
-        {state.phase === 'setup' && <SetupScreen state={state} dispatch={dispatch} />}
+        {state.phase === 'setup' && <SetupScreen state={state} dispatch={dispatch} cards={cards} />}
         {state.phase === 'draw' && <DrawScreen state={state} dispatch={dispatch} cards={cards} />}
         {state.phase === 'prepare' && <PrepareScreen state={state} dispatch={dispatch} />}
         {state.phase === 'present' && <PresentScreen state={state} dispatch={dispatch} />}

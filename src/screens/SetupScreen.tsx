@@ -1,16 +1,36 @@
 import styles from '../App.module.css';
-import { arePlayerNamesValid, cleanPlayerNames } from '../game/settings';
-import type { ScreenProps } from './screenTypes';
-import type { DeckMode, GenreMode, Settings } from '../game/types';
+import { findUnavailableCardKind } from '../game/draw';
+import { kindLabel } from '../game/reducer';
+import { areCardKindsValid, arePlayerNamesValid, cleanPlayerNames, MAX_CARD_COUNT, MIN_CARD_COUNT } from '../game/settings';
+import type { CardsScreenProps } from './screenTypes';
+import type { CardKind, DeckMode, GenreMode, Settings } from '../game/types';
 
 const presentationOptions = [30, 60, 90, 120];
 
-export const SetupScreen = ({ state, dispatch }: ScreenProps) => {
+const CARD_PRESETS: { label: string; description: string; kinds: CardKind[] }[] = [
+  { label: '標準3枚', description: '分野・手法・制約', kinds: ['field', 'method', 'constraint'] },
+  { label: '分野×3', description: '3テーマを合体', kinds: ['field', 'field', 'field'] },
+  { label: 'ライト2枚', description: '分野・手法', kinds: ['field', 'method'] },
+  { label: '盛り盛り4枚', description: '分野2枚・手法・制約', kinds: ['field', 'field', 'method', 'constraint'] },
+];
+
+const sameKinds = (left: CardKind[], right: CardKind[]): boolean =>
+  left.length === right.length && left.every((kind, index) => kind === right[index]);
+
+export const SetupScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
   const settings = state.settings;
   const validPlayers = cleanPlayerNames(settings.playerNames);
   const hasDuplicateNames = new Set(validPlayers).size !== validPlayers.length;
   const hasBlankNames = validPlayers.length !== settings.playerNames.length;
-  const canStart = arePlayerNamesValid(settings.playerNames);
+  const unavailableKind = findUnavailableCardKind(
+    cards,
+    settings.deckMode,
+    settings.genreMode,
+    settings.cardKinds,
+    settings.rerollsPerPlayer,
+  );
+  const cardKindsValid = areCardKindsValid(settings.cardKinds) && !unavailableKind;
+  const canStart = arePlayerNamesValid(settings.playerNames) && cardKindsValid;
 
   const update = (patch: Partial<Settings>) => {
     dispatch({ type: 'updateSettings', settings: { ...settings, ...patch } });
@@ -24,6 +44,16 @@ export const SetupScreen = ({ state, dispatch }: ScreenProps) => {
 
   const removeName = (index: number) => {
     update({ playerNames: settings.playerNames.filter((_, currentIndex) => currentIndex !== index) });
+  };
+
+  const updateCardKind = (index: number, kind: CardKind) => {
+    const cardKinds = [...settings.cardKinds];
+    cardKinds[index] = kind;
+    update({ cardKinds });
+  };
+
+  const removeCardSlot = (index: number) => {
+    update({ cardKinds: settings.cardKinds.filter((_, currentIndex) => currentIndex !== index) });
   };
 
   return (
@@ -127,13 +157,73 @@ export const SetupScreen = ({ state, dispatch }: ScreenProps) => {
             <span>演出オフ</span>
           </label>
         </section>
+
+        <section className={styles.panel}>
+          <h3>カード構成</h3>
+          <p className={styles.settingHelp}>1〜5枚。1〜2枚は遊びやすく、4〜5枚は90秒以上の発表がおすすめです。</p>
+          <div className={styles.compositionPresets}>
+            {CARD_PRESETS.map((preset) => {
+              const selected = sameKinds(settings.cardKinds, preset.kinds);
+              return (
+                <button
+                  aria-pressed={selected}
+                  className={`${styles.presetButton} ${selected ? styles.selectedPreset : ''}`}
+                  type="button"
+                  key={preset.label}
+                  onClick={() => update({ cardKinds: [...preset.kinds] })}
+                >
+                  <strong>{preset.label}</strong>
+                  <span>{preset.description}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className={styles.compositionList}>
+            {settings.cardKinds.map((kind, index) => (
+              <div className={styles.compositionRow} key={index}>
+                <span>{index + 1}</span>
+                <select
+                  aria-label={`カード${index + 1}の種類`}
+                  value={kind}
+                  onChange={(event) => updateCardKind(index, event.target.value as CardKind)}
+                >
+                  <option value="field">分野</option>
+                  <option value="method">手法</option>
+                  <option value="constraint">制約</option>
+                </select>
+                <button
+                  aria-label={`カード${index + 1}を削除`}
+                  type="button"
+                  disabled={settings.cardKinds.length <= MIN_CARD_COUNT}
+                  onClick={() => removeCardSlot(index)}
+                >
+                  削除
+                </button>
+              </div>
+            ))}
+          </div>
+          <button
+            className={styles.secondaryButton}
+            type="button"
+            disabled={settings.cardKinds.length >= MAX_CARD_COUNT}
+            onClick={() => update({ cardKinds: [...settings.cardKinds, 'field'] })}
+          >
+            カードを追加
+          </button>
+          {unavailableKind && (
+            <p className={styles.compositionError} role="alert">
+              現在のジャンル・デッキでは「{kindLabel(unavailableKind)}」の候補が足りません。枚数を減らすか、絞り込みを変更してください。
+            </p>
+          )}
+        </section>
       </div>
 
       <section className={`${styles.panel} ${styles.rulesPanel}`}>
         <h3>遊び方</h3>
         <ol>
-          <li>3枚のカードを引き、発表者が架空の研究を組み立てます。</li>
-          <li>分野・手法・制約をすべて使って、制限時間内に発表します。</li>
+          <li>設定した構成でカードを引き、発表者が架空の研究を組み立てます。</li>
+          <li>引いたカードをすべて使って、制限時間内に発表します。</li>
           <li>ほかの人は「筋が通っていたか」を端末を回して秘密投票します。</li>
           <li>過半数 Accept で発表者+2点、満場一致なら+3点。判定側と同じ票の査読者も+1点です。</li>
         </ol>
@@ -142,8 +232,10 @@ export const SetupScreen = ({ state, dispatch }: ScreenProps) => {
       <div className={styles.actionBar}>
         <p aria-live="polite" role="status">
           {canStart
-            ? `${validPlayers.length}人で開始できます`
-            : hasDuplicateNames
+            ? `${validPlayers.length}人・カード${settings.cardKinds.length}枚で開始できます`
+            : !cardKindsValid
+              ? 'カード構成または絞り込みを調整してください'
+              : hasDuplicateNames
               ? '同じ名前は使えません'
               : hasBlankNames
                 ? '空欄のプレイヤー名を入力するか、その行を削除してください'

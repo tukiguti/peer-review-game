@@ -7,7 +7,7 @@ export type GameAction =
   | { type: 'startGame'; settings: Settings }
   | { type: 'setMuted'; muted: boolean }
   | { type: 'drawHand'; hand: Hand; animate: boolean }
-  | { type: 'rerollCard'; kind: CardKind; card: Card; animate: boolean }
+  | { type: 'rerollCard'; index: number; card: Card; animate: boolean }
   | { type: 'drawAnimationDone' }
   | { type: 'startPrepare' }
   | { type: 'startPresent' }
@@ -47,7 +47,7 @@ export const createInitialState = (settings = DEFAULT_SETTINGS): GameState => ({
   timerRemaining: 0,
   drawAnimating: false,
   drawSpinKey: 0,
-  drawSpinKind: 'all',
+  drawSpinIndex: 'all',
   voteStep: 'handoff',
   voteDraft: null,
   commentDraft: '',
@@ -86,28 +86,34 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         hand: action.hand,
         drawAnimating: action.animate,
         drawSpinKey: state.drawSpinKey + 1,
-        drawSpinKind: 'all',
+        drawSpinIndex: 'all',
       };
     case 'rerollCard': {
       if (state.phase !== 'draw' || !state.hand || state.drawAnimating) {
         return state;
       }
 
-      const kindIndex = kindToIndex(action.kind);
       const presenter = state.players[state.presenterIndex];
-      if (!presenter || presenter.rerollsLeft <= 0 || state.hand[kindIndex].id === action.card.id) {
+      if (
+        !presenter
+        || presenter.rerollsLeft <= 0
+        || !Number.isInteger(action.index)
+        || action.index < 0
+        || action.index >= state.hand.length
+        || state.hand[action.index].id === action.card.id
+      ) {
         return state;
       }
 
-      const nextHand = [...state.hand] as Hand;
-      nextHand[kindIndex] = action.card;
+      const nextHand = [...state.hand];
+      nextHand[action.index] = action.card;
 
       return {
         ...state,
         hand: nextHand,
         drawAnimating: action.animate,
         drawSpinKey: state.drawSpinKey + 1,
-        drawSpinKind: action.kind,
+        drawSpinIndex: action.index,
         players: state.players.map((player) =>
           player.id === presenter.id ? { ...player, rerollsLeft: Math.max(0, player.rerollsLeft - 1) } : player,
         ),
@@ -233,16 +239,6 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
     default:
       return state;
   }
-};
-
-export const kindToIndex = (kind: CardKind): 0 | 1 | 2 => {
-  if (kind === 'field') {
-    return 0;
-  }
-  if (kind === 'method') {
-    return 1;
-  }
-  return 2;
 };
 
 export const kindLabel = (kind: CardKind): string => {

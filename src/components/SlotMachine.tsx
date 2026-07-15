@@ -1,18 +1,18 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { playSound } from '../audio/sound';
 import styles from '../App.module.css';
-import { kindLabel, kindToIndex } from '../game/reducer';
+import { kindLabel } from '../game/reducer';
 import type { Card, CardKind, CardsByKind, Hand } from '../game/types';
 
-const KINDS: CardKind[] = ['field', 'method', 'constraint'];
 const SLOT_ROWS = 7;
 const CARD_HEIGHT = 58;
 
 type Props = {
   cards: CardsByKind;
+  cardKinds: CardKind[];
   hand: Hand | null;
   spinKey: number;
-  spinKind: CardKind | 'all';
+  spinIndex: number | 'all';
   spinning: boolean;
   muted: boolean;
   onFinished: () => void;
@@ -39,9 +39,9 @@ const shuffle = (items: Card[]): Card[] => {
   return copy;
 };
 
-export const SlotMachine = ({ cards, hand, spinKey, spinKind, spinning, muted, onFinished }: Props) => {
-  const reelRefs = useRef<ReelRefs[]>(KINDS.map(() => ({ track: null, shell: null })));
-  const reelLoops = useMemo(() => KINDS.map((kind) => shuffle(cards[kind])), [cards]);
+export const SlotMachine = ({ cards, cardKinds, hand, spinKey, spinIndex, spinning, muted, onFinished }: Props) => {
+  const reelRefs = useRef<ReelRefs[]>(cardKinds.map(() => ({ track: null, shell: null })));
+  const reelLoops = useMemo(() => cardKinds.map((kind) => shuffle(cards[kind])), [cards, cardKinds]);
 
   // 演出オフ時と停止直後も、中央の当選ラインを確定カードと一致させる。
   useEffect(() => {
@@ -49,7 +49,7 @@ export const SlotMachine = ({ cards, hand, spinKey, spinKind, spinning, muted, o
       return;
     }
 
-    KINDS.forEach((_, index) => {
+    cardKinds.forEach((_, index) => {
       const refs = reelRefs.current[index];
       const loop = reelLoops[index];
       const winnerIndex = Math.max(0, loop.findIndex((card) => card.id === hand[index].id));
@@ -64,7 +64,7 @@ export const SlotMachine = ({ cards, hand, spinKey, spinKind, spinning, muted, o
       refs.shell?.classList.remove(styles.reelSpinning);
       refs.shell?.classList.add(styles.reelStopped);
     });
-  }, [hand, reelLoops, spinning]);
+  }, [cardKinds, hand, reelLoops, spinning]);
 
   useEffect(() => {
     if (!hand || !spinning) {
@@ -74,12 +74,12 @@ export const SlotMachine = ({ cards, hand, spinKey, spinKind, spinning, muted, o
     let finishedCount = 0;
     let cancelled = false;
     const frameIds: number[] = [];
-    const targetIndexes = spinKind === 'all' ? [0, 1, 2] : [kindToIndex(spinKind)];
+    const targetIndexes = spinIndex === 'all' ? cardKinds.map((_, index) => index) : [spinIndex];
 
     const finishOne = (index: number) => {
       const refs = reelRefs.current[index];
       refs.shell?.classList.add(styles.reelStopped);
-      playSound(index === 2 ? 'finalStop' : 'stop', muted);
+      playSound(index === cardKinds.length - 1 ? 'finalStop' : 'stop', muted);
       finishedCount += 1;
       if (finishedCount === targetIndexes.length) {
         window.setTimeout(onFinished, 140);
@@ -93,9 +93,9 @@ export const SlotMachine = ({ cards, hand, spinKey, spinKind, spinning, muted, o
       const loop = reelLoops[index];
       const winner = hand[index];
       const winnerIndex = Math.max(0, loop.findIndex((card) => card.id === winner.id));
-      const stopDelay = spinKind === 'all' ? 900 + index * 400 : 1050;
+      const stopDelay = spinIndex === 'all' ? 900 + index * 400 : 1050;
       const start = performance.now();
-      const slowdown = index === 2 || spinKind === 'constraint' ? 560 : 420;
+      const slowdown = index === cardKinds.length - 1 || cardKinds[index] === 'constraint' ? 560 : 420;
       const startOffset = Math.floor(Math.random() * loop.length) * CARD_HEIGHT;
       const targetOffset = (loop.length * 8 + winnerIndex) * CARD_HEIGHT;
 
@@ -169,15 +169,15 @@ export const SlotMachine = ({ cards, hand, spinKey, spinKind, spinning, muted, o
       cancelled = true;
       frameIds.forEach((id) => cancelAnimationFrame(id));
     };
-  }, [hand, muted, onFinished, reelLoops, spinKey, spinKind, spinning]);
+  }, [cardKinds, hand, muted, onFinished, reelLoops, spinIndex, spinKey, spinning]);
 
   return (
     <div className={styles.slotMachine}>
-      {KINDS.map((kind, reelIndex) => {
+      {cardKinds.map((kind, reelIndex) => {
         const loop = reelLoops[reelIndex];
         return (
-          <section className={styles.reelColumn} key={kind}>
-            <h3>{kindLabel(kind)}</h3>
+          <section className={styles.reelColumn} key={`${reelIndex}-${kind}`}>
+            <h3>{reelIndex + 1}. {kindLabel(kind)}</h3>
             <div
               className={styles.reelWindow}
               ref={(node) => {
@@ -198,7 +198,9 @@ export const SlotMachine = ({ cards, hand, spinKey, spinKind, spinning, muted, o
                 ))}
               </div>
             </div>
-            <span className={styles.reelStatus}>{spinning && (spinKind === 'all' || spinKind === kind) ? '回転中' : hand ? '止まった' : '待機'}</span>
+            <span className={styles.reelStatus}>
+              {spinning && (spinIndex === 'all' || spinIndex === reelIndex) ? '回転中' : hand ? '止まった' : '待機'}
+            </span>
           </section>
         );
       })}

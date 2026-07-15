@@ -181,6 +181,86 @@
   max-width: 220px;
 }
 
+.settingHelp {
+  color: #5b6778;
+  font-size: 0.9rem;
+  margin: -4px 0 14px;
+}
+
+.compositionPresets {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 14px;
+}
+
+.presetButton {
+  background: #f8fafc;
+  border: 1px solid #c7d0df;
+  border-radius: 8px;
+  color: #253044;
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  padding: 9px 10px;
+  text-align: left;
+}
+
+.presetButton span {
+  color: #5b6778;
+  font-size: 0.78rem;
+}
+
+.selectedPreset {
+  background: #eef4ff;
+  border-color: #1957d2;
+  box-shadow: 0 0 0 2px rgb(25 87 210 / 15%);
+}
+
+.compositionList {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.compositionRow {
+  align-items: center;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+}
+
+.compositionRow > span {
+  background: #18202b;
+  border-radius: 999px;
+  color: #ffffff;
+  display: grid;
+  font-weight: 900;
+  height: 28px;
+  place-items: center;
+}
+
+.compositionRow select,
+.compositionRow button {
+  background: #f8fafc;
+  border: 1px solid #c7d0df;
+  border-radius: 8px;
+  color: #18202b;
+  min-height: 40px;
+  padding: 8px 10px;
+}
+
+.compositionError {
+  background: #fff1f0;
+  border: 1px solid #f3b7b2;
+  border-radius: 8px;
+  color: #8f1d16;
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin: 12px 0 0;
+  padding: 10px;
+}
+
 .toggleLine {
   font-weight: 700;
   margin-top: 12px;
@@ -203,7 +283,8 @@
 .slotMachine {
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 260px));
+  justify-content: center;
 }
 
 .reelColumn {
@@ -292,7 +373,7 @@
 .cardGrid {
   display: grid;
   gap: 14px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 }
 
 .confirmedCards {
@@ -613,6 +694,10 @@
 
   .slotMachine,
   .cardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .compositionPresets {
     grid-template-columns: 1fr;
   }
 

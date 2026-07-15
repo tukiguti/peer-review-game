@@ -3,10 +3,8 @@ import { CardView } from '../components/CardView';
 import { TimerPanel } from '../components/TimerPanel';
 import styles from '../App.module.css';
 import { currentPresenter } from '../game/selectors';
-import type { CardKind } from '../game/types';
 import type { ScreenProps } from './screenTypes';
 
-const KINDS: CardKind[] = ['field', 'method', 'constraint'];
 const HINTS = ['タイトル', '新規性（なぜ今までなかったのか）', '手法（どう検証するか）', '想定結果', '限界'];
 
 export const PrepareScreen = ({ state, dispatch }: ScreenProps) => {
@@ -30,7 +28,7 @@ export const PrepareScreen = ({ state, dispatch }: ScreenProps) => {
 
       <div className={styles.cardGrid}>
         {state.hand.map((card, index) => (
-          <CardView card={card} kind={KINDS[index]} key={card.id} />
+          <CardView card={card} kind={state.settings.cardKinds[index]} slotNumber={index + 1} key={`${index}-${card.id}`} />
         ))}
       </div>
 

@@ -1,4 +1,8 @@
-import type { Settings } from './types';
+import type { CardKind, Settings } from './types';
+
+export const MIN_CARD_COUNT = 1;
+export const MAX_CARD_COUNT = 5;
+export const STANDARD_CARD_KINDS: CardKind[] = ['field', 'method', 'constraint'];
 
 export const DEFAULT_SETTINGS: Settings = {
   playerNames: ['田中', '佐藤', '鈴木'],
@@ -8,6 +12,7 @@ export const DEFAULT_SETTINGS: Settings = {
   rerollsPerPlayer: 2,
   deckMode: 'all',
   genreMode: 'all',
+  cardKinds: STANDARD_CARD_KINDS,
   reducedMotion: false,
 };
 
@@ -17,6 +22,15 @@ const STORAGE_KEY = 'peer-review-game-settings';
 
 const isStringArray = (value: unknown): value is string[] =>
   Array.isArray(value) && value.every((item) => typeof item === 'string');
+
+const isCardKind = (value: unknown): value is CardKind =>
+  value === 'field' || value === 'method' || value === 'constraint';
+
+export const areCardKindsValid = (value: unknown): value is CardKind[] =>
+  Array.isArray(value)
+  && value.length >= MIN_CARD_COUNT
+  && value.length <= MAX_CARD_COUNT
+  && value.every(isCardKind);
 
 export const cleanPlayerNames = (playerNames: string[]): string[] =>
   playerNames.map((name) => name.trim()).filter(Boolean).slice(0, 8);
@@ -47,6 +61,7 @@ export const normalizeSettings = (value: Partial<Settings>): Settings => {
     genreMode: GENRE_MODES.includes(value.genreMode as Settings['genreMode'])
       ? (value.genreMode as Settings['genreMode'])
       : DEFAULT_SETTINGS.genreMode,
+    cardKinds: areCardKindsValid(value.cardKinds) ? [...value.cardKinds] : [...STANDARD_CARD_KINDS],
     reducedMotion: typeof value.reducedMotion === 'boolean' ? value.reducedMotion : DEFAULT_SETTINGS.reducedMotion,
   };
 };

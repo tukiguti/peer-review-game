@@ -7,6 +7,6 @@ export type ScreenProps = {
   dispatch: Dispatch<GameAction>;
 };
 
-export type DrawScreenProps = ScreenProps & {
+export type CardsScreenProps = ScreenProps & {
   cards: CardsByKind;
 };
