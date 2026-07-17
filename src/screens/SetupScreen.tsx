@@ -20,7 +20,11 @@ const sameSlots = (left: CardSlot[], right: CardSlot[]): boolean =>
   left.length === right.length
   && left.every((slot, index) => slot.kind === right[index].kind && slot.tone === right[index].tone);
 
-export const SetupScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
+type SetupScreenProps = CardsScreenProps & {
+  onBackToMode?: () => void;
+};
+
+export const SetupScreen = ({ state, dispatch, cards, onBackToMode }: SetupScreenProps) => {
   const settings = state.settings;
   const validPlayers = cleanPlayerNames(settings.playerNames);
   const hasDuplicateNames = new Set(validPlayers).size !== validPlayers.length;
@@ -63,8 +67,15 @@ export const SetupScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
   return (
     <section className={styles.screen}>
       <div className={styles.screenHeader}>
-        <p className={styles.eyebrow}>setup</p>
-        <h2>プレイヤーと設定</h2>
+        <div>
+          <p className={styles.eyebrow}>setup ・ オフライン</p>
+          <h2>プレイヤーと設定</h2>
+        </div>
+        {onBackToMode && (
+          <button className={styles.secondaryButton} type="button" onClick={onBackToMode}>
+            ← 遊び方の選択
+          </button>
+        )}
       </div>
 
       <div className={styles.setupGrid}>
