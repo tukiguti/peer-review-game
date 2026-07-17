@@ -248,7 +248,10 @@ export const kindLabel = (kind: CardKind): string => {
   if (kind === 'method') {
     return '手法';
   }
-  return '制約';
+  if (kind === 'constraint') {
+    return '制約';
+  }
+  return '新規性';
 };
 
 const firstVoterIndex = (state: GameState): number => nextVoterIndex(state, 0) ?? 0;

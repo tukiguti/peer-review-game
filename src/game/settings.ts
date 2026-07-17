@@ -8,6 +8,12 @@ export const STANDARD_CARD_SLOTS: CardSlot[] = [
   { kind: 'constraint', tone: 'all' },
 ];
 
+// 既定は「分野・手法・制約・新規性」の4枚。新規性は査読で必ず問われる観点をカード化したもの。
+export const DEFAULT_CARD_SLOTS: CardSlot[] = [
+  ...STANDARD_CARD_SLOTS.map((slot) => ({ ...slot })),
+  { kind: 'novelty', tone: 'all' },
+];
+
 export const DEFAULT_SETTINGS: Settings = {
   playerNames: ['田中', '佐藤', '鈴木'],
   rounds: 2,
@@ -15,7 +21,7 @@ export const DEFAULT_SETTINGS: Settings = {
   preparationEnabled: true,
   rerollsPerPlayer: 2,
   genreMode: 'all',
-  cardSlots: STANDARD_CARD_SLOTS,
+  cardSlots: DEFAULT_CARD_SLOTS,
   reducedMotion: false,
 };
 
@@ -27,7 +33,7 @@ const isStringArray = (value: unknown): value is string[] =>
   Array.isArray(value) && value.every((item) => typeof item === 'string');
 
 const isCardKind = (value: unknown): value is CardKind =>
-  value === 'field' || value === 'method' || value === 'constraint';
+  value === 'field' || value === 'method' || value === 'constraint' || value === 'novelty';
 
 const isDeckMode = (value: unknown): value is DeckMode =>
   value === 'serious' || value === 'neta' || value === 'all';
@@ -71,7 +77,7 @@ export const normalizeSettings = (value: LegacySettingsInput): Settings => {
     ? value.cardSlots.map((slot) => ({ ...slot }))
     : areCardKindsValid(value.cardKinds)
       ? value.cardKinds.map((kind) => ({ kind, tone: legacyTone }))
-      : STANDARD_CARD_SLOTS.map((slot) => ({ ...slot }));
+      : DEFAULT_CARD_SLOTS.map((slot) => ({ ...slot }));
 
   return {
     playerNames: playerNames.length >= 3 ? playerNames : DEFAULT_SETTINGS.playerNames,

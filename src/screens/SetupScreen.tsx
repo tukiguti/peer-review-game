@@ -9,10 +9,11 @@ const presentationOptions = [30, 60, 90, 120];
 const slots = (kinds: CardKind[], tone: DeckMode = 'all'): CardSlot[] => kinds.map((kind) => ({ kind, tone }));
 
 const CARD_PRESETS: { label: string; description: string; slots: CardSlot[] }[] = [
+  { label: '査読4枚', description: '分野・手法・制約・新規性', slots: slots(['field', 'method', 'constraint', 'novelty']) },
   { label: '標準3枚', description: '分野・手法・制約', slots: slots(['field', 'method', 'constraint']) },
   { label: '分野×3', description: '3テーマを合体', slots: slots(['field', 'field', 'field']) },
   { label: 'ライト2枚', description: '分野・手法', slots: slots(['field', 'method']) },
-  { label: '盛り盛り4枚', description: '分野2枚・手法・制約', slots: slots(['field', 'field', 'method', 'constraint']) },
+  { label: '盛り盛り5枚', description: '分野2・手法・制約・新規性', slots: slots(['field', 'field', 'method', 'constraint', 'novelty']) },
 ];
 
 const sameSlots = (left: CardSlot[], right: CardSlot[]): boolean =>
@@ -193,6 +194,7 @@ export const SetupScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
                   <option value="field">分野</option>
                   <option value="method">手法</option>
                   <option value="constraint">制約</option>
+                  <option value="novelty">新規性</option>
                 </select>
                 <select
                   aria-label={`カード${index + 1}の雰囲気`}

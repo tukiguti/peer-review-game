@@ -1786,5 +1786,259 @@
       "tone": "neta",
       "genre": "fashion"
     }
+  ],
+  "novelty": [
+    {
+      "id": "nov-s01",
+      "text": "世界初の試み",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-s02",
+      "text": "既存手法を初めて統合",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-s03",
+      "text": "未踏の対象へ応用",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-s04",
+      "text": "理論と実装の橋渡し",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-s05",
+      "text": "大規模データで初検証",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-s06",
+      "text": "分野横断の新視点",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-s07",
+      "text": "定説を覆す反例",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-s08",
+      "text": "新しい評価指標を提案",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-s09",
+      "text": "再現性を初めて担保",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-s10",
+      "text": "実応用への第一歩",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-s11",
+      "text": "既存研究の限界を克服",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-s12",
+      "text": "新しいデータセットを公開",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n01",
+      "text": "世界初だと言い張れ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n02",
+      "text": "誰もやってないだけ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n03",
+      "text": "名前を変えただけ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n04",
+      "text": "0.5%の精度改善が自慢",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n05",
+      "text": "既存研究の追試にすぎない",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n06",
+      "text": "「新規性は？」に答えられない",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n07",
+      "text": "図の色を変えただけ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n08",
+      "text": "先行研究を知らないだけ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n09",
+      "text": "流行りの単語を足しただけ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n10",
+      "text": "AIに新規性を考えさせた",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n11",
+      "text": "車輪の再発明",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n12",
+      "text": "提案手法が既存と同じ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-se-s01",
+      "text": "新しい設計パターン提唱",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-s02",
+      "text": "初の静的解析ツール",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-s03",
+      "text": "初のベンチマーク公開",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-n01",
+      "text": "OSSにPRを送っただけ",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-n02",
+      "text": "ライブラリを足しただけ",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-n03",
+      "text": "READMEを直しただけ",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "nov-sec-s01",
+      "text": "未知の攻撃面を初指摘",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-s02",
+      "text": "新しい防御機構を提案",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-s03",
+      "text": "初の大規模実測",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-n01",
+      "text": "CVE番号を1つ取っただけ",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-n02",
+      "text": "既知の脆弱性を再発見",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-n03",
+      "text": "nmap結果を貼っただけ",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "nov-fa-s01",
+      "text": "新しい採寸手法を提案",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-s02",
+      "text": "初の定量スタイル指標",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-s03",
+      "text": "新素材への初応用",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-n01",
+      "text": "色違いを出しただけ",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-n02",
+      "text": "去年の流行の焼き直し",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-n03",
+      "text": "丈を変えただけ",
+      "tone": "neta",
+      "genre": "fashion"
+    }
   ]
 }

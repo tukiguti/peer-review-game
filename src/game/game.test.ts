@@ -70,6 +70,7 @@ describe('draw', () => {
       field: [{ id: 'f1', text: 'F1', tone: 'serious', genre: 'general' }],
       method: [{ id: 'm1', text: 'M1', tone: 'serious', genre: 'general' }],
       constraint: [{ id: 'c1', text: 'C1', tone: 'serious', genre: 'general' }],
+      novelty: [{ id: 'n1', text: 'N1', tone: 'serious', genre: 'general' }],
     };
 
     const hand = drawHand(cardsByKind, 'all', [['f1', 'm1', 'c1']], makeSlots(['field', 'method', 'constraint'], 'serious'), () => 0);
@@ -120,6 +121,20 @@ describe('draw', () => {
     expect(new Set(hand.map((card) => card.id)).size).toBe(3);
   });
 
+  it('新規性スロットは新規性デッキからだけ引く', () => {
+    const hand = drawHand(cards, 'all', [], makeSlots(['field', 'method', 'constraint', 'novelty']), () => 0);
+    const noveltyIds = new Set(cards.novelty.map((card) => card.id));
+
+    expect(hand).toHaveLength(4);
+    expect(noveltyIds.has(hand[3].id)).toBe(true);
+    expect(hand.map((card) => card.text)).toEqual([
+      cards.field[0].text,
+      cards.method[0].text,
+      cards.constraint[0].text,
+      cards.novelty[0].text,
+    ]);
+  });
+
   it('1〜5枚の任意構成を指定順で引く', () => {
     const cardKinds = ['constraint', 'field', 'method', 'field', 'constraint'] as CardKind[];
     const hand = drawHand(cards, 'all', [], makeSlots(cardKinds), () => 0);
@@ -166,9 +181,9 @@ describe('draw', () => {
 });
 
 describe('cards.json', () => {
-  it('全カードが3ジャンル+汎用のいずれかに属し、各ジャンルで3種の山札が揃っている', () => {
+  it('全カードが3ジャンル+汎用のいずれかに属し、各ジャンルで4種の山札が揃っている', () => {
     const genres = ['general', 'se', 'security', 'fashion'] as const;
-    const kinds = ['field', 'method', 'constraint'] as const;
+    const kinds = ['field', 'method', 'constraint', 'novelty'] as const;
 
     for (const kind of kinds) {
       for (const card of cards[kind]) {
@@ -176,7 +191,7 @@ describe('cards.json', () => {
       }
 
       for (const genre of genres) {
-        // どのジャンルを選んでも3種の山札が空にならない(抽選が失敗しない)
+        // どのジャンルを選んでも4種の山札が空にならない(抽選が失敗しない)
         expect(filterCards(cards[kind], 'all', genre).length).toBeGreaterThan(0);
       }
     }
@@ -185,7 +200,7 @@ describe('cards.json', () => {
   it('IDが全体で一意で、全モードの組み合わせに抽選候補がある', () => {
     const genres = ['general', 'se', 'security', 'fashion'] as const;
     const tones = ['serious', 'neta'] as const;
-    const kinds = ['field', 'method', 'constraint'] as const;
+    const kinds = ['field', 'method', 'constraint', 'novelty'] as const;
     const allCards = kinds.flatMap((kind) => cards[kind]);
 
     expect(new Set(allCards.map((card) => card.id)).size).toBe(allCards.length);
@@ -217,13 +232,14 @@ describe('settings', () => {
     );
   });
 
-  it('カードスロットは1〜5枚と雰囲気を保存し、不正な構成は標準3枚へ戻す', () => {
+  it('カードスロットは1〜5枚と雰囲気を保存し、不正な構成は既定の4枚へ戻す', () => {
     const customSlots: CardSlot[] = [
       { kind: 'field', tone: 'serious' },
-      { kind: 'field', tone: 'neta' },
+      { kind: 'novelty', tone: 'neta' },
       { kind: 'constraint', tone: 'all' },
     ];
     expect(areCardSlotsValid(customSlots)).toBe(true);
+    expect(areCardSlotsValid([{ kind: 'novelty', tone: 'all' }])).toBe(true);
     expect(areCardSlotsValid([])).toBe(false);
     expect(areCardSlotsValid(Array(6).fill({ kind: 'field', tone: 'all' }))).toBe(false);
     expect(areCardSlotsValid([{ kind: 'field', tone: 'unknown' }])).toBe(false);
@@ -233,6 +249,7 @@ describe('settings', () => {
       { kind: 'field', tone: 'all' },
       { kind: 'method', tone: 'all' },
       { kind: 'constraint', tone: 'all' },
+      { kind: 'novelty', tone: 'all' },
     ]);
   });
 
