@@ -1,4 +1,4 @@
-import type { CardKind, CardSlot, DeckMode, Settings } from './types';
+import type { CardKind, CardSlot, DeckMode, Settings, VoteMode } from './types';
 
 export const MIN_CARD_COUNT = 1;
 export const MAX_CARD_COUNT = 5;
@@ -22,6 +22,7 @@ export const DEFAULT_SETTINGS: Settings = {
   rerollsPerPlayer: 2,
   genreMode: 'all',
   cardSlots: DEFAULT_CARD_SLOTS,
+  voteMode: 'simultaneous',
   reducedMotion: false,
 };
 
@@ -37,6 +38,9 @@ const isCardKind = (value: unknown): value is CardKind =>
 
 const isDeckMode = (value: unknown): value is DeckMode =>
   value === 'serious' || value === 'neta' || value === 'all';
+
+const isVoteMode = (value: unknown): value is VoteMode =>
+  value === 'passplay' || value === 'simultaneous';
 
 export const areCardKindsValid = (value: unknown): value is CardKind[] =>
   Array.isArray(value)
@@ -95,6 +99,7 @@ export const normalizeSettings = (value: LegacySettingsInput): Settings => {
       ? (value.genreMode as Settings['genreMode'])
       : DEFAULT_SETTINGS.genreMode,
     cardSlots,
+    voteMode: isVoteMode(value.voteMode) ? value.voteMode : DEFAULT_SETTINGS.voteMode,
     reducedMotion: typeof value.reducedMotion === 'boolean' ? value.reducedMotion : DEFAULT_SETTINGS.reducedMotion,
   };
 };

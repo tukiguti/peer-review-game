@@ -272,6 +272,7 @@ describe('game reducer', () => {
     rounds: 1,
     preparationEnabled: false,
     rerollsPerPlayer: 1,
+    voteMode: 'passplay',
     reducedMotion: true,
   };
   const firstHand = [cards.field[0], cards.method[0], cards.constraint[0]] as Hand;
@@ -340,6 +341,36 @@ describe('game reducer', () => {
   it('結果画面以外から次の手番へ進めない', () => {
     const state = gameReducer(createInitialState(settings), { type: 'startGame', settings });
     expect(gameReducer(state, { type: 'nextTurn' })).toBe(state);
+  });
+
+  it('せーの方式: ready→countdown→tally→result へ進み、全員入力まで結果に進めない', () => {
+    const simSettings: Settings = { ...settings, voteMode: 'simultaneous' };
+    let state = gameReducer(createInitialState(simSettings), { type: 'startGame', settings: simSettings });
+    state = gameReducer(state, { type: 'drawHand', hand: firstHand, animate: false });
+    state = gameReducer(state, { type: 'startPrepare' });
+    expect(state.phase).toBe('present');
+    state = gameReducer(state, { type: 'startVote' });
+    expect(state.phase).toBe('vote');
+    expect(state.voteStep).toBe('ready');
+
+    state = gameReducer(state, { type: 'beginCountdown' });
+    expect(state.voteStep).toBe('countdown');
+    state = gameReducer(state, { type: 'countdownDone' });
+    expect(state.voteStep).toBe('tally');
+
+    // 発表者(p1)は集計対象外
+    expect(gameReducer(state, { type: 'setTallyVote', playerId: 'p1', vote: 'accept' })).toBe(state);
+
+    // 全員ぶんの手が入るまで結果へ進めない
+    state = gameReducer(state, { type: 'setTallyVote', playerId: 'p2', vote: 'accept' });
+    expect(gameReducer(state, { type: 'revealResult' })).toBe(state);
+
+    state = gameReducer(state, { type: 'setTallyVote', playerId: 'p3', vote: 'reject' });
+    state = gameReducer(state, { type: 'revealResult' });
+
+    expect(state.phase).toBe('result');
+    // 1 Accept / 1 Reject = 同数 → 不採択。多数派(Reject)側の査読者だけ+1
+    expect(state.players.map((player) => player.score)).toEqual([0, 0, 1]);
   });
 
   it('3人1周を全フェーズ通して最終結果へ進める', () => {

@@ -6,6 +6,8 @@ export type CardGenre = 'general' | 'se' | 'security' | 'fashion';
 export type GenreMode = CardGenre | 'all';
 export type CardKind = 'field' | 'method' | 'constraint' | 'novelty';
 export type Vote = 'accept' | 'reject';
+// passplay: 端末を回して1人ずつ秘密投票 / simultaneous: せーので全員同時公開
+export type VoteMode = 'passplay' | 'simultaneous';
 export type PlayerId = string;
 
 export type Card = {
@@ -30,6 +32,7 @@ export type Settings = {
   rerollsPerPlayer: number;
   genreMode: GenreMode;
   cardSlots: CardSlot[];
+  voteMode: VoteMode;
   reducedMotion: boolean;
 };
 
@@ -64,7 +67,8 @@ export type GameState = {
   drawAnimating: boolean;
   drawSpinKey: number;
   drawSpinIndex: number | 'all';
-  voteStep: 'handoff' | 'ballot' | 'submitted';
+  // handoff/ballot/submitted: パスプレイ用 / ready/countdown/tally: せーの用
+  voteStep: 'handoff' | 'ballot' | 'submitted' | 'ready' | 'countdown' | 'tally';
   voteDraft: Vote | null;
   commentDraft: string;
   resultScored: boolean;

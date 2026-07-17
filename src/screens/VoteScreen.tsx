@@ -1,8 +1,85 @@
+import { useCallback } from 'react';
 import styles from '../App.module.css';
+import { SimCountdown } from '../components/SimCountdown';
 import { currentPresenter, currentVoter, voterIds } from '../game/selectors';
 import type { ScreenProps } from './screenTypes';
 
+// せーの同時公開: 全員が手で Accept(パー)/Reject(グー) を用意 → カウントダウン → 一斉公開 → 出た手を記録
+const SimultaneousVote = ({ state, dispatch }: ScreenProps) => {
+  const presenter = currentPresenter(state);
+  const reviewers = state.players.filter((player) => player.id !== presenter.id);
+  const allVoted = reviewers.every((player) => state.votes[player.id]);
+  const onCountdownDone = useCallback(() => dispatch({ type: 'countdownDone' }), [dispatch]);
+
+  return (
+    <section className={`${styles.screen} ${styles.voteScreen}`}>
+      <div className={styles.screenHeader}>
+        <p className={styles.eyebrow}>peer review</p>
+        <h2>{presenter.name}さんの査読（せーの同時公開）</h2>
+      </div>
+
+      {state.voteStep === 'ready' && (
+        <div className={styles.passPanel}>
+          <p className={styles.bigName}>全員で一斉ジャッジ</p>
+          <p>
+            発表者以外の{reviewers.length}人が、手で合図を用意します。
+            <br />
+            パー = Accept、グー = Reject。準備できたらスタート。
+          </p>
+          <button className={styles.primaryButton} type="button" onClick={() => dispatch({ type: 'beginCountdown' })}>
+            せーの！を始める
+          </button>
+        </div>
+      )}
+
+      {state.voteStep === 'countdown' && <SimCountdown muted={state.muted} onDone={onCountdownDone} />}
+
+      {state.voteStep === 'tally' && (
+        <div className={styles.tallyPanel}>
+          <p className={styles.bigName}>出た手を記録</p>
+          <p>各自が出した手を、そのままタップして入力してください（公開済みなので伏せる必要はありません）。</p>
+          <div className={styles.tallyList}>
+            {reviewers.map((player) => {
+              const vote = state.votes[player.id]?.vote;
+              return (
+                <div className={styles.tallyRow} key={player.id}>
+                  <span className={styles.tallyName}>{player.name}</span>
+                  <div className={styles.tallyVoteButtons}>
+                    <button
+                      aria-pressed={vote === 'accept'}
+                      className={`${styles.acceptButton} ${vote === 'accept' ? styles.selectedVote : ''}`}
+                      type="button"
+                      onClick={() => dispatch({ type: 'setTallyVote', playerId: player.id, vote: 'accept' })}
+                    >
+                      Accept
+                    </button>
+                    <button
+                      aria-pressed={vote === 'reject'}
+                      className={`${styles.rejectButton} ${vote === 'reject' ? styles.selectedVote : ''}`}
+                      type="button"
+                      onClick={() => dispatch({ type: 'setTallyVote', playerId: player.id, vote: 'reject' })}
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <button className={styles.primaryButton} type="button" disabled={!allVoted} onClick={() => dispatch({ type: 'revealResult' })}>
+            結果を見る
+          </button>
+        </div>
+      )}
+    </section>
+  );
+};
+
 export const VoteScreen = ({ state, dispatch }: ScreenProps) => {
+  if (state.settings.voteMode === 'simultaneous') {
+    return <SimultaneousVote state={state} dispatch={dispatch} />;
+  }
+
   const presenter = currentPresenter(state);
   const voter = currentVoter(state);
   const totalVoters = voterIds(state).length;

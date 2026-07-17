@@ -2,7 +2,7 @@ import styles from '../App.module.css';
 import { canDrawCardSlots } from '../game/draw';
 import { areCardSlotsValid, arePlayerNamesValid, cleanPlayerNames, MAX_CARD_COUNT, MIN_CARD_COUNT } from '../game/settings';
 import type { CardsScreenProps } from './screenTypes';
-import type { CardKind, CardSlot, DeckMode, GenreMode, Settings } from '../game/types';
+import type { CardKind, CardSlot, DeckMode, GenreMode, Settings, VoteMode } from '../game/types';
 
 const presentationOptions = [30, 60, 90, 120];
 
@@ -138,6 +138,13 @@ export const SetupScreen = ({ state, dispatch, cards }: CardsScreenProps) => {
               <option value="security">セキュリティ</option>
               <option value="fashion">ファッション</option>
               <option value="general">汎用</option>
+            </select>
+          </label>
+          <label className={styles.fieldLine}>
+            <span>投票方式</span>
+            <select value={settings.voteMode} onChange={(event) => update({ voteMode: event.target.value as VoteMode })}>
+              <option value="simultaneous">せーの（全員同時公開）</option>
+              <option value="passplay">パスプレイ（1人ずつ秘密投票）</option>
             </select>
           </label>
           <label className={styles.toggleLine}>

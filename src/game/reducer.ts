@@ -18,6 +18,10 @@ export type GameAction =
   | { type: 'setCommentDraft'; comment: string }
   | { type: 'submitVote' }
   | { type: 'continueVoting' }
+  | { type: 'beginCountdown' }
+  | { type: 'countdownDone' }
+  | { type: 'setTallyVote'; playerId: string; vote: Vote }
+  | { type: 'revealResult' }
   | { type: 'nextTurn' }
   | { type: 'resetToSetup' };
 
@@ -139,20 +143,22 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
       return state.phase === 'prepare' || state.phase === 'present'
         ? { ...state, timerRemaining: Math.max(0, state.timerRemaining - 1) }
         : state;
-    case 'startVote':
+    case 'startVote': {
       if (state.phase !== 'present') {
         return state;
       }
 
+      const simultaneous = state.settings.voteMode === 'simultaneous';
       return {
         ...state,
         phase: 'vote',
         votes: {},
-        votingIndex: firstVoterIndex(state),
-        voteStep: 'handoff',
+        votingIndex: simultaneous ? 0 : firstVoterIndex(state),
+        voteStep: simultaneous ? 'ready' : 'handoff',
         voteDraft: null,
         commentDraft: '',
       };
+    }
     case 'openBallot':
       return state.phase === 'vote' && state.voteStep === 'handoff'
         ? { ...state, voteStep: 'ballot', voteDraft: null, commentDraft: '' }
@@ -206,6 +212,42 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
             voteDraft: null,
             commentDraft: '',
           };
+    }
+    case 'beginCountdown':
+      return state.phase === 'vote' && state.voteStep === 'ready' ? { ...state, voteStep: 'countdown' } : state;
+    case 'countdownDone':
+      return state.phase === 'vote' && state.voteStep === 'countdown' ? { ...state, voteStep: 'tally' } : state;
+    case 'setTallyVote': {
+      const presenter = state.players[state.presenterIndex];
+      const voter = state.players.find((player) => player.id === action.playerId);
+      if (state.phase !== 'vote' || state.voteStep !== 'tally' || !voter || !presenter || action.playerId === presenter.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        votes: { ...state.votes, [action.playerId]: { vote: action.vote } },
+      };
+    }
+    case 'revealResult': {
+      if (state.phase !== 'vote' || state.voteStep !== 'tally') {
+        return state;
+      }
+
+      const presenter = state.players[state.presenterIndex];
+      const voterIdList = state.players.filter((_, index) => index !== state.presenterIndex).map((player) => player.id);
+      if (!voterIdList.every((id) => state.votes[id])) {
+        return state;
+      }
+
+      return {
+        ...state,
+        phase: 'result',
+        players: state.resultScored ? state.players : applyScoring(state.players, presenter.id, state.votes),
+        voteStep: 'handoff',
+        votingIndex: 0,
+        resultScored: true,
+      };
     }
     case 'nextTurn': {
       if (state.phase !== 'result' || !state.resultScored || !state.hand) {
