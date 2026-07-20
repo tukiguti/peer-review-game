@@ -34,7 +34,8 @@ npm run build
 
 公開前の確認項目は [docs/spec.md](docs/spec.md) にまとめています。変更時は `npm test` と `npm run build` の両方を通してください。
 
-デプロイ: main への push で GitHub Pages に自動配信 → https://tukiguti.github.io/peer-review-game/
+デプロイ: main への push で自動配信。本番は **Cloudflare Worker（静的アセット・無料）** → https://review-game.tukiguti.com/
+（GitHub Pages のミラーも維持: https://tukiguti.github.io/peer-review-game/ ／ `base` はビルド時に自動で出し分け）
 
 ## ドキュメント
 
