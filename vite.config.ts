@@ -5,9 +5,9 @@ import react from '@vitejs/plugin-react';
 declare const process: { env: Record<string, string | undefined> };
 
 export default defineConfig({
-  // Cloudflare Pages はルート配信(base='/')、GitHub Pages はサブパス配信。
-  // CF_PAGES は Cloudflare Pages のビルドで自動的に "1" が入る環境変数。
-  base: process.env.CF_PAGES ? '/' : '/peer-review-game/',
+  // 既定はルート配信(base='/')。Cloudflare(Worker/Pages)はこのままでOK。
+  // GitHub Pages はサブパス配信なので、Actions側で GHPAGES=1 を渡す。
+  base: process.env.GHPAGES ? '/peer-review-game/' : '/',
   plugins: [react()],
   test: {
     environment: 'node',

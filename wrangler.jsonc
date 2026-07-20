@@ -1,0 +1,11 @@
+{
+  // Cloudflare Worker で静的サイト(dist)を配信する設定。
+  // `npx wrangler deploy` が dist をアップロードして配信する（サーバコードなしの静的アセットのみ）。
+  "name": "peer-review-game",
+  "compatibility_date": "2026-07-01",
+  "assets": {
+    "directory": "./dist",
+    // 単一ページなので、未知パスは index.html を返す（保険）。
+    "not_found_handling": "single-page-application"
+  }
+}
