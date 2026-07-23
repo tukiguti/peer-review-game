@@ -1,11 +1,19 @@
 {
-  // Cloudflare Worker で静的サイト(dist)を配信する設定。
-  // `npx wrangler deploy` が dist をアップロードして配信する（サーバコードなしの静的アセットのみ）。
+  // Cloudflare Worker。静的サイト(dist)配信 + オンライン対戦の部屋サーバ(Durable Object)。
+  // /api/room/* は Worker(src/server/index.ts)が処理し、それ以外は dist を配信する。
   "name": "peer-review-game",
+  "main": "src/server/index.ts",
   "compatibility_date": "2026-07-01",
   "assets": {
     "directory": "./dist",
-    // 単一ページなので、未知パスは index.html を返す（保険）。
+    "binding": "ASSETS",
+    // 静的アセットに一致しないパスは Worker が処理。Worker が env.ASSETS.fetch を呼ぶと
+    // SPA フォールバック(index.html)が効く。
     "not_found_handling": "single-page-application"
-  }
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "ROOM", "class_name": "Room" }]
+  },
+  // new_sqlite_classes = 無料枠でも使える SQLite ストレージ方式の Durable Object。
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room"] }]
 }

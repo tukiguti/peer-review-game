@@ -25,8 +25,11 @@ const ENTRY_EYEBROW: Record<Entry, string> = {
   online: 'オンライン（各自のスマホ）',
 };
 
+// 共有リンク（?room=CODE）で開かれた場合はオンライン参加画面から始める。
+const initialEntry = (): Entry => (new URLSearchParams(window.location.search).get('room') ? 'online' : 'mode');
+
 export const App = () => {
-  const [entry, setEntry] = useState<Entry>('mode');
+  const [entry, setEntry] = useState<Entry>(initialEntry);
   const [state, dispatch] = useReducer(gameReducer, undefined, () => createInitialState(loadSettings()));
 
   useEffect(() => {
