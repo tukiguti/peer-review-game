@@ -1,24 +1,11 @@
 import styles from '../App.module.css';
 import { canDrawCardSlots } from '../game/draw';
 import { areCardSlotsValid, arePlayerNamesValid, cleanPlayerNames, MAX_CARD_COUNT, MIN_CARD_COUNT } from '../game/settings';
+import { CARD_PRESETS, sameSlots } from '../game/presets';
 import type { CardsScreenProps } from './screenTypes';
-import type { CardKind, CardSlot, DeckMode, GenreMode, Settings, VoteMode } from '../game/types';
+import type { CardKind, DeckMode, GenreMode, Settings, VoteMode } from '../game/types';
 
 const presentationOptions = [30, 60, 90, 120];
-
-const slots = (kinds: CardKind[], tone: DeckMode = 'all'): CardSlot[] => kinds.map((kind) => ({ kind, tone }));
-
-const CARD_PRESETS: { label: string; description: string; slots: CardSlot[] }[] = [
-  { label: '査読4枚', description: '分野・手法・制約・新規性', slots: slots(['field', 'method', 'constraint', 'novelty']) },
-  { label: '標準3枚', description: '分野・手法・制約', slots: slots(['field', 'method', 'constraint']) },
-  { label: '分野×3', description: '3テーマを合体', slots: slots(['field', 'field', 'field']) },
-  { label: 'ライト2枚', description: '分野・手法', slots: slots(['field', 'method']) },
-  { label: '盛り盛り5枚', description: '分野2・手法・制約・新規性', slots: slots(['field', 'field', 'method', 'constraint', 'novelty']) },
-];
-
-const sameSlots = (left: CardSlot[], right: CardSlot[]): boolean =>
-  left.length === right.length
-  && left.every((slot, index) => slot.kind === right[index].kind && slot.tone === right[index].tone);
 
 type SetupScreenProps = CardsScreenProps & {
   onBackToMode?: () => void;

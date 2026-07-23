@@ -1,11 +1,18 @@
 // クライアント(ブラウザ)とサーバ(Durable Object)で共有する通信プロトコル。
 // このファイルは DOM / Worker いずれの実行環境にも依存しない純粋な型のみを置く。
-import type { Card, CardGenre, CardKind, CardTone, Vote } from '../game/types';
+import type { Card, CardGenre, CardKind, CardSlot, CardTone, GenreMode, Vote } from '../game/types';
 
 export type { Vote };
 
 // オンライン部屋のフェーズ。オフラインの Phase とは別物（部屋の進行状態）。
 export type OnlinePhase = 'lobby' | 'present' | 'voting' | 'reveal' | 'final';
+
+// 司会がロビーで決める設定（オフラインの該当項目のオンライン版）。
+export type OnlineSettings = {
+  genreMode: GenreMode;
+  cardSlots: CardSlot[];
+  totalRounds: number;
+};
 
 // 抽選されたカード。どのスロット種別かを自己記述するため kind を持たせる。
 export type HandCard = { id: string; text: string; tone: CardTone; genre: CardGenre; kind: CardKind } & Partial<Card>;
@@ -29,6 +36,7 @@ export type RoomSnapshot = {
   players: PlayerView[];
   round: number;
   totalRounds: number;
+  settings: OnlineSettings;
   presenterId: string | null;
   hand: HandCard[] | null;
   votedPlayerIds: string[];
@@ -44,6 +52,7 @@ export type RoomSnapshot = {
 
 // クライアント → サーバ。参加/作成は接続時の URL クエリで渡すためメッセージには含めない。
 export type ClientMessage =
+  | { t: 'setSettings'; settings: OnlineSettings } // 司会がロビーで設定変更
   | { t: 'startRound' }
   | { t: 'openVoting' }
   | { t: 'vote'; vote: Vote }

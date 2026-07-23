@@ -1,8 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import QRCode from 'qrcode';
 import appStyles from '../App.module.css';
 import styles from '../online/online.module.css';
 import { useRoom, type UseRoom } from '../online/useRoom';
-import type { CardGenre, CardKind } from '../game/types';
+import { canDrawCardSlots } from '../game/draw';
+import { areCardSlotsValid, MAX_CARD_COUNT, MIN_CARD_COUNT } from '../game/cardConfig';
+import { CARD_PRESETS, sameSlots } from '../game/presets';
+import cardsData from '../data/cards.json';
+import type { OnlineSettings } from '../online/protocol';
+import type { CardGenre, CardKind, CardsByKind, DeckMode, GenreMode } from '../game/types';
+
+const cards = cardsData as CardsByKind;
 
 type Props = {
   onBack: () => void;
@@ -20,6 +28,21 @@ const GENRE_LABEL: Record<CardGenre, string> = {
   se: 'ソフトウェア工学',
   security: 'セキュリティ',
   fashion: 'ファッション',
+};
+
+const GENRE_MODE_LABEL: Record<GenreMode, string> = {
+  all: '全部',
+  general: '汎用',
+  se: 'ソフトウェア工学',
+  security: 'セキュリティ',
+  fashion: 'ファッション',
+};
+
+const TONE_LABEL: Record<DeckMode, string> = { all: 'おまかせ', serious: '真面目', neta: 'ネタ' };
+
+const settingsSummary = (s: OnlineSettings): string => {
+  const composition = s.cardSlots.map((slot) => KIND_LABEL[slot.kind]).join('・');
+  return `ジャンル: ${GENRE_MODE_LABEL[s.genreMode]} ／ カード${s.cardSlots.length}枚（${composition}） ／ ${s.totalRounds}周`;
 };
 
 const PHASE_TITLE: Record<string, string> = {
@@ -194,31 +217,179 @@ const LobbyBody = ({
     );
   };
 
+  // 司会は設定を編集できる。編集内容はローカルに持ちつつ即サーバへ送る（サーバも検証）。
+  const [draft, setDraft] = useState<OnlineSettings>(snap.settings);
+  const applyDraft = (next: OnlineSettings) => {
+    setDraft(next);
+    room.send({ t: 'setSettings', settings: next });
+  };
+  const settingsValid = areCardSlotsValid(draft.cardSlots) && canDrawCardSlots(cards, draft.genreMode, draft.cardSlots);
+  const canStart = connectedCount >= 2 && (!isHost || settingsValid);
+
   return (
     <div className={styles.lobby}>
       <div className={styles.codeCard}>
         <span className={appStyles.eyebrow}>部屋コード</span>
         <p className={styles.codeBig}>{snap.code}</p>
+        <QrImage text={shareUrl} />
         <div className={styles.shareRow}>
           <input className={styles.textInput} value={shareUrl} readOnly />
           <button className={appStyles.secondaryButton} type="button" onClick={copy}>
             {copied ? 'コピーしました' : 'リンクをコピー'}
           </button>
         </div>
-        <p className={styles.help}>このコードかリンクを仲間に共有してください。各自のスマホから参加できます。</p>
+        <p className={styles.help}>QR・コード・リンクのいずれかを仲間に共有してください。各自のスマホから参加できます。</p>
       </div>
+
+      {isHost ? (
+        <SettingsEditor draft={draft} valid={settingsValid} onChange={applyDraft} />
+      ) : (
+        <div className={styles.summaryCard}>
+          <span className={appStyles.eyebrow}>この部屋の設定</span>
+          <p>{settingsSummary(snap.settings)}</p>
+        </div>
+      )}
 
       {isHost ? (
         <button
           className={appStyles.leverButton}
           type="button"
-          disabled={connectedCount < 2}
+          disabled={!canStart}
           onClick={() => room.send({ t: 'startRound' })}
         >
-          {connectedCount < 2 ? 'あと1人以上の参加を待っています' : 'ゲームを始める'}
+          {connectedCount < 2 ? 'あと1人以上の参加を待っています' : !settingsValid ? 'カード構成を調整してください' : 'ゲームを始める'}
         </button>
       ) : (
         <p className={styles.waitNote}>司会がゲームを始めるのを待っています…</p>
+      )}
+    </div>
+  );
+};
+
+const QrImage = ({ text }: { text: string }) => {
+  const [src, setSrc] = useState<string | null>(null);
+  useEffect(() => {
+    let alive = true;
+    QRCode.toDataURL(text, { margin: 1, width: 220 }).then(
+      (url) => {
+        if (alive) setSrc(url);
+      },
+      () => undefined,
+    );
+    return () => {
+      alive = false;
+    };
+  }, [text]);
+  return src ? <img className={styles.qr} src={src} alt={`参加用QRコード（${text}）`} width={180} height={180} /> : null;
+};
+
+const SettingsEditor = ({
+  draft,
+  valid,
+  onChange,
+}: {
+  draft: OnlineSettings;
+  valid: boolean;
+  onChange: (next: OnlineSettings) => void;
+}) => {
+  const setSlot = (index: number, patch: Partial<{ kind: CardKind; tone: DeckMode }>) =>
+    onChange({ ...draft, cardSlots: draft.cardSlots.map((slot, i) => (i === index ? { ...slot, ...patch } : slot)) });
+
+  return (
+    <div className={`${appStyles.panel} ${styles.settingsPanel}`}>
+      <h3>設定（司会）</h3>
+
+      <label className={appStyles.fieldLine}>
+        <span>ジャンル</span>
+        <select value={draft.genreMode} onChange={(e) => onChange({ ...draft, genreMode: e.target.value as GenreMode })}>
+          <option value="all">全部</option>
+          <option value="se">ソフトウェア工学</option>
+          <option value="security">セキュリティ</option>
+          <option value="fashion">ファッション</option>
+          <option value="general">汎用</option>
+        </select>
+      </label>
+
+      <label className={appStyles.fieldLine}>
+        <span>周回数</span>
+        <select value={draft.totalRounds} onChange={(e) => onChange({ ...draft, totalRounds: Number(e.target.value) })}>
+          <option value={1}>1周（全員1回発表）</option>
+          <option value={2}>2周</option>
+          <option value={3}>3周</option>
+        </select>
+      </label>
+
+      <p className={appStyles.settingHelp}>カード構成（1〜5枚）</p>
+      <div className={appStyles.compositionPresets}>
+        {CARD_PRESETS.map((preset) => {
+          const selected = sameSlots(draft.cardSlots, preset.slots);
+          return (
+            <button
+              aria-pressed={selected}
+              className={`${appStyles.presetButton} ${selected ? appStyles.selectedPreset : ''}`}
+              type="button"
+              key={preset.label}
+              onClick={() => onChange({ ...draft, cardSlots: preset.slots.map((slot) => ({ ...slot })) })}
+            >
+              <strong>{preset.label}</strong>
+              <span>{preset.description}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className={appStyles.toneBatch} role="group" aria-label="全スロットの雰囲気を一括変更">
+        <span>雰囲気を一括変更</span>
+        {(['all', 'serious', 'neta'] as DeckMode[]).map((tone) => (
+          <button
+            key={tone}
+            aria-pressed={draft.cardSlots.every((slot) => slot.tone === tone)}
+            type="button"
+            onClick={() => onChange({ ...draft, cardSlots: draft.cardSlots.map((slot) => ({ ...slot, tone })) })}
+          >
+            {TONE_LABEL[tone]}
+          </button>
+        ))}
+      </div>
+
+      <div className={appStyles.compositionList}>
+        {draft.cardSlots.map((slot, index) => (
+          <div className={appStyles.compositionRow} key={index}>
+            <span>{index + 1}</span>
+            <select aria-label={`カード${index + 1}の種類`} value={slot.kind} onChange={(e) => setSlot(index, { kind: e.target.value as CardKind })}>
+              <option value="field">分野</option>
+              <option value="method">手法</option>
+              <option value="constraint">制約</option>
+              <option value="novelty">新規性</option>
+            </select>
+            <select aria-label={`カード${index + 1}の雰囲気`} value={slot.tone} onChange={(e) => setSlot(index, { tone: e.target.value as DeckMode })}>
+              <option value="all">おまかせ</option>
+              <option value="serious">真面目</option>
+              <option value="neta">ネタ</option>
+            </select>
+            <button
+              aria-label={`カード${index + 1}を削除`}
+              type="button"
+              disabled={draft.cardSlots.length <= MIN_CARD_COUNT}
+              onClick={() => onChange({ ...draft, cardSlots: draft.cardSlots.filter((_, i) => i !== index) })}
+            >
+              削除
+            </button>
+          </div>
+        ))}
+      </div>
+      <button
+        className={appStyles.secondaryButton}
+        type="button"
+        disabled={draft.cardSlots.length >= MAX_CARD_COUNT}
+        onClick={() => onChange({ ...draft, cardSlots: [...draft.cardSlots, { kind: 'field', tone: 'all' }] })}
+      >
+        カードを追加
+      </button>
+      {!valid && (
+        <p className={appStyles.compositionError} role="alert">
+          現在のジャンル・雰囲気では候補が足りません。枚数を減らすか、雰囲気を変更してください。
+        </p>
       )}
     </div>
   );
