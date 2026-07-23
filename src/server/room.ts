@@ -3,23 +3,17 @@
 // 投票の秘匿は「reveal 前は他人の投票値をスナップショットに載せない」ことで担保する。
 //
 // カード抽選(draw.ts)と得点計算(scoring.ts)はオフラインと同一の純粋関数を再利用する。
-import type { Card, CardSlot, CardsByKind, Player, Vote } from '../game/types';
-import { drawHand } from '../game/draw';
+import type { Card, CardSlot, CardsByKind, GenreMode, Player, Vote } from '../game/types';
+import { canDrawCardSlots, drawHand } from '../game/draw';
 import { calculateScoring, summarizeVotes } from '../game/scoring';
+import { areCardSlotsValid, DEFAULT_CARD_SLOTS, isGenreMode } from '../game/cardConfig';
 import cardsData from '../data/cards.json';
-import type { ClientMessage, OnlinePhase, RoomSnapshot, ServerMessage, VoteReveal } from '../online/protocol';
+import type { ClientMessage, OnlinePhase, OnlineSettings, RoomSnapshot, ServerMessage, VoteReveal } from '../online/protocol';
 
 const cards = cardsData as unknown as CardsByKind;
 
-// オンラインは既定構成（査読4枚・全ジャンル）で固定。将来ホスト設定で可変にする。
-const GENRE = 'all' as const;
-const CARD_SLOTS: CardSlot[] = [
-  { kind: 'field', tone: 'all' },
-  { kind: 'method', tone: 'all' },
-  { kind: 'constraint', tone: 'all' },
-  { kind: 'novelty', tone: 'all' },
-];
-const TOTAL_ROUNDS = 1; // 全員が1回ずつ発表したら終了。
+const MIN_ROUNDS = 1;
+const MAX_ROUNDS = 3;
 const MIN_PLAYERS = 2;
 const MAX_PLAYERS = 8;
 
@@ -38,6 +32,10 @@ export class Room {
   private votes: Record<string, Vote> = {};
   private recentHands: string[][] = [];
   private lastReveal: RoomSnapshot['reveal'] = null;
+  // 司会がロビーで変更できる設定（既定は査読4枚・全ジャンル・1周）。
+  private genreMode: GenreMode = 'all';
+  private cardSlots: CardSlot[] = DEFAULT_CARD_SLOTS.map((slot) => ({ ...slot }));
+  private totalRounds = 1;
 
   constructor(_ctx: DurableObjectState, _env: unknown) {}
 
@@ -127,6 +125,9 @@ export class Room {
     }
     const isHost = playerId === this.hostId;
     switch (msg.t) {
+      case 'setSettings':
+        if (isHost && this.phase === 'lobby') this.applySettings(msg.settings);
+        break;
       case 'startRound':
         if (isHost && this.phase === 'lobby') this.startGame();
         break;
@@ -149,6 +150,19 @@ export class Room {
     this.broadcast();
   }
 
+  // クライアントも検証するが、サーバでも必ず検証してから採用する（防御）。
+  private applySettings(settings: OnlineSettings): void {
+    if (!settings || typeof settings !== 'object') return;
+    if (!isGenreMode(settings.genreMode)) return;
+    if (!areCardSlotsValid(settings.cardSlots)) return;
+    if (!canDrawCardSlots(cards, settings.genreMode, settings.cardSlots)) return;
+    const rounds = Math.round(settings.totalRounds);
+    if (!Number.isFinite(rounds) || rounds < MIN_ROUNDS || rounds > MAX_ROUNDS) return;
+    this.genreMode = settings.genreMode;
+    this.cardSlots = settings.cardSlots.map((slot) => ({ ...slot }));
+    this.totalRounds = rounds;
+  }
+
   private startGame(): void {
     if (this.players.filter((p) => p.connected).length < MIN_PLAYERS) return;
     for (const p of this.players) {
@@ -167,7 +181,7 @@ export class Room {
   private beginTurn(): void {
     this.votes = {};
     this.lastReveal = null;
-    this.hand = drawHand(cards, GENRE, this.recentHands, CARD_SLOTS);
+    this.hand = drawHand(cards, this.genreMode, this.recentHands, this.cardSlots);
     this.recentHands.push(this.hand.map((c) => c.id));
     this.phase = 'present';
   }
@@ -232,7 +246,7 @@ export class Room {
       this.presenterIndex = 0;
       this.round += 1;
     }
-    if (this.round > TOTAL_ROUNDS) {
+    if (this.round > this.totalRounds) {
       this.phase = 'final';
     } else {
       this.beginTurn();
@@ -266,9 +280,14 @@ export class Room {
         isHost: p.id === this.hostId,
       })),
       round: this.round,
-      totalRounds: TOTAL_ROUNDS,
+      totalRounds: this.totalRounds,
+      settings: {
+        genreMode: this.genreMode,
+        cardSlots: this.cardSlots.map((slot) => ({ ...slot })),
+        totalRounds: this.totalRounds,
+      },
       presenterId: this.phase === 'lobby' ? null : presenterId,
-      hand: showHand && this.hand ? this.hand.map((c, i) => ({ ...c, kind: CARD_SLOTS[i].kind })) : null,
+      hand: showHand && this.hand ? this.hand.map((c, i) => ({ ...c, kind: this.cardSlots[i].kind })) : null,
       votedPlayerIds: this.phase === 'voting' ? Object.keys(this.votes) : [],
       myVote: this.votes[forId] ?? null,
       reveal: this.phase === 'reveal' ? this.lastReveal : null,
