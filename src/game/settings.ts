@@ -1,18 +1,17 @@
-import type { CardKind, CardSlot, DeckMode, Settings, VoteMode } from './types';
+import type { Settings, VoteMode } from './types';
+import {
+  areCardKindsValid,
+  areCardSlotsValid,
+  DEFAULT_CARD_SLOTS,
+  GENRE_MODES,
+  isDeckMode,
+  MAX_CARD_COUNT,
+  MIN_CARD_COUNT,
+  STANDARD_CARD_SLOTS,
+} from './cardConfig';
 
-export const MIN_CARD_COUNT = 1;
-export const MAX_CARD_COUNT = 5;
-export const STANDARD_CARD_SLOTS: CardSlot[] = [
-  { kind: 'field', tone: 'all' },
-  { kind: 'method', tone: 'all' },
-  { kind: 'constraint', tone: 'all' },
-];
-
-// 既定は「分野・手法・制約・新規性」の4枚。新規性は査読で必ず問われる観点をカード化したもの。
-export const DEFAULT_CARD_SLOTS: CardSlot[] = [
-  ...STANDARD_CARD_SLOTS.map((slot) => ({ ...slot })),
-  { kind: 'novelty', tone: 'all' },
-];
+// カード構成の定数・バリデータは cardConfig に移設。既存の import 互換のため再エクスポートする。
+export { MIN_CARD_COUNT, MAX_CARD_COUNT, STANDARD_CARD_SLOTS, DEFAULT_CARD_SLOTS, areCardKindsValid, areCardSlotsValid };
 
 export const DEFAULT_SETTINGS: Settings = {
   playerNames: ['田中', '佐藤', '鈴木'],
@@ -26,38 +25,13 @@ export const DEFAULT_SETTINGS: Settings = {
   reducedMotion: false,
 };
 
-const GENRE_MODES: Settings['genreMode'][] = ['all', 'general', 'se', 'security', 'fashion'];
-
 const STORAGE_KEY = 'peer-review-game-settings';
 
 const isStringArray = (value: unknown): value is string[] =>
   Array.isArray(value) && value.every((item) => typeof item === 'string');
 
-const isCardKind = (value: unknown): value is CardKind =>
-  value === 'field' || value === 'method' || value === 'constraint' || value === 'novelty';
-
-const isDeckMode = (value: unknown): value is DeckMode =>
-  value === 'serious' || value === 'neta' || value === 'all';
-
 const isVoteMode = (value: unknown): value is VoteMode =>
   value === 'passplay' || value === 'simultaneous';
-
-export const areCardKindsValid = (value: unknown): value is CardKind[] =>
-  Array.isArray(value)
-  && value.length >= MIN_CARD_COUNT
-  && value.length <= MAX_CARD_COUNT
-  && value.every(isCardKind);
-
-export const areCardSlotsValid = (value: unknown): value is CardSlot[] =>
-  Array.isArray(value)
-  && value.length >= MIN_CARD_COUNT
-  && value.length <= MAX_CARD_COUNT
-  && value.every((slot) => (
-    typeof slot === 'object'
-    && slot !== null
-    && isCardKind((slot as Partial<CardSlot>).kind)
-    && isDeckMode((slot as Partial<CardSlot>).tone)
-  ));
 
 type LegacySettingsInput = Partial<Settings> & {
   cardKinds?: unknown;
