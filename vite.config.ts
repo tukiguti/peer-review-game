@@ -9,6 +9,13 @@ export default defineConfig({
   // GitHub Pages はサブパス配信なので、Actions側で GHPAGES=1 を渡す。
   base: process.env.GHPAGES ? '/peer-review-game/' : '/',
   plugins: [react()],
+  // 開発時は /api(WebSocket 含む)を wrangler dev(8787)へプロキシ。
+  // これでクライアントは本番同様に同一オリジンの /api/room に接続できる。
+  server: {
+    proxy: {
+      '/api': { target: 'http://127.0.0.1:8787', ws: true, changeOrigin: true },
+    },
+  },
   test: {
     environment: 'node',
     include: ['src/**/*.test.ts'],

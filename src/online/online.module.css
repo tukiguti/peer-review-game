@@ -1,0 +1,162 @@
+.textInput {
+  background: #f8fafc;
+  border: 1px solid #c7d0df;
+  border-radius: 8px;
+  color: #18202b;
+  font-weight: 700;
+  min-height: 44px;
+  padding: 10px 12px;
+  width: 100%;
+}
+
+.help {
+  color: #5b6778;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+
+.entryGrid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+
+.entryGrid .textInput {
+  margin-bottom: 12px;
+}
+
+.lobby {
+  display: grid;
+  gap: 20px;
+  justify-items: center;
+}
+
+.codeCard {
+  background: #ffffff;
+  border: 1px solid #d4dbea;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgb(32 42 58 / 8%);
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  padding: clamp(20px, 4vw, 36px);
+  text-align: center;
+  width: min(100%, 560px);
+}
+
+.codeBig {
+  font-size: clamp(2.6rem, 12vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  margin: 0;
+}
+
+.shareRow {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  width: 100%;
+}
+
+.shareRow .textInput {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.waitNote {
+  color: #46536a;
+  font-weight: 800;
+  text-align: center;
+}
+
+.turnPanel,
+.votePanel {
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+  text-align: center;
+}
+
+.votePanel {
+  background: #ffffff;
+  border: 1px solid #d4dbea;
+  border-radius: 8px;
+  min-height: 220px;
+  padding: clamp(20px, 5vw, 40px);
+  place-content: center;
+  width: 100%;
+}
+
+.turnLead {
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
+  font-weight: 900;
+  margin: 0;
+}
+
+.bigLead {
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  font-weight: 900;
+  margin: 0;
+}
+
+.handGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  width: 100%;
+}
+
+.playerStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.playerChip {
+  align-items: center;
+  background: #f0f3f8;
+  border: 1px solid #d4dbea;
+  border-radius: 999px;
+  display: inline-flex;
+  font-weight: 800;
+  gap: 6px;
+  padding: 6px 12px;
+}
+
+.offline {
+  opacity: 0.45;
+}
+
+.tag,
+.tagDone,
+.tagMe {
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 900;
+  padding: 2px 7px;
+}
+
+.tag {
+  background: #18202b;
+  color: #ffffff;
+}
+
+.tagDone {
+  background: #20804d;
+  color: #ffffff;
+}
+
+.tagMe {
+  background: #1957d2;
+  color: #ffffff;
+}
+
+@media (max-width: 560px) {
+  .shareRow {
+    grid-template-columns: 1fr;
+  }
+}
