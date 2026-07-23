@@ -23,8 +23,8 @@ export const ModeScreen = ({ onOffline, onOnline }: Props) => (
       <button type="button" className={styles.modeCard} onClick={onOnline}>
         <span className={styles.modeIcon} aria-hidden="true">📱</span>
         <strong>オンラインプレイ</strong>
-        <span className={styles.modeDesc}>各自のスマホから部屋に参加して、同時に秘密投票。離れた相手とも遊べます。</span>
-        <span className={styles.modeBadge}>準備中</span>
+        <span className={styles.modeDesc}>各自のスマホから部屋コード／リンクで参加し、同時に秘密投票して一斉公開。離れた相手とも遊べます。</span>
+        <span className={styles.modeReady}>今すぐ遊べる</span>
       </button>
     </div>
   </section>
