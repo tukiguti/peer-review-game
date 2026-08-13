@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 import appStyles from '../App.module.css';
 import styles from '../online/online.module.css';
 import { useRoom, type UseRoom } from '../online/useRoom';
+import { OnlineTimer } from '../online/OnlineTimer';
 import { canDrawCardSlots } from '../game/draw';
 import { areCardSlotsValid, MAX_CARD_COUNT, MIN_CARD_COUNT } from '../game/cardConfig';
 import { CARD_PRESETS, sameSlots } from '../game/presets';
+import { computeAwards, sortedPlayers } from '../game/selectors';
 import cardsData from '../data/cards.json';
 import type { OnlineSettings } from '../online/protocol';
 import type { CardGenre, CardKind, CardsByKind, DeckMode, GenreMode } from '../game/types';
@@ -45,8 +47,11 @@ const TONE_LABEL: Record<DeckMode, string> = { all: 'おまかせ', serious: '�
 
 const settingsSummary = (s: OnlineSettings): string => {
   const composition = s.cardSlots.map((slot) => KIND_LABEL[slot.kind]).join('・');
-  return `ジャンル: ${GENRE_MODE_LABEL[s.genreMode]} ／ カード${s.cardSlots.length}枚（${composition}） ／ ${s.totalRounds}周`;
+  const timer = s.presentationSeconds > 0 ? `発表${s.presentationSeconds}秒` : 'タイマーなし';
+  return `ジャンル: ${GENRE_MODE_LABEL[s.genreMode]} ／ カード${s.cardSlots.length}枚（${composition}） ／ ${s.totalRounds}周 ／ ${timer}`;
 };
+
+const MAX_COMMENT_LENGTH = 60;
 
 const PHASE_TITLE: Record<string, string> = {
   lobby: 'ロビー',
@@ -175,6 +180,10 @@ const OnlineRoom = ({ room, onBack }: { room: UseRoom; onBack: () => void }) => 
     onBack();
   };
 
+  // タイマー終了で投票へ進むのは司会の端末だけ（進行の指示元を1つに保つ）。
+  const openVoting = useCallback(() => room.send({ t: 'openVoting' }), [room]);
+  const onTimerExpire = isHost ? openVoting : undefined;
+
   return (
     <section className={appStyles.screen}>
       <div className={appStyles.screenHeader}>
@@ -213,10 +222,13 @@ const OnlineRoom = ({ room, onBack }: { room: UseRoom; onBack: () => void }) => 
               ? 'このカード構成で、それらしい研究を口頭で発表してください（制約カードの無茶ぶりは無視できません）。'
               : '発表を聞いて、査読の準備をしましょう。'}
           </p>
+          {snap.presentEndsAt !== null && (
+            <OnlineTimer endsAt={snap.presentEndsAt} serverNow={snap.serverNow} onExpire={onTimerExpire} />
+          )}
           <Hand snap={snap} />
           {isHost && (
             <div className={styles.hostBar}>
-              <button className={appStyles.primaryButton} type="button" onClick={() => room.send({ t: 'openVoting' })}>
+              <button className={appStyles.primaryButton} type="button" onClick={openVoting}>
                 投票を始める
               </button>
               {!presenter?.connected && (
@@ -386,6 +398,20 @@ const SettingsEditor = ({
         </select>
       </label>
 
+      <label className={appStyles.fieldLine}>
+        <span>発表時間</span>
+        <select
+          value={draft.presentationSeconds}
+          onChange={(e) => onChange({ ...draft, presentationSeconds: Number(e.target.value) })}
+        >
+          <option value={0}>タイマーなし</option>
+          <option value={30}>30秒</option>
+          <option value={60}>60秒</option>
+          <option value={90}>90秒</option>
+          <option value={120}>120秒</option>
+        </select>
+      </label>
+
       <p className={appStyles.settingHelp}>カード構成（1〜5枚）</p>
       <div className={appStyles.compositionPresets}>
         {CARD_PRESETS.map((preset) => {
@@ -503,18 +529,61 @@ const VotingBody = ({
     return (
       <div className={styles.votePanel}>
         <p className={styles.bigLead}>投票しました ✓</p>
+        {snap.myComment && <p className={styles.myComment}>「{snap.myComment}」</p>}
         <p className={styles.help}>他の人を待っています… （{progress}）</p>
       </div>
     );
   }
+  return <VoteForm snap={snap} room={room} progress={progress} />;
+};
+
+const VoteForm = ({
+  snap,
+  room,
+  progress,
+}: {
+  snap: NonNullable<UseRoom['room']>;
+  room: UseRoom;
+  progress: string;
+}) => {
+  const [comment, setComment] = useState('');
+  const cardCount = snap.hand?.length ?? 0;
+
   return (
     <div className={styles.votePanel}>
       <p className={styles.bigLead}>この研究、査読を通しますか？</p>
+
+      <div className={appStyles.reviewCriteria}>
+        <strong>Accept の目安</strong>
+        <span>全{cardCount}枚を使った</span>
+        <span>カード同士のつなぎ方に筋が通った</span>
+        <span>制約への言い訳・工夫に納得できた</span>
+      </div>
+
+      <label className={styles.commentBox}>
+        <span>査読コメント（任意・結果と一緒に公開されます）</span>
+        <input
+          className={styles.textInput}
+          value={comment}
+          maxLength={MAX_COMMENT_LENGTH}
+          placeholder="Reviewer #2 の一言"
+          onChange={(e) => setComment(e.target.value)}
+        />
+      </label>
+
       <div className={appStyles.voteButtons}>
-        <button className={appStyles.acceptButton} type="button" onClick={() => room.vote('accept')}>
+        <button
+          className={appStyles.acceptButton}
+          type="button"
+          onClick={() => room.send({ t: 'vote', vote: 'accept', comment })}
+        >
           Accept
         </button>
-        <button className={appStyles.rejectButton} type="button" onClick={() => room.vote('reject')}>
+        <button
+          className={appStyles.rejectButton}
+          type="button"
+          onClick={() => room.send({ t: 'vote', vote: 'reject', comment })}
+        >
           Reject
         </button>
       </div>
@@ -558,6 +627,22 @@ const RevealBody = ({
         })}
       </div>
 
+      {rv.votes.some((v) => v.comment) && (
+        <div className={styles.commentList}>
+          <span className={appStyles.eyebrow}>査読コメント</span>
+          {rv.votes
+            .filter((v) => v.comment)
+            .map((v) => (
+              <blockquote key={v.playerId}>
+                <p>{v.comment}</p>
+                <footer>— {snap.players.find((p) => p.id === v.playerId)?.name ?? '?'}</footer>
+              </blockquote>
+            ))}
+        </div>
+      )}
+
+      <Standings snap={snap} />
+
       {isHost ? (
         <button className={appStyles.primaryButton} type="button" onClick={() => room.send({ t: 'nextRound' })}>
           次へ
@@ -569,6 +654,24 @@ const RevealBody = ({
   );
 };
 
+// 途中経過。結果画面で今の順位が見えると盛り上がりの起伏が出る。
+const Standings = ({ snap }: { snap: NonNullable<UseRoom['room']> }) => (
+  <div className={styles.standings}>
+    <span className={appStyles.eyebrow}>
+      現在の得点（{snap.round} / {snap.totalRounds} 周目）
+    </span>
+    <div className={appStyles.scoreTable}>
+      {sortedPlayers(snap.players).map((p, index) => (
+        <div key={p.id} className={appStyles.scoreRow}>
+          <span className={appStyles.rank}>{index + 1}</span>
+          <span>{p.name}</span>
+          <span>{p.score} 点</span>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
 const FinalBody = ({
   snap,
   isHost,
@@ -578,18 +681,39 @@ const FinalBody = ({
   isHost: boolean;
   room: UseRoom;
 }) => {
-  const ranked = [...snap.players].sort((a, b) => b.score - a.score);
+  const ranked = sortedPlayers(snap.players);
+  // 称号の基準はオフラインと共通（game/selectors）。
+  const awards = computeAwards(snap.players);
+
   return (
     <div className={appStyles.tallyPanel}>
-      <div className={appStyles.scoreTable} style={{ width: 'min(100%, 560px)' }}>
-        {ranked.map((p, index) => (
-          <div key={p.id} className={appStyles.scoreRow}>
-            <span className={appStyles.rank}>{index + 1}</span>
-            <span>{p.name}</span>
-            <span>{p.score} 点</span>
+      <div className={styles.finalGrid}>
+        <section className={styles.finalPanel}>
+          <h3>順位</h3>
+          <div className={appStyles.scoreTable}>
+            {ranked.map((p, index) => (
+              <div key={p.id} className={appStyles.scoreRow}>
+                <span className={appStyles.rank}>{index + 1}</span>
+                <span>{p.name}</span>
+                <span>{p.score} 点</span>
+              </div>
+            ))}
           </div>
-        ))}
+        </section>
+
+        <section className={styles.finalPanel}>
+          <h3>称号</h3>
+          <div className={appStyles.awardList}>
+            {awards.map((award) => (
+              <p key={award.title}>
+                <strong>{award.title}</strong>
+                <span>{award.winners.length > 0 ? award.winners.join('、') : '該当者なし'}</span>
+              </p>
+            ))}
+          </div>
+        </section>
       </div>
+
       {isHost && (
         <button className={appStyles.primaryButton} type="button" onClick={() => room.send({ t: 'restart' })}>
           もう一度あそぶ

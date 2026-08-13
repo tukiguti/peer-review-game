@@ -19,6 +19,9 @@ const cards = cardsData as unknown as CardsByKind;
 
 const MIN_ROUNDS = 1;
 const MAX_ROUNDS = 3;
+// 0 はタイマーなし。オフラインの選択肢に合わせる。
+const PRESENTATION_SECONDS = [0, 30, 60, 90, 120];
+const MAX_COMMENT_LENGTH = 60;
 // 過半数判定が成立する最小人数(発表者1 + 査読者2)。オフラインの3人下限と揃える。
 const MIN_PLAYERS = 3;
 const MAX_PLAYERS = 8;
@@ -37,12 +40,15 @@ type PersistedRoom = {
   presenterIndex: number;
   hand: Card[] | null;
   votes: Record<string, Vote>;
+  comments: Record<string, string>;
   recentHands: string[][];
   lastReveal: RoomSnapshot['reveal'];
   players: RoomPlayer[];
   genreMode: GenreMode;
   cardSlots: CardSlot[];
   totalRounds: number;
+  presentationSeconds: number;
+  presentEndsAt: number | null;
   updatedAt: number;
 };
 
@@ -57,12 +63,15 @@ export class Room {
   private presenterIndex = 0;
   private hand: Card[] | null = null;
   private votes: Record<string, Vote> = {};
+  private comments: Record<string, string> = {};
   private recentHands: string[][] = [];
   private lastReveal: RoomSnapshot['reveal'] = null;
-  // 司会がロビーで変更できる設定（既定は査読4枚・全ジャンル・1周）。
+  // 司会がロビーで変更できる設定（既定は査読4枚・全ジャンル・1周・60秒）。
   private genreMode: GenreMode = 'all';
   private cardSlots: CardSlot[] = DEFAULT_CARD_SLOTS.map((slot) => ({ ...slot }));
   private totalRounds = 1;
+  private presentationSeconds = 60;
+  private presentEndsAt: number | null = null;
   private updatedAt = 0;
 
   constructor(private ctx: DurableObjectState, _env: unknown) {
@@ -82,6 +91,7 @@ export class Room {
     this.presenterIndex = saved.presenterIndex;
     this.hand = saved.hand;
     this.votes = saved.votes;
+    this.comments = saved.comments ?? {};
     this.recentHands = saved.recentHands;
     this.lastReveal = saved.lastReveal;
     // 再起動直後は誰も繋がっていない。各自の再接続を待つ。
@@ -89,6 +99,8 @@ export class Room {
     this.genreMode = saved.genreMode;
     this.cardSlots = saved.cardSlots;
     this.totalRounds = saved.totalRounds;
+    this.presentationSeconds = saved.presentationSeconds ?? 60;
+    this.presentEndsAt = saved.presentEndsAt ?? null;
     this.updatedAt = saved.updatedAt;
   }
 
@@ -102,12 +114,15 @@ export class Room {
       presenterIndex: this.presenterIndex,
       hand: this.hand,
       votes: this.votes,
+      comments: this.comments,
       recentHands: this.recentHands,
       lastReveal: this.lastReveal,
       players: this.players,
       genreMode: this.genreMode,
       cardSlots: this.cardSlots,
       totalRounds: this.totalRounds,
+      presentationSeconds: this.presentationSeconds,
+      presentEndsAt: this.presentEndsAt,
       updatedAt: this.updatedAt,
     };
     void this.ctx.storage.put(STORAGE_KEY, data);
@@ -122,12 +137,15 @@ export class Room {
     this.presenterIndex = 0;
     this.hand = null;
     this.votes = {};
+    this.comments = {};
     this.recentHands = [];
     this.lastReveal = null;
     this.players = [];
     this.genreMode = 'all';
     this.cardSlots = DEFAULT_CARD_SLOTS.map((slot) => ({ ...slot }));
     this.totalRounds = 1;
+    this.presentationSeconds = 60;
+    this.presentEndsAt = null;
   }
 
   async fetch(request: Request): Promise<Response> {
@@ -276,7 +294,7 @@ export class Room {
         }
         break;
       case 'vote':
-        this.handleVote(playerId, msg.vote);
+        this.handleVote(playerId, msg.vote, msg.comment);
         break;
       case 'closeVoting':
         // 未投票者が戻らないときの脱出口。集まっている票だけで判定する。
@@ -319,9 +337,14 @@ export class Room {
     if (!canDrawCardSlots(cards, settings.genreMode, settings.cardSlots)) return;
     const rounds = Math.round(settings.totalRounds);
     if (!Number.isFinite(rounds) || rounds < MIN_ROUNDS || rounds > MAX_ROUNDS) return;
+    // 後から足した項目なので、未指定は現状維持として受け入れる。
+    // デプロイ直後に古い画面が残っていても、他の設定変更まで巻き添えで落とさないため。
+    const seconds = settings.presentationSeconds;
+    if (seconds !== undefined && !PRESENTATION_SECONDS.includes(seconds)) return;
     this.genreMode = settings.genreMode;
     this.cardSlots = settings.cardSlots.map((slot) => ({ ...slot }));
     this.totalRounds = rounds;
+    if (seconds !== undefined) this.presentationSeconds = seconds;
   }
 
   private startGame(): void {
@@ -344,19 +367,26 @@ export class Room {
 
   private beginTurn(): void {
     this.votes = {};
+    this.comments = {};
     this.lastReveal = null;
     this.hand = drawHand(cards, this.genreMode, this.recentHands, this.cardSlots);
     this.recentHands.push(this.hand.map((c) => c.id));
     this.phase = 'present';
+    // 全員が同じ締切を見るよう、サーバ時刻で持つ。復帰した人も残り時間が揃う。
+    this.presentEndsAt = this.presentationSeconds > 0 ? Date.now() + this.presentationSeconds * 1000 : null;
   }
 
-  private handleVote(playerId: string, vote: Vote): void {
+  private handleVote(playerId: string, vote: Vote, comment?: string): void {
     if (this.phase !== 'voting') return;
+    if (vote !== 'accept' && vote !== 'reject') return;
     const presenterId = this.players[this.presenterIndex]?.id;
     if (playerId === presenterId) return;
     const player = this.players.find((p) => p.id === playerId);
     if (!player || !player.connected) return;
     this.votes[playerId] = vote;
+    const trimmed = typeof comment === 'string' ? comment.trim().slice(0, MAX_COMMENT_LENGTH) : '';
+    if (trimmed) this.comments[playerId] = trimmed;
+    else delete this.comments[playerId];
     this.maybeReveal();
   }
 
@@ -393,7 +423,11 @@ export class Room {
       else if (v === 'reject') p.rejectCount += 1;
     }
 
-    const revealVotes: VoteReveal[] = voterIds.map((id) => ({ playerId: id, vote: this.votes[id] }));
+    const revealVotes: VoteReveal[] = voterIds.map((id) => ({
+      playerId: id,
+      vote: this.votes[id],
+      ...(this.comments[id] ? { comment: this.comments[id] } : {}),
+    }));
     this.lastReveal = {
       votes: revealVotes,
       accepted: summary.accepted,
@@ -442,6 +476,9 @@ export class Room {
         connected: p.connected,
         score: p.score,
         isHost: p.id === this.hostId,
+        presentationScore: p.presentationScore,
+        rejectCount: p.rejectCount,
+        unanimousAcceptedCount: p.unanimousAcceptedCount,
       })),
       round: this.round,
       totalRounds: this.totalRounds,
@@ -449,11 +486,15 @@ export class Room {
         genreMode: this.genreMode,
         cardSlots: this.cardSlots.map((slot) => ({ ...slot })),
         totalRounds: this.totalRounds,
+        presentationSeconds: this.presentationSeconds,
       },
       presenterId: this.phase === 'lobby' ? null : presenterId,
       hand: showHand && this.hand ? this.hand.map((c, i) => ({ ...c, kind: this.cardSlots[i].kind })) : null,
       votedPlayerIds: this.phase === 'voting' ? Object.keys(this.votes) : [],
       myVote: this.votes[forId] ?? null,
+      myComment: this.comments[forId] ?? null,
+      presentEndsAt: this.phase === 'present' ? this.presentEndsAt : null,
+      serverNow: Date.now(),
       reveal: this.phase === 'reveal' ? this.lastReveal : null,
     };
   }

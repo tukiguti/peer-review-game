@@ -12,6 +12,8 @@ export type OnlineSettings = {
   genreMode: GenreMode;
   cardSlots: CardSlot[];
   totalRounds: number;
+  /** 発表時間（秒）。0 はタイマーなし */
+  presentationSeconds: number;
 };
 
 // 抽選されたカード。どのスロット種別かを自己記述するため kind を持たせる。
@@ -23,10 +25,14 @@ export type PlayerView = {
   connected: boolean;
   score: number;
   isHost: boolean;
+  // 称号の判定に使う内訳。オフラインの最終画面と同じ基準で表彰するために配る。
+  presentationScore: number;
+  rejectCount: number;
+  unanimousAcceptedCount: number;
 };
 
-// reveal 時のみ各自の投票内容を公開する。
-export type VoteReveal = { playerId: string; vote: Vote };
+// reveal 時のみ各自の投票内容を公開する。コメントも同じタイミングで開く。
+export type VoteReveal = { playerId: string; vote: Vote; comment?: string };
 
 // サーバが各クライアント向けに作る部屋のスナップショット。
 // voting 中は他人の投票値を含めない（votedPlayerIds は「投票済みか」だけ）。
@@ -41,6 +47,11 @@ export type RoomSnapshot = {
   hand: HandCard[] | null;
   votedPlayerIds: string[];
   myVote: Vote | null;
+  myComment: string | null;
+  /** 発表の締切（サーバ時刻のepoch ms）。タイマーなし・発表中以外は null */
+  presentEndsAt: number | null;
+  /** このスナップショットを作った時点のサーバ時刻。端末の時計ズレを補正するために使う */
+  serverNow: number;
   reveal: {
     votes: VoteReveal[];
     accepted: boolean;
@@ -55,7 +66,7 @@ export type ClientMessage =
   | { t: 'setSettings'; settings: OnlineSettings } // 司会がロビーで設定変更
   | { t: 'startRound' }
   | { t: 'openVoting' }
-  | { t: 'vote'; vote: Vote }
+  | { t: 'vote'; vote: Vote; comment?: string }
   | { t: 'closeVoting' } // 司会: 未投票者を待たずに締め切って公開する（進行不能の脱出口）
   | { t: 'skipTurn' } // 司会: 発表者が戻らない等でこの手番を放棄し次へ
   | { t: 'claimHost' } // 司会が切断中のとき、他の参加者が進行役を引き継ぐ

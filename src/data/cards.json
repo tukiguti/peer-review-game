@@ -1369,6 +1369,96 @@
       "text": "友人に「どう?」と聞く",
       "tone": "neta",
       "genre": "fashion"
+    },
+    {
+      "id": "se-m16",
+      "text": "リポジトリ横断のマイニング",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m17",
+      "text": "変更履歴の因果分析",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m18",
+      "text": "動くまで書き直す",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-m19",
+      "text": "とりあえず全部ログに出す",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-m20",
+      "text": "先輩に聞いて回る",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "sec-m15",
+      "text": "攻撃再現環境での検証",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m16",
+      "text": "運用ログの時系列解析",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m17",
+      "text": "自分のPCで試す",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m18",
+      "text": "とりあえず全部遮断する",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m19",
+      "text": "詳しい人に聞く",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "fa-m14",
+      "text": "着用者の動作計測",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m15",
+      "text": "販売データとの突合",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m16",
+      "text": "鏡の前で悩む",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m17",
+      "text": "友達に見せて決める",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m18",
+      "text": "とりあえず全色買う",
+      "tone": "neta",
+      "genre": "fashion"
     }
   ],
   "constraint": [
@@ -1785,6 +1875,78 @@
       "text": "流行が半年で変わった",
       "tone": "neta",
       "genre": "fashion"
+    },
+    {
+      "id": "se-c15",
+      "text": "既存コードは1行も変更不可",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-c16",
+      "text": "CIの実行時間は5分以内",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-c17",
+      "text": "コミットメッセージは全部「fix」",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-c18",
+      "text": "レビュワーが全員多忙",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "sec-c14",
+      "text": "本番環境には一切触れない",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c15",
+      "text": "検証は隔離環境のみ",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c16",
+      "text": "管理者パスワードが付箋にある",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c17",
+      "text": "誰も鍵の場所を知らない",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "fa-c13",
+      "text": "素材は再生繊維のみ",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c14",
+      "text": "予算は1着3000円以内",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c15",
+      "text": "全部同じ色しかない",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c16",
+      "text": "サイズがひとつしかない",
+      "tone": "neta",
+      "genre": "fashion"
     }
   ],
   "novelty": [
@@ -2037,6 +2199,186 @@
     {
       "id": "nov-fa-n03",
       "text": "丈を変えただけ",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-se-s04",
+      "text": "既存ツールの限界を実証",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-s05",
+      "text": "実運用データで初の追試",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-s06",
+      "text": "設計判断の効果を定量化",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-s07",
+      "text": "自動化の適用範囲を拡張",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-s08",
+      "text": "異なる言語間で再現を確認",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-n04",
+      "text": "変数名を英語にしただけ",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-n05",
+      "text": "既存手法にAIと付けただけ",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-n06",
+      "text": "設定ファイルを分けただけ",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-n07",
+      "text": "ログ出力を増やしただけ",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-n08",
+      "text": "バージョンを上げただけ",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "nov-sec-s04",
+      "text": "攻撃コストを定量的に評価",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-s05",
+      "text": "実環境での被害範囲を特定",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-s06",
+      "text": "防御策の副作用を初計測",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-s07",
+      "text": "既存対策の抜け道を体系化",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-s08",
+      "text": "検知手法の誤検知率を改善",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-n04",
+      "text": "パスワードを長くしただけ",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-n05",
+      "text": "ポートを閉じただけ",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-n06",
+      "text": "注意喚起の記事を書いただけ",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-n07",
+      "text": "管理者を分けただけ",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-n08",
+      "text": "危ないと言っただけ",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "nov-fa-s04",
+      "text": "着用文脈まで含めて評価",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-s05",
+      "text": "経年変化を初めて追跡",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-s06",
+      "text": "体型多様性を考慮した設計",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-s07",
+      "text": "生産工程の負荷を定量化",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-s08",
+      "text": "世代間の嗜好差を実証",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-n04",
+      "text": "モデル写真を撮り直しただけ",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-n05",
+      "text": "ロゴを大きくしただけ",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-n06",
+      "text": "袖をまくっただけ",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-n07",
+      "text": "並べ方を変えただけ",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-n08",
+      "text": "値札を付け替えただけ",
       "tone": "neta",
       "genre": "fashion"
     }
