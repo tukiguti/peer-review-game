@@ -2,7 +2,16 @@ export type Phase = 'setup' | 'draw' | 'prepare' | 'present' | 'vote' | 'result'
 
 export type CardTone = 'serious' | 'neta';
 export type DeckMode = 'serious' | 'neta' | 'all';
-export type CardGenre = 'general' | 'se' | 'security' | 'fashion';
+export type CardGenre =
+  | 'general'
+  | 'se'
+  | 'security'
+  | 'info'
+  | 'psych'
+  | 'bio'
+  | 'food'
+  | 'econ'
+  | 'fashion';
 export type GenreMode = CardGenre | 'all';
 export type CardKind = 'field' | 'method' | 'constraint' | 'novelty';
 export type Vote = 'accept' | 'reject';
@@ -72,6 +81,9 @@ export type GameState = {
   voteDraft: Vote | null;
   commentDraft: string;
   resultScored: boolean;
+  // リバッタル（不採択のときだけ、発表者が弁明して投票をやり直せる）。1手番に1回まで。
+  rebuttalUsed: boolean;
+  isRebuttal: boolean;
 };
 
 export type VoteSummary = {

@@ -20,7 +20,7 @@ export const sortedPlayers = <T extends { score: number; unanimousAcceptedCount:
 export type AwardCandidate = {
   name: string;
   score: number;
-  presentationScore: number;
+  acceptCount: number;
   rejectCount: number;
   unanimousAcceptedCount: number;
 };
@@ -29,6 +29,10 @@ export type Award = { title: string; winners: string[] };
 
 // 最終画面の称号。オフラインとオンラインで同じ基準を使うためここに集約する。
 // 実績が0件の称号は winners を空にし、表示側で「該当者なし」とする。
+//
+// 得点が発表者だけに入るようになったため、総得点＝発表で得た点になった。
+// 「発表で得た点が最多」を賞にすると学会MVPと必ず同じ人になるので廃止し、
+// 代わりに査読の傾向を見る賞を左右対称に置いている（辛い側=Reviewer #2 / 甘い側=オープンアクセス）。
 export const computeAwards = <T extends AwardCandidate>(players: T[]): Award[] => {
   if (players.length === 0) return [];
   const best = (pick: (player: T) => number, requirePositive: boolean): string[] => {
@@ -39,8 +43,8 @@ export const computeAwards = <T extends AwardCandidate>(players: T[]): Award[] =
 
   return [
     { title: '学会MVP', winners: best((p) => p.score, false) },
-    { title: '最優秀論文賞', winners: best((p) => p.presentationScore, true) },
-    { title: 'Reviewer #2 賞', winners: best((p) => p.rejectCount, true) },
     { title: '話術賞', winners: best((p) => p.unanimousAcceptedCount, true) },
+    { title: 'Reviewer #2 賞', winners: best((p) => p.rejectCount, true) },
+    { title: 'オープンアクセス賞', winners: best((p) => p.acceptCount, true) },
   ];
 };

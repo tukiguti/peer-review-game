@@ -74,6 +74,12 @@ export const ResultScreen = ({ state, dispatch }: ScreenProps) => {
       </div>
 
       <div className={styles.actionBar}>
+        {/* 不採択のときだけ、1手番に1回。発表者が弁明して投票をやり直せる */}
+        {!result.summary.accepted && !state.rebuttalUsed && (
+          <button className={styles.secondaryButton} type="button" onClick={() => dispatch({ type: 'startRebuttal' })}>
+            リバッタル（{presenter.name}さんが30秒で弁明）
+          </button>
+        )}
         <button className={styles.primaryButton} type="button" onClick={() => dispatch({ type: 'nextTurn' })}>
           {nextIsFinal ? '最終結果へ' : '次の発表者へ'}
         </button>

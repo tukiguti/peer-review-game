@@ -18,12 +18,12 @@ export const PresentScreen = ({ state, dispatch }: ScreenProps) => {
     <section className={styles.screen}>
       <div className={styles.turnHeader}>
         <div>
-          <p className={styles.eyebrow}>present</p>
-          <h2>{presenter.name}さんの発表</h2>
+          <p className={styles.eyebrow}>{state.isRebuttal ? 'rebuttal' : 'present'}</p>
+          <h2>{presenter.name}さんの{state.isRebuttal ? '弁明' : '発表'}</h2>
         </div>
         <TimerPanel
           seconds={state.timerRemaining}
-          totalSeconds={state.settings.presentationSeconds}
+          totalSeconds={state.isRebuttal ? 30 : state.settings.presentationSeconds}
           muted={state.muted}
           onTick={tick}
           onDone={startVote}
@@ -37,12 +37,16 @@ export const PresentScreen = ({ state, dispatch }: ScreenProps) => {
       </div>
 
       <div className={styles.presentationStage}>
-        <p>この{state.hand.length}枚に沿った研究をそれらしく語ってください。</p>
+        <p>
+          {state.isRebuttal
+            ? '不採択の指摘に反論してください。このあと、もう一度投票します。'
+            : `この${state.hand.length}枚に沿った研究をそれらしく語ってください。`}
+        </p>
       </div>
 
       <div className={styles.actionBar}>
         <button className={styles.primaryButton} type="button" onClick={startVote}>
-          発表終了
+          {state.isRebuttal ? '弁明終了' : '発表終了'}
         </button>
       </div>
     </section>

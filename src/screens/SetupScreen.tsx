@@ -134,6 +134,11 @@ export const SetupScreen = ({ state, dispatch, cards, onBackToMode }: SetupScree
               <option value="all">全部</option>
               <option value="se">ソフトウェア工学</option>
               <option value="security">セキュリティ</option>
+              <option value="info">情報科学</option>
+              <option value="psych">心理学</option>
+              <option value="bio">生物・医学</option>
+              <option value="food">食・料理</option>
+              <option value="econ">経済・社会</option>
               <option value="fashion">ファッション</option>
               <option value="general">汎用</option>
             </select>
@@ -243,7 +248,8 @@ export const SetupScreen = ({ state, dispatch, cards, onBackToMode }: SetupScree
           <li>設定した構成でカードを引き、発表者が架空の研究を組み立てます。</li>
           <li>引いたカードをすべて使って、制限時間内に発表します。</li>
           <li>ほかの人は「筋が通っていたか」を端末を回して秘密投票します。</li>
-          <li>過半数 Accept で発表者+2点、満場一致なら+3点。判定側と同じ票の査読者も+1点です。</li>
+          <li>過半数 Accept で発表者+1点、満場一致なら+2点。査読者には点は入りません。</li>
+          <li>不採択なら、発表者は30秒だけ弁明できます（リバッタル）。そのあと投票をやり直します。</li>
         </ol>
       </section>
 

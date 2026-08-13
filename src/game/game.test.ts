@@ -26,7 +26,7 @@ describe('scoring', () => {
     expect(result.deltas.find((delta) => delta.playerId === 'p1')?.delta).toBe(0);
   });
 
-  it('満場一致は+3で+2と重複加算しない', () => {
+  it('満場一致は+2、通常の採択は+1', () => {
     const votes: Record<string, VoteEntry> = {
       p2: { vote: 'accept' },
       p3: { vote: 'accept' },
@@ -37,10 +37,10 @@ describe('scoring', () => {
 
     expect(result.summary.accepted).toBe(true);
     expect(result.summary.unanimous).toBe(true);
-    expect(result.deltas.find((delta) => delta.playerId === 'p1')?.delta).toBe(3);
+    expect(result.deltas.find((delta) => delta.playerId === 'p1')?.delta).toBe(2);
   });
 
-  it('多数派に投票した査読者は+1', () => {
+  it('過半数の採択は発表者に+1', () => {
     const votes: Record<string, VoteEntry> = {
       p2: { vote: 'accept' },
       p3: { vote: 'accept' },
@@ -49,9 +49,22 @@ describe('scoring', () => {
 
     const result = calculateScoring('p1', ['p2', 'p3', 'p4'], votes);
 
-    expect(result.deltas).toContainEqual({ playerId: 'p2', delta: 1 });
-    expect(result.deltas).toContainEqual({ playerId: 'p3', delta: 1 });
-    expect(result.deltas).not.toContainEqual({ playerId: 'p4', delta: 1 });
+    expect(result.summary.accepted).toBe(true);
+    expect(result.summary.unanimous).toBe(false);
+    expect(result.deltas.find((delta) => delta.playerId === 'p1')?.delta).toBe(1);
+  });
+
+  it('査読者には加点しない（得点は発表者だけに入る）', () => {
+    const votes: Record<string, VoteEntry> = {
+      p2: { vote: 'accept' },
+      p3: { vote: 'accept' },
+      p4: { vote: 'reject' },
+    };
+
+    const result = calculateScoring('p1', ['p2', 'p3', 'p4'], votes);
+
+    expect(result.deltas).toHaveLength(1);
+    expect(result.deltas[0].playerId).toBe('p1');
   });
 });
 
@@ -186,7 +199,7 @@ describe('draw', () => {
 
 describe('cards.json', () => {
   it('全カードが3ジャンル+汎用のいずれかに属し、各ジャンルで4種の山札が揃っている', () => {
-    const genres = ['general', 'se', 'security', 'fashion'] as const;
+    const genres = ['general', 'se', 'security', 'info', 'psych', 'bio', 'food', 'econ', 'fashion'] as const;
     const kinds = ['field', 'method', 'constraint', 'novelty'] as const;
 
     for (const kind of kinds) {
@@ -202,7 +215,7 @@ describe('cards.json', () => {
   });
 
   it('IDが全体で一意で、全モードの組み合わせに抽選候補がある', () => {
-    const genres = ['general', 'se', 'security', 'fashion'] as const;
+    const genres = ['general', 'se', 'security', 'info', 'psych', 'bio', 'food', 'econ', 'fashion'] as const;
     const tones = ['serious', 'neta'] as const;
     const kinds = ['field', 'method', 'constraint', 'novelty'] as const;
     const allCards = kinds.flatMap((kind) => cards[kind]);
@@ -315,7 +328,7 @@ describe('game reducer', () => {
     expect(state.players[0].rerollsLeft).toBe(0);
   });
 
-  it('全員の秘密投票後だけ得点し、同数ならReject側だけを加点する', () => {
+  it('全員の秘密投票後だけ得点し、同数なら誰にも入らない', () => {
     let state = gameReducer(createInitialState(settings), { type: 'startGame', settings });
     state = gameReducer(state, { type: 'drawHand', hand: firstHand, animate: false });
     state = gameReducer(state, { type: 'startPrepare' });
@@ -337,8 +350,9 @@ describe('game reducer', () => {
     state = gameReducer(state, { type: 'continueVoting' });
 
     expect(state.phase).toBe('result');
-    expect(state.players.map((player) => player.score)).toEqual([0, 0, 1]);
+    expect(state.players.map((player) => player.score)).toEqual([0, 0, 0]);
     expect(state.players.map((player) => player.presentationScore)).toEqual([0, 0, 0]);
+    // 得点は入らないが、称号の材料としてReject数は数える
     expect(state.players.map((player) => player.rejectCount)).toEqual([0, 0, 1]);
   });
 
@@ -373,8 +387,8 @@ describe('game reducer', () => {
     state = gameReducer(state, { type: 'revealResult' });
 
     expect(state.phase).toBe('result');
-    // 1 Accept / 1 Reject = 同数 → 不採択。多数派(Reject)側の査読者だけ+1
-    expect(state.players.map((player) => player.score)).toEqual([0, 0, 1]);
+    // 1 Accept / 1 Reject = 同数 → 不採択。発表者は0点、査読者にも加点はない
+    expect(state.players.map((player) => player.score)).toEqual([0, 0, 0]);
   });
 
   it('3人1周を全フェーズ通して最終結果へ進める', () => {
@@ -403,8 +417,8 @@ describe('game reducer', () => {
     }
 
     expect(state.phase).toBe('final');
-    expect(state.players.map((player) => player.score)).toEqual([5, 5, 5]);
-    expect(state.players.map((player) => player.presentationScore)).toEqual([3, 3, 3]);
+    expect(state.players.map((player) => player.score)).toEqual([2, 2, 2]);
+    expect(state.players.map((player) => player.presentationScore)).toEqual([2, 2, 2]);
     expect(state.players.map((player) => player.unanimousAcceptedCount)).toEqual([1, 1, 1]);
     expect(gameReducer(state, { type: 'resetToSetup' }).phase).toBe('setup');
   });
@@ -436,8 +450,8 @@ describe('game reducer', () => {
     }
 
     expect(state.phase).toBe('final');
-    expect(state.players.map((player) => player.score)).toEqual(Array(8).fill(30));
-    expect(state.players.map((player) => player.presentationScore)).toEqual(Array(8).fill(9));
+    expect(state.players.map((player) => player.score)).toEqual(Array(8).fill(6));
+    expect(state.players.map((player) => player.presentationScore)).toEqual(Array(8).fill(6));
     expect(state.recentHands).toHaveLength(3);
   });
 });
@@ -446,12 +460,12 @@ describe('awards', () => {
   const player = (
     name: string,
     score: number,
-    presentationScore: number,
+    acceptCount: number,
     rejectCount: number,
     unanimousAcceptedCount: number,
-  ) => ({ name, score, presentationScore, rejectCount, unanimousAcceptedCount });
+  ) => ({ name, score, acceptCount, rejectCount, unanimousAcceptedCount });
 
-  const titles = ['学会MVP', '最優秀論文賞', 'Reviewer #2 賞', '話術賞'];
+  const titles = ['学会MVP', '話術賞', 'Reviewer #2 賞', 'オープンアクセス賞'];
   const winnersOf = (awards: ReturnType<typeof computeAwards>, title: string) =>
     awards.find((award) => award.title === title)?.winners ?? [];
 
@@ -462,14 +476,25 @@ describe('awards', () => {
 
   it('各称号を最大値の持ち主に与える', () => {
     const awards = computeAwards([
-      player('田中', 6, 3, 0, 1),
+      player('田中', 6, 1, 0, 2),
       player('佐藤', 4, 0, 3, 0),
-      player('鈴木', 2, 2, 1, 0),
+      player('鈴木', 2, 4, 1, 1),
     ]);
     expect(winnersOf(awards, '学会MVP')).toEqual(['田中']);
-    expect(winnersOf(awards, '最優秀論文賞')).toEqual(['田中']);
-    expect(winnersOf(awards, 'Reviewer #2 賞')).toEqual(['佐藤']);
     expect(winnersOf(awards, '話術賞')).toEqual(['田中']);
+    expect(winnersOf(awards, 'Reviewer #2 賞')).toEqual(['佐藤']);
+    expect(winnersOf(awards, 'オープンアクセス賞')).toEqual(['鈴木']);
+  });
+
+  it('査読の傾向は得点と独立に決まる（MVPと必ず同じ人にはならない）', () => {
+    const awards = computeAwards([
+      player('田中', 9, 0, 0, 3),
+      player('佐藤', 0, 5, 0, 0),
+      player('鈴木', 0, 0, 5, 0),
+    ]);
+    expect(winnersOf(awards, '学会MVP')).toEqual(['田中']);
+    expect(winnersOf(awards, 'オープンアクセス賞')).toEqual(['佐藤']);
+    expect(winnersOf(awards, 'Reviewer #2 賞')).toEqual(['鈴木']);
   });
 
   it('同率は全員を並べる', () => {
@@ -480,12 +505,115 @@ describe('awards', () => {
   it('実績が0の称号は該当者なし（空）にする。ただしMVPは0点でも決める', () => {
     const awards = computeAwards([player('田中', 0, 0, 0, 0), player('佐藤', 0, 0, 0, 0)]);
     expect(winnersOf(awards, '学会MVP')).toEqual(['田中', '佐藤']);
-    expect(winnersOf(awards, '最優秀論文賞')).toEqual([]);
-    expect(winnersOf(awards, 'Reviewer #2 賞')).toEqual([]);
     expect(winnersOf(awards, '話術賞')).toEqual([]);
+    expect(winnersOf(awards, 'Reviewer #2 賞')).toEqual([]);
+    expect(winnersOf(awards, 'オープンアクセス賞')).toEqual([]);
   });
 
   it('プレイヤーがいなければ称号もない', () => {
     expect(computeAwards([])).toEqual([]);
+  });
+});
+
+describe('リバッタル', () => {
+  const settings: Settings = {
+    ...DEFAULT_SETTINGS,
+    playerNames: ['田中', '佐藤', '鈴木'],
+    rounds: 1,
+    preparationEnabled: false,
+    voteMode: 'passplay',
+  };
+  const hand: Hand = [cards.field[0], cards.method[0], cards.constraint[0], cards.novelty[0]];
+
+  // 不採択の結果まで進める
+  const toRejectedResult = () => {
+    let state = gameReducer(createInitialState(settings), { type: 'startGame', settings });
+    state = gameReducer(state, { type: 'drawHand', hand, animate: false });
+    state = gameReducer(state, { type: 'startPrepare' });
+    state = gameReducer(state, { type: 'startVote' });
+    for (const vote of ['reject', 'reject'] as const) {
+      state = gameReducer(state, { type: 'openBallot' });
+      state = gameReducer(state, { type: 'setVoteDraft', vote });
+      state = gameReducer(state, { type: 'submitVote' });
+      state = gameReducer(state, { type: 'continueVoting' });
+    }
+    return state;
+  };
+
+  it('不採択なら弁明に戻り、投票をやり直せる', () => {
+    let state = toRejectedResult();
+    expect(state.phase).toBe('result');
+    expect(state.players[0].score).toBe(0);
+
+    state = gameReducer(state, { type: 'startRebuttal' });
+    expect(state.phase).toBe('present');
+    expect(state.isRebuttal).toBe(true);
+    expect(state.rebuttalUsed).toBe(true);
+    expect(state.votes).toEqual({});
+    // やり直すので、前の投票は査読の記録からも取り消す
+    expect(state.players.map((player) => player.rejectCount)).toEqual([0, 0, 0]);
+  });
+
+  it('弁明のあと採択されれば発表者に点が入る', () => {
+    let state = gameReducer(toRejectedResult(), { type: 'startRebuttal' });
+    state = gameReducer(state, { type: 'startVote' });
+    for (const vote of ['accept', 'accept'] as const) {
+      state = gameReducer(state, { type: 'openBallot' });
+      state = gameReducer(state, { type: 'setVoteDraft', vote });
+      state = gameReducer(state, { type: 'submitVote' });
+      state = gameReducer(state, { type: 'continueVoting' });
+    }
+
+    expect(state.phase).toBe('result');
+    expect(state.players[0].score).toBe(2);
+    expect(state.players.map((player) => player.acceptCount)).toEqual([0, 1, 1]);
+    expect(state.players.map((player) => player.rejectCount)).toEqual([0, 0, 0]);
+  });
+
+  it('リバッタルは1手番に1回だけ', () => {
+    let state = gameReducer(toRejectedResult(), { type: 'startRebuttal' });
+    state = gameReducer(state, { type: 'startVote' });
+    for (const vote of ['reject', 'reject'] as const) {
+      state = gameReducer(state, { type: 'openBallot' });
+      state = gameReducer(state, { type: 'setVoteDraft', vote });
+      state = gameReducer(state, { type: 'submitVote' });
+      state = gameReducer(state, { type: 'continueVoting' });
+    }
+    expect(state.phase).toBe('result');
+
+    const again = gameReducer(state, { type: 'startRebuttal' });
+    expect(again.phase).toBe('result');
+    expect(again).toBe(state);
+  });
+
+  it('採択されたときはリバッタルできない', () => {
+    let state = gameReducer(createInitialState(settings), { type: 'startGame', settings });
+    state = gameReducer(state, { type: 'drawHand', hand, animate: false });
+    state = gameReducer(state, { type: 'startPrepare' });
+    state = gameReducer(state, { type: 'startVote' });
+    for (const vote of ['accept', 'accept'] as const) {
+      state = gameReducer(state, { type: 'openBallot' });
+      state = gameReducer(state, { type: 'setVoteDraft', vote });
+      state = gameReducer(state, { type: 'submitVote' });
+      state = gameReducer(state, { type: 'continueVoting' });
+    }
+
+    expect(state.phase).toBe('result');
+    expect(gameReducer(state, { type: 'startRebuttal' })).toBe(state);
+  });
+
+  it('次の手番に進むとリバッタルの権利は戻る', () => {
+    let state = gameReducer(toRejectedResult(), { type: 'startRebuttal' });
+    state = gameReducer(state, { type: 'startVote' });
+    for (const vote of ['reject', 'reject'] as const) {
+      state = gameReducer(state, { type: 'openBallot' });
+      state = gameReducer(state, { type: 'setVoteDraft', vote });
+      state = gameReducer(state, { type: 'submitVote' });
+      state = gameReducer(state, { type: 'continueVoting' });
+    }
+    state = gameReducer(state, { type: 'nextTurn' });
+
+    expect(state.rebuttalUsed).toBe(false);
+    expect(state.isRebuttal).toBe(false);
   });
 });

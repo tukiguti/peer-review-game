@@ -923,6 +923,606 @@
       "text": "学会Tシャツの寿命",
       "tone": "neta",
       "genre": "fashion"
+    },
+    {
+      "id": "info-f01",
+      "text": "情報検索のランキング",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-f02",
+      "text": "推薦システムの多様性",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-f03",
+      "text": "分散データベースの一貫性",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-f04",
+      "text": "グラフ構造の圧縮",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-f05",
+      "text": "ストリーム処理の遅延",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-f06",
+      "text": "知識グラフの構築",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-f07",
+      "text": "自然言語からのクエリ生成",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-f08",
+      "text": "データ可視化の認知負荷",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-f09",
+      "text": "情報理論的な限界",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-f10",
+      "text": "ネットワーク輻輳の制御",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-f11",
+      "text": "検索意図の推定",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-f12",
+      "text": "検索結果の2ページ目",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-f13",
+      "text": "「もしかして」の精度",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-f14",
+      "text": "エクセル方眼紙",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-f15",
+      "text": "無限にネストしたフォルダ",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-f16",
+      "text": "文字化けの文化史",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-f17",
+      "text": "全角スペースの検出",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-f18",
+      "text": "ファイル名の末尾に付く最終版",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-f19",
+      "text": "リンク切れの生存時間",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-f20",
+      "text": "共有フォルダの権限地獄",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "psy-f01",
+      "text": "認知バイアスの測定",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f02",
+      "text": "作業記憶の容量",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f03",
+      "text": "ストレス応答の個人差",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f04",
+      "text": "動機づけと報酬設計",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f05",
+      "text": "注意の切り替えコスト",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f06",
+      "text": "対人的信頼の形成",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f07",
+      "text": "睡眠と学習定着",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f08",
+      "text": "感情表出の文化差",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f09",
+      "text": "意思決定の時間圧効果",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f10",
+      "text": "自己効力感の変化",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f11",
+      "text": "集団同調の閾値",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f12",
+      "text": "締切前の集中力",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f13",
+      "text": "「あとでやる」の心理",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f14",
+      "text": "他人のプレゼン中の空腹",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f15",
+      "text": "既読無視されたときの脳活動",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f16",
+      "text": "研究室の椅子の取り合い",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f17",
+      "text": "教授の機嫌の予測",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f18",
+      "text": "深夜のテンションの正体",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f19",
+      "text": "SNSを閉じてまた開く行動",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-f20",
+      "text": "レビュー返信を書けない現象",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "bio-f01",
+      "text": "腸内細菌叢の多様性",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f02",
+      "text": "免疫応答のばらつき",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f03",
+      "text": "概日リズムの制御",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f04",
+      "text": "細胞老化のマーカー",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f05",
+      "text": "遺伝子発現の時系列",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f06",
+      "text": "神経回路の再編成",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f07",
+      "text": "薬剤耐性の獲得",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f08",
+      "text": "タンパク質の折れたたみ",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f09",
+      "text": "生態系の栄養段階",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f10",
+      "text": "個体差と表現型可塑性",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f11",
+      "text": "創傷治癒の速度",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f12",
+      "text": "マウスの気持ち",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f13",
+      "text": "研究室で越冬する虫",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f14",
+      "text": "実験植物の枯れやすさ",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f15",
+      "text": "深夜の細胞の世話",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f16",
+      "text": "培地に生えた謎のコロニー",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f17",
+      "text": "ピペット操作の個人差",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f18",
+      "text": "白衣の汚れの分類",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f19",
+      "text": "冷凍庫の中の身元不明サンプル",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-f20",
+      "text": "先輩が残した試薬",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "food-f01",
+      "text": "発酵過程の温度依存性",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-f02",
+      "text": "うま味の相乗効果",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-f03",
+      "text": "食感の力学的評価",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-f04",
+      "text": "加熱による香気成分の変化",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-f05",
+      "text": "食品ロスの発生要因",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-f06",
+      "text": "咀嚼と満腹感",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-f07",
+      "text": "低温調理の安全域",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-f08",
+      "text": "地域食文化の伝播",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-f09",
+      "text": "代替タンパク質の受容",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-f10",
+      "text": "保存性と添加物の関係",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-f11",
+      "text": "味覚の加齢変化",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-f12",
+      "text": "コンビニ飯の栄養",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-f13",
+      "text": "深夜のラーメンの正当性",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-f14",
+      "text": "研究室の共用調味料",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-f15",
+      "text": "学食の日替わりの法則",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-f16",
+      "text": "冷蔵庫の奥で発見されたもの",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-f17",
+      "text": "実家の味の再現不能性",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-f18",
+      "text": "食べ放題での戦略",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-f19",
+      "text": "カップ麺の待ち時間の体感",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-f20",
+      "text": "先輩がおごる確率",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "eco-f01",
+      "text": "労働市場のミスマッチ",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f02",
+      "text": "地域格差の要因分解",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f03",
+      "text": "価格弾力性の推定",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f04",
+      "text": "社会保障の給付設計",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f05",
+      "text": "ネットワーク外部性",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f06",
+      "text": "行動経済学的な介入",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f07",
+      "text": "所得移動の世代間相関",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f08",
+      "text": "公共財の供給問題",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f09",
+      "text": "都市集積の経済効果",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f10",
+      "text": "情報の非対称性",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f11",
+      "text": "少子化の要因分析",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f12",
+      "text": "研究費の消え方",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f13",
+      "text": "学会参加費の高騰",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f14",
+      "text": "サブスクの解約しにくさ",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f15",
+      "text": "ポイント還元に釣られる行動",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f16",
+      "text": "飲み会の割り勘の不公平",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f17",
+      "text": "大学生協の値上げ",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f18",
+      "text": "奨学金という名の借金",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f19",
+      "text": "無料より安いものは無い問題",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-f20",
+      "text": "予算年度末の駆け込み",
+      "tone": "neta",
+      "genre": "econ"
     }
   ],
   "method": [
@@ -1459,6 +2059,570 @@
       "text": "とりあえず全色買う",
       "tone": "neta",
       "genre": "fashion"
+    },
+    {
+      "id": "info-m01",
+      "text": "ベンチマークデータでの比較",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-m02",
+      "text": "クエリログの大規模解析",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-m03",
+      "text": "アブレーション実験",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-m04",
+      "text": "オフライン評価とオンライン評価の突合",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-m05",
+      "text": "計算量の理論解析",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-m06",
+      "text": "ユーザ実験による有効性検証",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-m07",
+      "text": "クロスバリデーション",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-m08",
+      "text": "アノテータ間一致率の算出",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-m09",
+      "text": "とりあえず全部インデックスする",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-m10",
+      "text": "SQLを書いて力ずくで数える",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-m11",
+      "text": "サンプルデータで動かして満足する",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-m12",
+      "text": "ベンチマークを自分で作る",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-m13",
+      "text": "上位1件だけ見て判断する",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-m14",
+      "text": "Excelに貼って眺める",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-m15",
+      "text": "生成AIに要約させる",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "psy-m01",
+      "text": "質問紙調査",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m02",
+      "text": "無作為化した被験者間比較",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m03",
+      "text": "反応時間の測定",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m04",
+      "text": "視線計測",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m05",
+      "text": "半構造化インタビュー",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m06",
+      "text": "経験サンプリング法",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m07",
+      "text": "事前登録した仮説検証",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m08",
+      "text": "効果量の推定",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m09",
+      "text": "学部生を集める",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m10",
+      "text": "研究室の同期に聞く",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m11",
+      "text": "自分で試して内省する",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m12",
+      "text": "有意になるまで検定する",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m13",
+      "text": "アンケートをSNSで拡散する",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m14",
+      "text": "都合のいい回答だけ拾う",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-m15",
+      "text": "n=1で語る",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "bio-m01",
+      "text": "ノックアウト個体との比較",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m02",
+      "text": "二重盲検",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m03",
+      "text": "経時的なサンプリング",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m04",
+      "text": "組織切片の観察",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m05",
+      "text": "シーケンシングによる同定",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m06",
+      "text": "用量反応曲線の作成",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m07",
+      "text": "対照群を置いた飼育実験",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m08",
+      "text": "統計モデルによる個体差の補正",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m09",
+      "text": "先輩のプロトコルを写す",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m10",
+      "text": "とりあえず染めてみる",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m11",
+      "text": "見た目で判断する",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m12",
+      "text": "うまくいった回だけ採用する",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m13",
+      "text": "実験ノートを後から書く",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m14",
+      "text": "培養が生き延びるのを祈る",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-m15",
+      "text": "冷凍庫の在庫で代用する",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "food-m01",
+      "text": "訓練パネルによる官能評価",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-m02",
+      "text": "成分のクロマトグラフ分析",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-m03",
+      "text": "物性測定",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-m04",
+      "text": "消費者調査",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-m05",
+      "text": "温度履歴の記録",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-m06",
+      "text": "保存試験",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-m07",
+      "text": "電子舌による定量",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-m08",
+      "text": "調理条件の要因計画",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-m09",
+      "text": "研究室の全員に食べさせる",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-m10",
+      "text": "おいしかったので採用する",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-m11",
+      "text": "レシピ通りに作れなかった",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-m12",
+      "text": "見た目で盛る",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-m13",
+      "text": "SNSの口コミを数える",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-m14",
+      "text": "自分の舌を信じる",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-m15",
+      "text": "余った材料で試す",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "eco-m01",
+      "text": "パネルデータ分析",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m02",
+      "text": "差分の差分法",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m03",
+      "text": "操作変数法",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m04",
+      "text": "ランダム化比較試験",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m05",
+      "text": "回帰不連続デザイン",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m06",
+      "text": "産業連関分析",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m07",
+      "text": "エージェントベースシミュレーション",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m08",
+      "text": "既存統計の二次利用",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m09",
+      "text": "友人30人にアンケートする",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m10",
+      "text": "Twitterで世論を測る",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m11",
+      "text": "都合のいい年だけ切り出す",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m12",
+      "text": "相関を因果と言い張る",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m13",
+      "text": "グラフの軸を工夫する",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m14",
+      "text": "官庁統計をそのまま貼る",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-m15",
+      "text": "体感で語る",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "m033",
+      "text": "複数研究の統合的再分析",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m034",
+      "text": "事前登録した追試",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m035",
+      "text": "長期の追跡調査",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "m036",
+      "text": "締切前日に思いつく",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m037",
+      "text": "先行研究を読まずに始める",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m038",
+      "text": "結論から書く",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "m039",
+      "text": "指導教員の勘",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "se-m21",
+      "text": "制御実験による比較",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m22",
+      "text": "実プロジェクトへの適用",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-m23",
+      "text": "手元のリポジトリだけで確認",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-m24",
+      "text": "動いたので良しとする",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "sec-m20",
+      "text": "ハニーポットでの観測",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m21",
+      "text": "形式的な安全性証明",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m22",
+      "text": "ググって出てきた手順を試す",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-m23",
+      "text": "警告を消して様子を見る",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "fa-m19",
+      "text": "三次元計測による体型分析",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m20",
+      "text": "着用試験",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m21",
+      "text": "インスタで流行を調べる",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-m22",
+      "text": "店員に聞く",
+      "tone": "neta",
+      "genre": "fashion"
     }
   ],
   "constraint": [
@@ -1947,6 +3111,558 @@
       "text": "サイズがひとつしかない",
       "tone": "neta",
       "genre": "fashion"
+    },
+    {
+      "id": "info-c01",
+      "text": "計算資源はノートPC1台",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-c02",
+      "text": "データは外部に出せない",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-c03",
+      "text": "応答は100ミリ秒以内",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-c04",
+      "text": "学習データにラベルが無い",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-c05",
+      "text": "オフラインでしか動かせない",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-c06",
+      "text": "既存APIの仕様を変えられない",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-c07",
+      "text": "評価用データが100件しかない",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-c08",
+      "text": "再現手順を公開しなければならない",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "info-c09",
+      "text": "検索対象が全部PDF",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-c10",
+      "text": "データが全部エクセル方眼紙",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-c11",
+      "text": "文字コードが混在している",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-c12",
+      "text": "サーバの管理者が退職済み",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-c13",
+      "text": "仕様書がスクショで届く",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-c14",
+      "text": "ログが上書きされて消える",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "info-c15",
+      "text": "無料枠を超えられない",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "psy-c01",
+      "text": "被験者は学部生20人まで",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c02",
+      "text": "倫理審査で介入が認められない",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c03",
+      "text": "追跡調査ができない",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c04",
+      "text": "謝礼を支払えない",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c05",
+      "text": "対照群を置けない",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c06",
+      "text": "測定は1回限り",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c07",
+      "text": "実験は対面禁止",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c08",
+      "text": "事前登録から逸脱できない",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c09",
+      "text": "被験者が全員同じ研究室",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c10",
+      "text": "被験者が仮説を知っている",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c11",
+      "text": "実験の途中で被験者が帰る",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c12",
+      "text": "回答が全部「どちらでもない」",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c13",
+      "text": "指導教員が被験者に混ざる",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c14",
+      "text": "実験室が隣の工事でうるさい",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "psy-c15",
+      "text": "被験者が全員寝不足",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "bio-c01",
+      "text": "動物実験は認められない",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c02",
+      "text": "サンプルは10個体まで",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c03",
+      "text": "培養は2週間で打ち切り",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c04",
+      "text": "低温輸送ができない",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c05",
+      "text": "ヒト試料は使えない",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c06",
+      "text": "実験は再現3回まで",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c07",
+      "text": "試薬の予算が尽きた",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c08",
+      "text": "屋外調査は1日だけ",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c09",
+      "text": "検体が1つしかない",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c10",
+      "text": "マウスが脱走した",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c11",
+      "text": "冷凍庫が停電で止まった",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c12",
+      "text": "培地にカビが生えた",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c13",
+      "text": "実験動物に名前を付けてしまった",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c14",
+      "text": "先輩の試薬が期限切れ",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "bio-c15",
+      "text": "オートクレーブが順番待ち",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "food-c01",
+      "text": "加熱してはいけない",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-c02",
+      "text": "常温で30日保存できること",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-c03",
+      "text": "原価は1食300円以内",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-c04",
+      "text": "アレルゲンを使えない",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-c05",
+      "text": "調理時間は10分以内",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-c06",
+      "text": "動物性の材料は使えない",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-c07",
+      "text": "官能評価は5人まで",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-c08",
+      "text": "既存の設備で作れること",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "food-c09",
+      "text": "冷蔵庫に卵しかない",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-c10",
+      "text": "包丁が無い",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-c11",
+      "text": "火が使えない",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-c12",
+      "text": "審査員が全員猫舌",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-c13",
+      "text": "研究室の共用鍋が焦げている",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-c14",
+      "text": "試食する人がもう満腹",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "food-c15",
+      "text": "予算が学食1食分",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "eco-c01",
+      "text": "個票データにアクセスできない",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c02",
+      "text": "介入は1回しか行えない",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c03",
+      "text": "追跡期間は3か月",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c04",
+      "text": "統制群を作れない",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c05",
+      "text": "公開統計だけで論じること",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c06",
+      "text": "対象は1つの自治体のみ",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c07",
+      "text": "政策提言まで含めること",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c08",
+      "text": "予算はゼロ",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c09",
+      "text": "サンプルが全員大学生",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c10",
+      "text": "回答者が全員知り合い",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c11",
+      "text": "データが2015年で止まっている",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c12",
+      "text": "有意水準を後から決めた",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c13",
+      "text": "反例は見なかったことにする",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c14",
+      "text": "結論だけ先に決まっている",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "eco-c15",
+      "text": "査読者が当事者",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "c031",
+      "text": "再現手順を公開すること",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c032",
+      "text": "予算は10万円以内",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "c033",
+      "text": "共同研究者が音信不通",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c034",
+      "text": "実験装置が今日壊れた",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "c035",
+      "text": "締切が明日",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "se-c19",
+      "text": "レガシーコードを消せない",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-c20",
+      "text": "テストを追加できない",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "se-c21",
+      "text": "ドキュメントが口伝",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "se-c22",
+      "text": "本番にしかデータが無い",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "sec-c18",
+      "text": "攻撃実験は禁止",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c19",
+      "text": "検体を共有できない",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c20",
+      "text": "社内規定で調査できない",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "sec-c21",
+      "text": "担当者が誰か分からない",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "fa-c17",
+      "text": "生地は在庫のみ",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c18",
+      "text": "縫製は手作業",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c19",
+      "text": "モデルが友人1人",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "fa-c20",
+      "text": "撮影が雨で流れた",
+      "tone": "neta",
+      "genre": "fashion"
     }
   ],
   "novelty": [
@@ -2379,6 +4095,540 @@
     {
       "id": "nov-fa-n08",
       "text": "値札を付け替えただけ",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-info-s01",
+      "text": "既存指標の欠陥を実証",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "nov-info-s02",
+      "text": "大規模データで初の再現",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "nov-info-s03",
+      "text": "計算量を一段下げた",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "nov-info-s04",
+      "text": "評価プロトコルを刷新",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "nov-info-s05",
+      "text": "異分野の手法を初導入",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "nov-info-s06",
+      "text": "公開ベンチマークを整備",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "nov-info-s07",
+      "text": "理論と実測の乖離を説明",
+      "tone": "serious",
+      "genre": "info"
+    },
+    {
+      "id": "nov-info-n01",
+      "text": "パラメータを変えただけ",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "nov-info-n02",
+      "text": "データを増やしただけ",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "nov-info-n03",
+      "text": "既存手法に名前を付け直した",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "nov-info-n04",
+      "text": "検索窓を大きくしただけ",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "nov-info-n05",
+      "text": "GPUを増やしただけ",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "nov-info-n06",
+      "text": "前処理を1つ足しただけ",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "nov-info-n07",
+      "text": "論文をLaTeXにしただけ",
+      "tone": "neta",
+      "genre": "info"
+    },
+    {
+      "id": "nov-psy-s01",
+      "text": "有名な効果の再現に成功",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-psy-s02",
+      "text": "有名な効果の再現に失敗",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-psy-s03",
+      "text": "文化差を初めて比較",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-psy-s04",
+      "text": "測定尺度を新たに作成",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-psy-s05",
+      "text": "縦断データで因果に迫った",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-psy-s06",
+      "text": "個人差の構造を解明",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-psy-s07",
+      "text": "実験室外での再現を確認",
+      "tone": "serious",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-psy-n01",
+      "text": "被験者を変えただけ",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-psy-n02",
+      "text": "質問文を言い換えただけ",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-psy-n03",
+      "text": "有意差が出た項目だけ報告",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-psy-n04",
+      "text": "尺度の名前を変えただけ",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-psy-n05",
+      "text": "サンプルを増やしただけ",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-psy-n06",
+      "text": "既知の現象に名前を付けた",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-psy-n07",
+      "text": "内省を論文にしただけ",
+      "tone": "neta",
+      "genre": "psych"
+    },
+    {
+      "id": "nov-bio-s01",
+      "text": "未報告の相互作用を発見",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-bio-s02",
+      "text": "新規のマーカーを同定",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-bio-s03",
+      "text": "定説の反例を提示",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-bio-s04",
+      "text": "従来法より低侵襲",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-bio-s05",
+      "text": "野外での初観察",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-bio-s06",
+      "text": "分子機構を初めて説明",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-bio-s07",
+      "text": "他種への一般性を確認",
+      "tone": "serious",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-bio-n01",
+      "text": "別の生き物で試しただけ",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-bio-n02",
+      "text": "染色を変えただけ",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-bio-n03",
+      "text": "個体数を増やしただけ",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-bio-n04",
+      "text": "先行研究の追試に失敗しただけ",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-bio-n05",
+      "text": "写真がきれいに撮れただけ",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-bio-n06",
+      "text": "学名を言い直しただけ",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-bio-n07",
+      "text": "偶然できたものを報告",
+      "tone": "neta",
+      "genre": "bio"
+    },
+    {
+      "id": "nov-food-s01",
+      "text": "香気成分を初めて同定",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "nov-food-s02",
+      "text": "食感の定量指標を提案",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "nov-food-s03",
+      "text": "伝統製法を科学的に説明",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "nov-food-s04",
+      "text": "保存性を大幅に改善",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "nov-food-s05",
+      "text": "廃棄部位の利用法を確立",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "nov-food-s06",
+      "text": "官能と機器分析を対応づけ",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "nov-food-s07",
+      "text": "新しい発酵条件を発見",
+      "tone": "serious",
+      "genre": "food"
+    },
+    {
+      "id": "nov-food-n01",
+      "text": "材料を1つ変えただけ",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "nov-food-n02",
+      "text": "盛り付けを変えただけ",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "nov-food-n03",
+      "text": "名前をおしゃれにしただけ",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "nov-food-n04",
+      "text": "レシピを再現しただけ",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "nov-food-n05",
+      "text": "分量を倍にしただけ",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "nov-food-n06",
+      "text": "おいしかったと言っただけ",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "nov-food-n07",
+      "text": "写真を撮り直しただけ",
+      "tone": "neta",
+      "genre": "food"
+    },
+    {
+      "id": "nov-eco-s01",
+      "text": "因果効果を初めて識別",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-eco-s02",
+      "text": "長期の追跡で通説を覆した",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-eco-s03",
+      "text": "新しい指標を構築",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-eco-s04",
+      "text": "自然実験を利用",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-eco-s05",
+      "text": "地域単位で初の比較",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-eco-s06",
+      "text": "政策の副作用を定量化",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-eco-s07",
+      "text": "既存推定のバイアスを指摘",
+      "tone": "serious",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-eco-n01",
+      "text": "対象地域を変えただけ",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-eco-n02",
+      "text": "年度を更新しただけ",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-eco-n03",
+      "text": "グラフを描き直しただけ",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-eco-n04",
+      "text": "他国の研究を日本でやっただけ",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-eco-n05",
+      "text": "相関を見つけただけ",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-eco-n06",
+      "text": "有識者にヒアリングしただけ",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-eco-n07",
+      "text": "提言をつけ足しただけ",
+      "tone": "neta",
+      "genre": "econ"
+    },
+    {
+      "id": "nov-s13",
+      "text": "定説に反例を出した",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-s14",
+      "text": "異分野の橋渡し",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-s15",
+      "text": "測定を一桁精密にした",
+      "tone": "serious",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n13",
+      "text": "対象を変えただけ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n14",
+      "text": "タイトルを工夫しただけ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n15",
+      "text": "図をカラーにしただけ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-n16",
+      "text": "流行の語をまぶしただけ",
+      "tone": "neta",
+      "genre": "general"
+    },
+    {
+      "id": "nov-se-s09",
+      "text": "実運用での効果を初計測",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-s10",
+      "text": "既存ツールの誤検知を削減",
+      "tone": "serious",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-n09",
+      "text": "リファクタしただけ",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "nov-se-n10",
+      "text": "CIを回しただけ",
+      "tone": "neta",
+      "genre": "se"
+    },
+    {
+      "id": "nov-sec-s09",
+      "text": "実被害との対応を初提示",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-s10",
+      "text": "検知を実時間で可能にした",
+      "tone": "serious",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-n09",
+      "text": "設定を厳しくしただけ",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "nov-sec-n10",
+      "text": "既知の攻撃を再現しただけ",
+      "tone": "neta",
+      "genre": "security"
+    },
+    {
+      "id": "nov-fa-s09",
+      "text": "廃棄素材の再利用を確立",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-s10",
+      "text": "サイズ展開を定量的に設計",
+      "tone": "serious",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-n09",
+      "text": "色を足しただけ",
+      "tone": "neta",
+      "genre": "fashion"
+    },
+    {
+      "id": "nov-fa-n10",
+      "text": "ブランド名を変えただけ",
       "tone": "neta",
       "genre": "fashion"
     }

@@ -17,7 +17,18 @@ export const DEFAULT_CARD_SLOTS: CardSlot[] = [
   { kind: 'novelty', tone: 'all' },
 ];
 
-export const GENRE_MODES: GenreMode[] = ['all', 'general', 'se', 'security', 'fashion'];
+export const GENRE_MODES: GenreMode[] = [
+  'all',
+  'general',
+  'se',
+  'security',
+  'info',
+  'psych',
+  'bio',
+  'food',
+  'econ',
+  'fashion',
+];
 
 export const isCardKind = (value: unknown): value is CardKind =>
   value === 'field' || value === 'method' || value === 'constraint' || value === 'novelty';
