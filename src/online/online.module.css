@@ -99,6 +99,138 @@
   margin: 0;
 }
 
+.connBanner {
+  background: #fff4e5;
+  border: 1px solid #f0c48a;
+  border-radius: 8px;
+  color: #8a4b00;
+  font-weight: 800;
+  margin: 0;
+  padding: 10px 14px;
+  text-align: center;
+}
+
+.hostTakeover {
+  align-items: center;
+  background: #f8fafc;
+  border: 1px dashed #c7d0df;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  padding: 10px 14px;
+}
+
+.hostTakeover span {
+  color: #46536a;
+  font-weight: 700;
+}
+
+.hostBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.timer {
+  background: #18202b;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  margin: 0;
+  padding: 8px 22px;
+}
+
+.timerWarning {
+  animation: timerPulse 700ms ease-in-out infinite alternate;
+  background: #b42318;
+}
+
+@keyframes timerPulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+.commentBox {
+  display: grid;
+  gap: 6px;
+  text-align: left;
+  width: min(100%, 560px);
+}
+
+.commentBox span {
+  color: #5b6778;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.myComment {
+  color: #46536a;
+  font-weight: 700;
+  margin: 0;
+}
+
+.commentList {
+  display: grid;
+  gap: 10px;
+  text-align: left;
+  width: min(100%, 560px);
+}
+
+.commentList blockquote {
+  background: #f8fafc;
+  border-left: 5px solid #1957d2;
+  margin: 0;
+  overflow-wrap: anywhere;
+  padding: 10px 12px;
+}
+
+.commentList blockquote p {
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.commentList blockquote footer {
+  color: #5b6778;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-align: right;
+}
+
+.standings {
+  display: grid;
+  gap: 8px;
+  width: min(100%, 560px);
+}
+
+.finalGrid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  width: 100%;
+}
+
+.finalPanel {
+  background: #f8fafc;
+  border: 1px solid #dbe2ee;
+  border-radius: 8px;
+  padding: 14px;
+  text-align: left;
+}
+
+.finalPanel h3 {
+  font-size: 1rem;
+  margin: 0 0 10px;
+}
+
 .waitNote {
   color: #46536a;
   font-weight: 800;

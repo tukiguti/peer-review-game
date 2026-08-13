@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { availableCards, canDrawCardSlots, drawHand, filterCards, hasRerollCandidate, rerollCard } from './draw';
 import { createInitialState, gameReducer } from './reducer';
 import { calculateScoring } from './scoring';
+import { computeAwards } from './selectors';
 import { areCardSlotsValid, arePlayerNamesValid, DEFAULT_SETTINGS, normalizeSettings } from './settings';
 import cardsData from '../data/cards.json';
 import type { CardKind, CardSlot, CardsByKind, DeckMode, Hand, Settings, VoteEntry } from './types';
@@ -168,7 +169,10 @@ describe('draw', () => {
   });
 
   it('スロット別の雰囲気と絞り込み後の候補数を検証する', () => {
-    const netaMethods = makeSlots(Array(4).fill('method'), 'neta');
+    // 候補ちょうどの枚数までは組めて、1枚超えると組めない。
+    // カードを増やしても壊れないよう、境界は実データの枚数から求める。
+    const pool = filterCards(cards.method, 'neta', 'fashion').length;
+    const netaMethods = makeSlots(Array(pool).fill('method'), 'neta');
 
     expect(canDrawCardSlots(cards, 'fashion', netaMethods)).toBe(true);
     expect(canDrawCardSlots(cards, 'fashion', [...netaMethods, { kind: 'method', tone: 'neta' }])).toBe(false);
@@ -435,5 +439,53 @@ describe('game reducer', () => {
     expect(state.players.map((player) => player.score)).toEqual(Array(8).fill(30));
     expect(state.players.map((player) => player.presentationScore)).toEqual(Array(8).fill(9));
     expect(state.recentHands).toHaveLength(3);
+  });
+});
+
+describe('awards', () => {
+  const player = (
+    name: string,
+    score: number,
+    presentationScore: number,
+    rejectCount: number,
+    unanimousAcceptedCount: number,
+  ) => ({ name, score, presentationScore, rejectCount, unanimousAcceptedCount });
+
+  const titles = ['学会MVP', '最優秀論文賞', 'Reviewer #2 賞', '話術賞'];
+  const winnersOf = (awards: ReturnType<typeof computeAwards>, title: string) =>
+    awards.find((award) => award.title === title)?.winners ?? [];
+
+  it('4種の称号をこの順で返す', () => {
+    const awards = computeAwards([player('田中', 5, 3, 1, 1)]);
+    expect(awards.map((award) => award.title)).toEqual(titles);
+  });
+
+  it('各称号を最大値の持ち主に与える', () => {
+    const awards = computeAwards([
+      player('田中', 6, 3, 0, 1),
+      player('佐藤', 4, 0, 3, 0),
+      player('鈴木', 2, 2, 1, 0),
+    ]);
+    expect(winnersOf(awards, '学会MVP')).toEqual(['田中']);
+    expect(winnersOf(awards, '最優秀論文賞')).toEqual(['田中']);
+    expect(winnersOf(awards, 'Reviewer #2 賞')).toEqual(['佐藤']);
+    expect(winnersOf(awards, '話術賞')).toEqual(['田中']);
+  });
+
+  it('同率は全員を並べる', () => {
+    const awards = computeAwards([player('田中', 4, 2, 1, 0), player('佐藤', 4, 2, 1, 0)]);
+    expect(winnersOf(awards, '学会MVP')).toEqual(['田中', '佐藤']);
+  });
+
+  it('実績が0の称号は該当者なし（空）にする。ただしMVPは0点でも決める', () => {
+    const awards = computeAwards([player('田中', 0, 0, 0, 0), player('佐藤', 0, 0, 0, 0)]);
+    expect(winnersOf(awards, '学会MVP')).toEqual(['田中', '佐藤']);
+    expect(winnersOf(awards, '最優秀論文賞')).toEqual([]);
+    expect(winnersOf(awards, 'Reviewer #2 賞')).toEqual([]);
+    expect(winnersOf(awards, '話術賞')).toEqual([]);
+  });
+
+  it('プレイヤーがいなければ称号もない', () => {
+    expect(computeAwards([])).toEqual([]);
   });
 });
