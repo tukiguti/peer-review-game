@@ -1,16 +1,42 @@
+/*
+  配色と書体のトークン。
+  題材が「学会・査読」なので、紙・墨・朱印の三色に寄せている。
+  アイコンとOGPも同じ朱(#b42318)と紙(#f5efe4)なので、入口から結果まで印象が揃う。
+  採択の緑・不採択の赤は判定を表す色なので、装飾色とは別に置く。
+*/
+:root {
+  --paper: #f2ebdd;      /* 地。和紙 */
+  --paper-card: #fffdf7; /* カード・パネルの面。地より明るい紙 */
+  --paper-sub: #f7f2e7;  /* 少し沈めたい面 */
+  --rule: #ddd2bd;       /* 罫線 */
+  --rule-strong: #b9a887;
+  --ink: #1c1a17;        /* 本文。純黒ではなく墨 */
+  --ink-sub: #6b6355;    /* 補助文字 */
+  --vermilion: #b42318;  /* 朱。主色。不採択もこれ */
+  --vermilion-dark: #8f1d16;
+  --seal-green: #20804d; /* 採択 */
+
+  /* 抽選のリールと発表台。ここだけ暗くして「引く瞬間」の緊張を残す。
+     ただし紺ではなく墨寄りの暗色にして、紙の地から浮かないようにする */
+  --stage: #241d15;
+  --stage-2: #35291c;
+  --stage-line: #5c4c34;
+  --stage-text: #f2ebdd;
+  --gold: #f0c14b;       /* 停止したリールの縁。差し色 */
+
+  /* 見出しは明朝。それだけで学会の書面らしくなる。本文はゴシックのまま読みやすさを優先する */
+  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "Noto Serif JP", serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
 * {
   box-sizing: border-box;
 }
 
 html {
-  background: #edf1f7;
-  color: #18202b;
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
 }
 
 body {
