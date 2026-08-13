@@ -99,6 +99,41 @@
   margin: 0;
 }
 
+.connBanner {
+  background: #fff4e5;
+  border: 1px solid #f0c48a;
+  border-radius: 8px;
+  color: #8a4b00;
+  font-weight: 800;
+  margin: 0;
+  padding: 10px 14px;
+  text-align: center;
+}
+
+.hostTakeover {
+  align-items: center;
+  background: #f8fafc;
+  border: 1px dashed #c7d0df;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  padding: 10px 14px;
+}
+
+.hostTakeover span {
+  color: #46536a;
+  font-weight: 700;
+}
+
+.hostBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
 .waitNote {
   color: #46536a;
   font-weight: 800;
