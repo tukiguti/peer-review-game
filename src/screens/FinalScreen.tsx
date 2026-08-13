@@ -9,9 +9,14 @@ export const FinalScreen = ({ state, dispatch }: ScreenProps) => {
 
   return (
     <section className={styles.screen}>
-      <div className={styles.screenHeader}>
-        <p className={styles.eyebrow}>final</p>
-        <h2>最終ランキング</h2>
+      {/* 閉会の書面に見立てる。称号はここで読み上げる想定 */}
+      <div className={styles.notice}>
+        <div className={styles.noticeHead}>
+          <span>閉会</span>
+          <span>全 {state.settings.rounds} 周 終了</span>
+        </div>
+        <h2 className={styles.noticeTitle}>最終結果</h2>
+        <p className={styles.noticeBody}>本会における全ての発表と査読が終了しました。各賞を以下のとおり発表します。</p>
       </div>
 
       <div className={styles.finalGrid}>
