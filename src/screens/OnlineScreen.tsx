@@ -33,6 +33,11 @@ const GENRE_LABEL: Record<CardGenre, string> = {
   general: '汎用',
   se: 'ソフトウェア工学',
   security: 'セキュリティ',
+  info: '情報科学',
+  psych: '心理学',
+  bio: '生物・医学',
+  food: '食・料理',
+  econ: '経済・社会',
   fashion: 'ファッション',
 };
 
@@ -41,6 +46,11 @@ const GENRE_MODE_LABEL: Record<GenreMode, string> = {
   general: '汎用',
   se: 'ソフトウェア工学',
   security: 'セキュリティ',
+  info: '情報科学',
+  psych: '心理学',
+  bio: '生物・医学',
+  food: '食・料理',
+  econ: '経済・社会',
   fashion: 'ファッション',
 };
 
@@ -393,6 +403,11 @@ const SettingsEditor = ({
           <option value="all">全部</option>
           <option value="se">ソフトウェア工学</option>
           <option value="security">セキュリティ</option>
+          <option value="info">情報科学</option>
+          <option value="psych">心理学</option>
+          <option value="bio">生物・医学</option>
+          <option value="food">食・料理</option>
+          <option value="econ">経済・社会</option>
           <option value="fashion">ファッション</option>
           <option value="general">汎用</option>
         </select>

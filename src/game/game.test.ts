@@ -199,7 +199,7 @@ describe('draw', () => {
 
 describe('cards.json', () => {
   it('全カードが3ジャンル+汎用のいずれかに属し、各ジャンルで4種の山札が揃っている', () => {
-    const genres = ['general', 'se', 'security', 'fashion'] as const;
+    const genres = ['general', 'se', 'security', 'info', 'psych', 'bio', 'food', 'econ', 'fashion'] as const;
     const kinds = ['field', 'method', 'constraint', 'novelty'] as const;
 
     for (const kind of kinds) {
@@ -215,7 +215,7 @@ describe('cards.json', () => {
   });
 
   it('IDが全体で一意で、全モードの組み合わせに抽選候補がある', () => {
-    const genres = ['general', 'se', 'security', 'fashion'] as const;
+    const genres = ['general', 'se', 'security', 'info', 'psych', 'bio', 'food', 'econ', 'fashion'] as const;
     const tones = ['serious', 'neta'] as const;
     const kinds = ['field', 'method', 'constraint', 'novelty'] as const;
     const allCards = kinds.flatMap((kind) => cards[kind]);

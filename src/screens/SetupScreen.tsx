@@ -134,6 +134,11 @@ export const SetupScreen = ({ state, dispatch, cards, onBackToMode }: SetupScree
               <option value="all">全部</option>
               <option value="se">ソフトウェア工学</option>
               <option value="security">セキュリティ</option>
+              <option value="info">情報科学</option>
+              <option value="psych">心理学</option>
+              <option value="bio">生物・医学</option>
+              <option value="food">食・料理</option>
+              <option value="econ">経済・社会</option>
               <option value="fashion">ファッション</option>
               <option value="general">汎用</option>
             </select>
