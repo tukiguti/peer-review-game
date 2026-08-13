@@ -16,7 +16,8 @@
 .screen h2,
 .panel h3,
 .reelColumn h3 {
-  letter-spacing: 0;
+  font-family: var(--font-serif);
+  letter-spacing: 0.02em;
   margin: 0;
 }
 
@@ -48,7 +49,7 @@
 }
 
 .eyebrow {
-  color: #5b6778;
+  color: var(--ink-sub);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0;
@@ -69,19 +70,19 @@
 
 .muteButton,
 .secondaryButton {
-  background: #ffffff;
-  border: 1px solid #c7d0df;
-  color: #253044;
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
+  color: var(--ink);
 }
 
 .primaryButton {
-  background: #1957d2;
+  background: var(--vermilion);
   color: #ffffff;
   min-width: 140px;
 }
 
 .leverButton {
-  background: #d9480f;
+  background: var(--vermilion-dark);
   box-shadow: inset 0 -4px 0 rgb(0 0 0 / 18%);
   color: #ffffff;
   font-size: 1.1rem;
@@ -97,10 +98,10 @@
 }
 
 .panel {
-  background: #ffffff;
-  border: 1px solid #d4dbea;
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
   border-radius: 8px;
-  box-shadow: 0 12px 30px rgb(32 42 58 / 8%);
+  box-shadow: 0 10px 26px rgb(60 46 20 / 10%);
   padding: 18px;
 }
 
@@ -131,7 +132,7 @@
 }
 
 .nameRow span {
-  background: #e8edf5;
+  background: var(--paper-sub);
   border-radius: 999px;
   display: grid;
   flex: 0 0 28px;
@@ -143,10 +144,10 @@
 .nameRow input,
 .fieldLine select,
 .commentBox textarea {
-  background: #f8fafc;
-  border: 1px solid #c7d0df;
+  background: var(--paper-sub);
+  border: 1px solid var(--rule);
   border-radius: 8px;
-  color: #18202b;
+  color: var(--ink);
   min-height: 42px;
   padding: 9px 11px;
   width: 100%;
@@ -159,8 +160,8 @@
 }
 
 .nameRow button {
-  background: #f0f3f8;
-  border: 1px solid #c7d0df;
+  background: var(--paper-sub);
+  border: 1px solid var(--rule);
   border-radius: 8px;
   flex: 0 0 auto;
   min-height: 38px;
@@ -173,7 +174,7 @@
 }
 
 .fieldLine span {
-  color: #3b4658;
+  color: var(--ink-sub);
   font-weight: 700;
 }
 
@@ -182,7 +183,7 @@
 }
 
 .settingHelp {
-  color: #5b6778;
+  color: var(--ink-sub);
   font-size: 0.9rem;
   margin: -4px 0 14px;
 }
@@ -195,10 +196,10 @@
 }
 
 .presetButton {
-  background: #f8fafc;
-  border: 1px solid #c7d0df;
+  background: var(--paper-sub);
+  border: 1px solid var(--rule);
   border-radius: 8px;
-  color: #253044;
+  color: var(--ink);
   display: grid;
   gap: 3px;
   min-width: 0;
@@ -207,14 +208,14 @@
 }
 
 .presetButton span {
-  color: #5b6778;
+  color: var(--ink-sub);
   font-size: 0.78rem;
 }
 
 .selectedPreset {
-  background: #eef4ff;
-  border-color: #1957d2;
-  box-shadow: 0 0 0 2px rgb(25 87 210 / 15%);
+  background: var(--paper-sub);
+  border-color: var(--vermilion);
+  box-shadow: 0 0 0 2px rgb(180 35 24 / 18%);
 }
 
 .compositionList {
@@ -225,8 +226,8 @@
 
 .toneBatch {
   align-items: center;
-  background: #f8fafc;
-  border: 1px solid #dbe2ee;
+  background: var(--paper-sub);
+  border: 1px solid var(--rule);
   border-radius: 8px;
   display: flex;
   flex-wrap: wrap;
@@ -236,25 +237,25 @@
 }
 
 .toneBatch > span {
-  color: #5b6778;
+  color: var(--ink-sub);
   flex: 1 0 100%;
   font-size: 0.78rem;
   font-weight: 800;
 }
 
 .toneBatch button {
-  background: #ffffff;
-  border: 1px solid #c7d0df;
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
   border-radius: 999px;
-  color: #253044;
+  color: var(--ink);
   flex: 1 1 0;
   min-height: 34px;
   padding: 6px 8px;
 }
 
 .toneBatch button[aria-pressed='true'] {
-  background: #1957d2;
-  border-color: #1957d2;
+  background: var(--vermilion);
+  border-color: var(--vermilion);
   color: #ffffff;
 }
 
@@ -266,7 +267,7 @@
 }
 
 .compositionRow > span {
-  background: #18202b;
+  background: var(--ink);
   border-radius: 999px;
   color: #ffffff;
   display: grid;
@@ -277,19 +278,19 @@
 
 .compositionRow select,
 .compositionRow button {
-  background: #f8fafc;
-  border: 1px solid #c7d0df;
+  background: var(--paper-sub);
+  border: 1px solid var(--rule);
   border-radius: 8px;
-  color: #18202b;
+  color: var(--ink);
   min-height: 40px;
   padding: 8px 10px;
 }
 
 .compositionError {
-  background: #fff1f0;
-  border: 1px solid #f3b7b2;
+  background: #fbeae6;
+  border: 1px solid #e3b5ac;
   border-radius: 8px;
-  color: #8f1d16;
+  color: var(--vermilion-dark);
   font-size: 0.88rem;
   font-weight: 700;
   margin: 12px 0 0;
@@ -310,7 +311,7 @@
 }
 
 .actionBar p {
-  color: #5b6778;
+  color: var(--ink-sub);
   font-weight: 700;
   margin: 0 auto 0 0;
 }
@@ -323,10 +324,10 @@
 }
 
 .reelColumn {
-  background: #111827;
-  border: 1px solid #344052;
+  background: var(--stage);
+  border: 1px solid var(--stage-line);
   border-radius: 8px;
-  color: #ffffff;
+  color: var(--stage-text);
   min-width: 0;
   padding: 12px;
 }
@@ -338,7 +339,7 @@
 }
 
 .reelTone {
-  color: #c7d0df;
+  color: #bdae95;
   display: block;
   font-size: 0.75rem;
   font-weight: 800;
@@ -347,8 +348,8 @@
 }
 
 .reelWindow {
-  background: linear-gradient(180deg, #0f172a, #243044 48%, #0f172a);
-  border: 1px solid #58657a;
+  background: linear-gradient(180deg, var(--stage), var(--stage-2) 48%, var(--stage));
+  border: 1px solid var(--stage-line);
   border-radius: 8px;
   height: 174px;
   overflow: hidden;
@@ -367,12 +368,12 @@
 }
 
 .reelWindow::before {
-  background: linear-gradient(180deg, #0f172a, transparent);
+  background: linear-gradient(180deg, var(--stage), transparent);
   top: 0;
 }
 
 .reelWindow::after {
-  background: linear-gradient(0deg, #0f172a, transparent);
+  background: linear-gradient(0deg, var(--stage), transparent);
   bottom: 0;
 }
 
@@ -402,11 +403,11 @@
 }
 
 .reelStopped {
-  box-shadow: 0 0 0 2px #f8c146 inset;
+  box-shadow: 0 0 0 2px var(--gold) inset;
 }
 
 .reelStatus {
-  color: #c7d0df;
+  color: #bdae95;
   display: block;
   font-size: 0.82rem;
   font-weight: 800;
@@ -430,8 +431,8 @@
 }
 
 .card {
-  background: #ffffff;
-  border: 1px solid #ccd5e4;
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
   border-radius: 8px;
   display: grid;
   gap: 10px;
@@ -445,7 +446,7 @@
 
 .cardKind,
 .cardTone {
-  color: #5b6778;
+  color: var(--ink-sub);
   font-size: 0.78rem;
   font-weight: 800;
 }
@@ -474,7 +475,7 @@
 
 .timerDial span {
   align-items: center;
-  background: #ffffff;
+  background: var(--paper-card);
   border-radius: 50%;
   display: flex;
   font-size: 1.4rem;
@@ -485,7 +486,7 @@
 }
 
 .timerPanel p {
-  color: #5b6778;
+  color: var(--ink-sub);
   font-weight: 800;
   margin: 0;
 }
@@ -501,8 +502,8 @@
 }
 
 .hintGrid span {
-  background: #eef4ff;
-  border: 1px solid #c8d8f6;
+  background: var(--paper-sub);
+  border: 1px solid var(--rule);
   border-radius: 8px;
   font-weight: 800;
   padding: 12px;
@@ -510,9 +511,9 @@
 
 .presentationStage {
   align-items: center;
-  background: #18202b;
+  background: var(--stage);
   border-radius: 8px;
-  color: #ffffff;
+  color: var(--stage-text);
   display: flex;
   justify-content: center;
   min-height: 150px;
@@ -533,8 +534,8 @@
 
 .passPanel,
 .ballotPanel {
-  background: #ffffff;
-  border: 1px solid #d4dbea;
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
   border-radius: 8px;
   display: grid;
   gap: 18px;
@@ -568,16 +569,16 @@
 }
 
 .acceptButton {
-  background: #20804d;
+  background: var(--seal-green);
 }
 
 .rejectButton {
-  background: #b42318;
+  background: var(--vermilion);
 }
 
 .selectedVote {
-  border-color: #18202b;
-  box-shadow: 0 0 0 4px #f8c146;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 4px var(--gold);
 }
 
 .commentBox {
@@ -589,8 +590,8 @@
 }
 
 .reviewCriteria {
-  background: #eef4ff;
-  border: 1px solid #c8d8f6;
+  background: var(--paper-sub);
+  border: 1px solid var(--rule);
   border-radius: 8px;
   display: grid;
   gap: 6px;
@@ -601,7 +602,7 @@
 
 .reviewCriteria span::before {
   content: "✓ ";
-  color: #1957d2;
+  color: var(--vermilion);
   font-weight: 900;
 }
 
@@ -616,10 +617,10 @@
 }
 
 .modeCard {
-  background: #ffffff;
-  border: 1px solid #d4dbea;
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
   border-radius: 12px;
-  box-shadow: 0 12px 30px rgb(32 42 58 / 8%);
+  box-shadow: 0 10px 26px rgb(60 46 20 / 10%);
   cursor: pointer;
   display: grid;
   gap: 10px;
@@ -631,7 +632,7 @@
 }
 
 .modeCard:hover {
-  border-color: #1957d2;
+  border-color: var(--vermilion);
   transform: translateY(-2px);
 }
 
@@ -645,7 +646,7 @@
 }
 
 .modeDesc {
-  color: #46536a;
+  color: var(--ink-sub);
   font-size: 0.95rem;
   font-weight: 600;
   line-height: 1.5;
@@ -662,20 +663,20 @@
 }
 
 .modeReady {
-  background: #e7f5ee;
-  color: #1c7a48;
+  background: #e8f1e6;
+  color: var(--seal-green);
 }
 
 .modeBadge {
-  background: #fff4e5;
-  color: #a15c00;
+  background: #f6ecd4;
+  color: #7a5a12;
 }
 
 .countdown {
   align-items: center;
-  background: #0f172a;
+  background: var(--stage);
   border-radius: 8px;
-  color: #ffffff;
+  color: var(--stage-text);
   display: grid;
   gap: 16px;
   justify-items: center;
@@ -692,7 +693,7 @@
 }
 
 .countdownGo {
-  color: #f8c146;
+  color: var(--gold);
 }
 
 @keyframes countdownPop {
@@ -710,8 +711,8 @@
 }
 
 .tallyPanel {
-  background: #ffffff;
-  border: 1px solid #d4dbea;
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
   border-radius: 8px;
   display: grid;
   gap: 16px;
@@ -728,7 +729,7 @@
 
 .tallyRow {
   align-items: center;
-  border: 1px solid #dbe2ee;
+  border: 1px solid var(--rule);
   border-radius: 8px;
   display: grid;
   gap: 10px;
@@ -755,30 +756,83 @@
   min-height: 52px;
 }
 
-.resultStampWrap {
-  align-items: center;
+/* 採録通知の書面。罫線と縦の余白で「紙」に見せ、スタンプを押印の位置に置く */
+.notice {
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  box-shadow: 0 10px 26px rgb(60 46 20 / 10%);
   display: grid;
-  gap: 10px;
+  gap: 12px;
   justify-items: center;
-  padding: 6px 0;
+  margin: 0 auto;
+  max-width: 720px;
+  padding: clamp(20px, 4vw, 36px) clamp(18px, 5vw, 48px) clamp(24px, 4vw, 36px);
+  position: relative;
+  width: 100%;
+}
+
+.noticeHead {
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-sub);
+  display: flex;
+  font-size: 0.82rem;
+  font-weight: 800;
+  justify-content: space-between;
+  letter-spacing: 0.08em;
+  padding-bottom: 8px;
+  width: 100%;
+}
+
+.noticeTo {
+  align-self: start;
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 2.6vw, 1.5rem);
+  justify-self: start;
+  margin: 0;
+}
+
+.noticeBody {
+  color: var(--ink-sub);
+  font-size: 0.92rem;
+  line-height: 1.8;
+  margin: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.noticeTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: 0.14em;
+  margin: 0;
+}
+
+.noticeTally {
+  color: var(--ink-sub);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin: 0;
 }
 
 .resultStamp {
-  border: 6px solid currentColor;
-  border-radius: 8px;
-  font-size: clamp(2.4rem, 9vw, 6.5rem);
-  font-weight: 1000;
-  line-height: 1;
-  padding: 14px 22px;
-  transform: rotate(-4deg);
+  border: 8px solid currentColor;
+  border-radius: 10px;
+  font-family: var(--font-serif);
+  font-size: clamp(2.6rem, 10vw, 5.4rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.05;
+  padding: 14px 20px 14px 32px;
+  transform: rotate(-8deg);
 }
 
 .acceptedStamp {
-  color: #20804d;
+  color: var(--seal-green);
 }
 
 .rejectedStamp {
-  color: #b42318;
+  color: var(--vermilion);
 }
 
 .voteRevealList,
@@ -793,8 +847,8 @@
 .scoreRow,
 .awardList p {
   align-items: center;
-  background: #f8fafc;
-  border: 1px solid #dbe2ee;
+  background: var(--paper-sub);
+  border: 1px solid var(--rule);
   border-radius: 8px;
   display: flex;
   gap: 12px;
@@ -808,8 +862,8 @@
 }
 
 .comments blockquote {
-  background: #f8fafc;
-  border-left: 5px solid #1957d2;
+  background: var(--paper-sub);
+  border-left: 5px solid var(--vermilion);
   margin: 0;
   overflow-wrap: anywhere;
   padding: 10px 12px;
@@ -820,14 +874,14 @@
 }
 
 .comments blockquote footer {
-  color: #5b6778;
+  color: var(--ink-sub);
   font-size: 0.85rem;
   font-weight: 800;
   text-align: right;
 }
 
 .rank {
-  background: #18202b;
+  background: var(--ink);
   border-radius: 999px;
   color: #ffffff;
   display: grid;
@@ -851,7 +905,10 @@
 }
 
 .awardList strong {
-  color: #5b6778;
+  color: var(--vermilion);
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  letter-spacing: 0.06em;
 }
 
 @keyframes zoomGlow {

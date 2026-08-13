@@ -16,13 +16,24 @@ export const ResultScreen = ({ state, dispatch }: ScreenProps) => {
 
   return (
     <section className={styles.screen}>
-      <div className={styles.resultStampWrap}>
-        <div className={`${styles.resultStamp} ${result.summary.accepted ? styles.acceptedStamp : styles.rejectedStamp}`}>
-          {result.summary.accepted ? 'ACCEPTED' : 'REJECTED'}
+      {/* 採録通知の書面に見立てる。スタンプは書面に押された印の位置に置く */}
+      <div className={styles.notice}>
+        <div className={styles.noticeHead}>
+          <span>査読結果通知</span>
+          <span>
+            第{state.round}回 / 第{state.presenterIndex + 1}報
+          </span>
         </div>
-        <p>
+        <p className={styles.noticeTo}>{presenter.name} 殿</p>
+        <p className={styles.noticeBody}>
+          貴殿より投稿のありました研究について、査読の結果を下記のとおり通知します。
+        </p>
+        <div className={`${styles.resultStamp} ${result.summary.accepted ? styles.acceptedStamp : styles.rejectedStamp}`}>
+          {result.summary.accepted ? '採択' : '不採択'}
+        </div>
+        <p className={styles.noticeTally}>
           Accept {result.summary.acceptCount} / Reject {result.summary.rejectCount}
-          {result.summary.unanimous ? ' 満場一致採択' : ''}
+          {result.summary.unanimous ? '（満場一致）' : ''}
         </p>
       </div>
 
