@@ -72,6 +72,9 @@ export type GameState = {
   voteDraft: Vote | null;
   commentDraft: string;
   resultScored: boolean;
+  // リバッタル（不採択のときだけ、発表者が弁明して投票をやり直せる）。1手番に1回まで。
+  rebuttalUsed: boolean;
+  isRebuttal: boolean;
 };
 
 export type VoteSummary = {

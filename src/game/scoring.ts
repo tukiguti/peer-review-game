@@ -15,21 +15,19 @@ export const summarizeVotes = (voterIds: PlayerId[], votes: Record<PlayerId, Vot
   };
 };
 
+// 得点は発表者だけに入る。採択+1、満場一致+2。
+// 査読者への加点は廃止した。人数が増えるほど「多数派を読む」ほうが有利になり、
+// 対面で語ることを中心に置く設計と逆行していたため。
 export const calculateScoring = (
   presenterId: PlayerId,
   voterIds: PlayerId[],
   votes: Record<PlayerId, VoteEntry>,
 ): ScoringResult => {
   const summary = summarizeVotes(voterIds, votes);
-  const deltas = [{ playerId: presenterId, delta: summary.unanimous ? 3 : summary.accepted ? 2 : 0 }];
-
-  for (const voterId of voterIds) {
-    if (votes[voterId]?.vote === summary.majorityVote) {
-      deltas.push({ playerId: voterId, delta: 1 });
-    }
-  }
-
-  return { summary, deltas };
+  return {
+    summary,
+    deltas: [{ playerId: presenterId, delta: summary.unanimous ? 2 : summary.accepted ? 1 : 0 }],
+  };
 };
 
 export const applyScoring = (

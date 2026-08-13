@@ -328,3 +328,53 @@
     grid-template-columns: 1fr;
   }
 }
+
+.reasonBox {
+  display: grid;
+  gap: 8px;
+  text-align: left;
+  width: min(100%, 560px);
+}
+
+.reasonBox > span {
+  color: var(--ink-sub);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.reasonList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.reasonChip {
+  background: var(--paper-card);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 700;
+  min-height: 38px;
+  padding: 6px 14px;
+}
+
+.reasonChipOn {
+  background: var(--vermilion);
+  border-color: var(--vermilion);
+  color: var(--paper-card);
+}
+
+/* 公開時に票の横へ小さく添える */
+.reasonTag {
+  background: var(--paper-sub);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  color: var(--ink-sub);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 800;
+  margin-left: 8px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}

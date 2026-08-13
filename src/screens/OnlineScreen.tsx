@@ -9,7 +9,8 @@ import { areCardSlotsValid, MAX_CARD_COUNT, MIN_CARD_COUNT } from '../game/cardC
 import { CARD_PRESETS, sameSlots } from '../game/presets';
 import { computeAwards, sortedPlayers } from '../game/selectors';
 import cardsData from '../data/cards.json';
-import type { OnlineSettings } from '../online/protocol';
+import { REJECT_REASONS } from '../online/protocol';
+import type { OnlineSettings, RejectReason } from '../online/protocol';
 import type { CardGenre, CardKind, CardsByKind, DeckMode, GenreMode } from '../game/types';
 
 const cards = cardsData as CardsByKind;
@@ -215,12 +216,20 @@ const OnlineRoom = ({ room, onBack }: { room: UseRoom; onBack: () => void }) => 
       {snap.phase === 'present' && (
         <div className={styles.turnPanel}>
           <p className={styles.turnLead}>
-            {iAmPresenter ? 'あなたの番です。' : `${presenter?.name} さんが発表します。`}
+            {snap.isRebuttal
+              ? iAmPresenter
+                ? 'あなたの弁明です。'
+                : `${presenter?.name} さんが弁明します。`
+              : iAmPresenter
+                ? 'あなたの番です。'
+                : `${presenter?.name} さんが発表します。`}
           </p>
           <p className={styles.help}>
-            {iAmPresenter
-              ? 'このカード構成で、それらしい研究を口頭で発表してください（制約カードの無茶ぶりは無視できません）。'
-              : '発表を聞いて、査読の準備をしましょう。'}
+            {snap.isRebuttal
+              ? '不採択の指摘に反論してください。このあと、もう一度投票します。'
+              : iAmPresenter
+                ? 'このカード構成で、それらしい研究を口頭で発表してください（制約カードの無茶ぶりは無視できません）。'
+                : '発表を聞いて、査読の準備をしましょう。'}
           </p>
           {snap.presentEndsAt !== null && (
             <OnlineTimer endsAt={snap.presentEndsAt} serverNow={snap.serverNow} onExpire={onTimerExpire} />
@@ -547,6 +556,7 @@ const VoteForm = ({
   progress: string;
 }) => {
   const [comment, setComment] = useState('');
+  const [reason, setReason] = useState<RejectReason | ''>('');
   const cardCount = snap.hand?.length ?? 0;
 
   return (
@@ -571,6 +581,24 @@ const VoteForm = ({
         />
       </label>
 
+      {/* Reject に添える定型の理由。選ぶだけなので書く負担がない */}
+      <div className={styles.reasonBox}>
+        <span>不採択の理由（Reject のときだけ・任意）</span>
+        <div className={styles.reasonList}>
+          {REJECT_REASONS.map((r) => (
+            <button
+              key={r}
+              type="button"
+              aria-pressed={reason === r}
+              className={`${styles.reasonChip} ${reason === r ? styles.reasonChipOn : ''}`}
+              onClick={() => setReason(reason === r ? '' : r)}
+            >
+              {r}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className={appStyles.voteButtons}>
         <button
           className={appStyles.acceptButton}
@@ -582,7 +610,7 @@ const VoteForm = ({
         <button
           className={appStyles.rejectButton}
           type="button"
-          onClick={() => room.send({ t: 'vote', vote: 'reject', comment })}
+          onClick={() => room.send({ t: 'vote', vote: 'reject', comment, ...(reason ? { reason } : {}) })}
         >
           Reject
         </button>
@@ -620,7 +648,10 @@ const RevealBody = ({
           const player = snap.players.find((p) => p.id === v.playerId);
           return (
             <p key={v.playerId} className={appStyles.voteReveal}>
-              <span>{player?.name ?? '?'}</span>
+              <span>
+                {player?.name ?? '?'}
+                {v.reason && <em className={styles.reasonTag}>{v.reason}</em>}
+              </span>
               <strong>{v.vote === 'accept' ? 'Accept' : 'Reject'}</strong>
             </p>
           );
@@ -644,9 +675,17 @@ const RevealBody = ({
       <Standings snap={snap} />
 
       {isHost ? (
-        <button className={appStyles.primaryButton} type="button" onClick={() => room.send({ t: 'nextRound' })}>
-          次へ
-        </button>
+        <div className={styles.hostBar}>
+          {/* 不採択のときだけ、1手番に1回。発表者が弁明して投票をやり直す */}
+          {!rv.accepted && !snap.rebuttalUsed && (
+            <button className={appStyles.secondaryButton} type="button" onClick={() => room.send({ t: 'startRebuttal' })}>
+              リバッタル（30秒の弁明）
+            </button>
+          )}
+          <button className={appStyles.primaryButton} type="button" onClick={() => room.send({ t: 'nextRound' })}>
+            次へ
+          </button>
+        </div>
       ) : (
         <p className={styles.waitNote}>司会が次に進めるのを待っています…</p>
       )}

@@ -1,6 +1,9 @@
-import { applyScoring } from './scoring';
+import { applyScoring, summarizeVotes } from './scoring';
 import { arePlayerNamesValid, DEFAULT_SETTINGS, normalizeSettings } from './settings';
 import type { Card, CardKind, GameState, Hand, Settings, Vote } from './types';
+
+// リバッタルの弁明時間。発表本体より短く、言い訳を1つ通す程度の長さにする。
+const REBUTTAL_SECONDS = 30;
 
 export type GameAction =
   | { type: 'updateSettings'; settings: Settings }
@@ -22,6 +25,7 @@ export type GameAction =
   | { type: 'countdownDone' }
   | { type: 'setTallyVote'; playerId: string; vote: Vote }
   | { type: 'revealResult' }
+  | { type: 'startRebuttal' }
   | { type: 'nextTurn' }
   | { type: 'resetToSetup' };
 
@@ -56,6 +60,8 @@ export const createInitialState = (settings = DEFAULT_SETTINGS): GameState => ({
   voteDraft: null,
   commentDraft: '',
   resultScored: false,
+  rebuttalUsed: false,
+  isRebuttal: false,
 });
 
 export const gameReducer = (state: GameState, action: GameAction): GameState => {
@@ -274,6 +280,46 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         voteDraft: null,
         commentDraft: '',
         resultScored: false,
+        rebuttalUsed: false,
+        isRebuttal: false,
+      };
+    }
+    case 'startRebuttal': {
+      // 不採択のときだけ、1手番に1回。発表者が弁明し、査読者は投票し直す。
+      // 不採択＝発表者の加点は0なので得点を戻す必要はないが、
+      // 査読者のAccept/Reject数は称号の材料なので、差し替えのため戻しておく。
+      if (state.phase !== 'result' || state.rebuttalUsed || !state.hand) {
+        return state;
+      }
+      const presenter = state.players[state.presenterIndex];
+      const summary = summarizeVotes(
+        state.players.filter((player) => player.id !== presenter.id).map((player) => player.id),
+        state.votes,
+      );
+      if (summary.accepted) {
+        return state;
+      }
+
+      return {
+        ...state,
+        phase: 'present',
+        players: state.players.map((player) => {
+          const vote = state.votes[player.id]?.vote;
+          return {
+            ...player,
+            acceptCount: player.acceptCount - (vote === 'accept' ? 1 : 0),
+            rejectCount: player.rejectCount - (vote === 'reject' ? 1 : 0),
+          };
+        }),
+        votes: {},
+        votingIndex: 0,
+        timerRemaining: REBUTTAL_SECONDS,
+        voteStep: 'handoff',
+        voteDraft: null,
+        commentDraft: '',
+        resultScored: false,
+        rebuttalUsed: true,
+        isRebuttal: true,
       };
     }
     case 'resetToSetup':

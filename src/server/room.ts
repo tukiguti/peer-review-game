@@ -13,7 +13,8 @@ import { canDrawCardSlots, drawHand } from '../game/draw';
 import { calculateScoring, summarizeVotes } from '../game/scoring';
 import { areCardSlotsValid, DEFAULT_CARD_SLOTS, isGenreMode } from '../game/cardConfig';
 import cardsData from '../data/cards.json';
-import type { ClientMessage, OnlinePhase, OnlineSettings, RoomSnapshot, ServerMessage, VoteReveal } from '../online/protocol';
+import type { ClientMessage, OnlinePhase, OnlineSettings, RejectReason, RoomSnapshot, ServerMessage, VoteReveal } from '../online/protocol';
+import { REJECT_REASONS } from '../online/protocol';
 
 const cards = cardsData as unknown as CardsByKind;
 
@@ -22,6 +23,8 @@ const MAX_ROUNDS = 3;
 // 0 はタイマーなし。オフラインの選択肢に合わせる。
 const PRESENTATION_SECONDS = [0, 30, 60, 90, 120];
 const MAX_COMMENT_LENGTH = 60;
+// リバッタルの弁明時間。発表本体より短く、言い訳を1つ通す程度にする。
+const REBUTTAL_SECONDS = 30;
 // 過半数判定が成立する最小人数(発表者1 + 査読者2)。オフラインの3人下限と揃える。
 const MIN_PLAYERS = 3;
 const MAX_PLAYERS = 8;
@@ -41,6 +44,9 @@ type PersistedRoom = {
   hand: Card[] | null;
   votes: Record<string, Vote>;
   comments: Record<string, string>;
+  reasons: Record<string, RejectReason>;
+  isRebuttal: boolean;
+  rebuttalUsed: boolean;
   recentHands: string[][];
   lastReveal: RoomSnapshot['reveal'];
   players: RoomPlayer[];
@@ -64,6 +70,10 @@ export class Room {
   private hand: Card[] | null = null;
   private votes: Record<string, Vote> = {};
   private comments: Record<string, string> = {};
+  private reasons: Record<string, RejectReason> = {};
+  // リバッタル(不採択のときだけ、発表者が弁明して投票をやり直す)。1手番に1回まで。
+  private isRebuttal = false;
+  private rebuttalUsed = false;
   private recentHands: string[][] = [];
   private lastReveal: RoomSnapshot['reveal'] = null;
   // 司会がロビーで変更できる設定（既定は査読4枚・全ジャンル・1周・60秒）。
@@ -92,6 +102,9 @@ export class Room {
     this.hand = saved.hand;
     this.votes = saved.votes;
     this.comments = saved.comments ?? {};
+    this.reasons = saved.reasons ?? {};
+    this.isRebuttal = saved.isRebuttal ?? false;
+    this.rebuttalUsed = saved.rebuttalUsed ?? false;
     this.recentHands = saved.recentHands;
     this.lastReveal = saved.lastReveal;
     // 再起動直後は誰も繋がっていない。各自の再接続を待つ。
@@ -115,6 +128,9 @@ export class Room {
       hand: this.hand,
       votes: this.votes,
       comments: this.comments,
+      reasons: this.reasons,
+      isRebuttal: this.isRebuttal,
+      rebuttalUsed: this.rebuttalUsed,
       recentHands: this.recentHands,
       lastReveal: this.lastReveal,
       players: this.players,
@@ -138,6 +154,9 @@ export class Room {
     this.hand = null;
     this.votes = {};
     this.comments = {};
+    this.reasons = {};
+    this.isRebuttal = false;
+    this.rebuttalUsed = false;
     this.recentHands = [];
     this.lastReveal = null;
     this.players = [];
@@ -294,7 +313,7 @@ export class Room {
         }
         break;
       case 'vote':
-        this.handleVote(playerId, msg.vote, msg.comment);
+        this.handleVote(playerId, msg.vote, msg.comment, msg.reason);
         break;
       case 'closeVoting':
         // 未投票者が戻らないときの脱出口。集まっている票だけで判定する。
@@ -303,6 +322,9 @@ export class Room {
       case 'skipTurn':
         // 発表者が戻らないとき等。得点をつけずに次の手番へ。
         if (isHost && (this.phase === 'present' || this.phase === 'voting')) this.advance();
+        break;
+      case 'startRebuttal':
+        if (isHost) this.startRebuttal();
         break;
       case 'claimHost':
         this.claimHost(playerId);
@@ -318,6 +340,28 @@ export class Room {
         break;
     }
     this.broadcast();
+  }
+
+  // 不採択のときだけ、発表者の弁明に戻して投票をやり直す。1手番に1回。
+  // 不採択なら発表者の加点は0なので得点は戻さなくてよいが、
+  // 査読者のAccept/Reject数は称号の材料なので、差し替えのため取り消す。
+  private startRebuttal(): void {
+    if (this.phase !== 'reveal' || this.rebuttalUsed || !this.lastReveal) return;
+    if (this.lastReveal.accepted) return;
+
+    for (const p of this.players) {
+      const vote = this.votes[p.id];
+      if (vote === 'accept') p.acceptCount -= 1;
+      else if (vote === 'reject') p.rejectCount -= 1;
+    }
+    this.votes = {};
+    this.comments = {};
+    this.reasons = {};
+    this.lastReveal = null;
+    this.isRebuttal = true;
+    this.rebuttalUsed = true;
+    this.phase = 'present';
+    this.presentEndsAt = Date.now() + REBUTTAL_SECONDS * 1000;
   }
 
   // 司会が切断中のときだけ、接続中の参加者が進行役を引き継げる。
@@ -368,6 +412,9 @@ export class Room {
   private beginTurn(): void {
     this.votes = {};
     this.comments = {};
+    this.reasons = {};
+    this.isRebuttal = false;
+    this.rebuttalUsed = false;
     this.lastReveal = null;
     this.hand = drawHand(cards, this.genreMode, this.recentHands, this.cardSlots);
     this.recentHands.push(this.hand.map((c) => c.id));
@@ -376,7 +423,7 @@ export class Room {
     this.presentEndsAt = this.presentationSeconds > 0 ? Date.now() + this.presentationSeconds * 1000 : null;
   }
 
-  private handleVote(playerId: string, vote: Vote, comment?: string): void {
+  private handleVote(playerId: string, vote: Vote, comment?: string, reason?: RejectReason): void {
     if (this.phase !== 'voting') return;
     if (vote !== 'accept' && vote !== 'reject') return;
     const presenterId = this.players[this.presenterIndex]?.id;
@@ -387,6 +434,12 @@ export class Room {
     const trimmed = typeof comment === 'string' ? comment.trim().slice(0, MAX_COMMENT_LENGTH) : '';
     if (trimmed) this.comments[playerId] = trimmed;
     else delete this.comments[playerId];
+    // 理由は Reject のときだけ。一覧にないものは捨てる
+    if (vote === 'reject' && reason && (REJECT_REASONS as readonly string[]).includes(reason)) {
+      this.reasons[playerId] = reason;
+    } else {
+      delete this.reasons[playerId];
+    }
     this.maybeReveal();
   }
 
@@ -427,6 +480,7 @@ export class Room {
       playerId: id,
       vote: this.votes[id],
       ...(this.comments[id] ? { comment: this.comments[id] } : {}),
+      ...(this.reasons[id] ? { reason: this.reasons[id] } : {}),
     }));
     this.lastReveal = {
       votes: revealVotes,
@@ -477,6 +531,7 @@ export class Room {
         score: p.score,
         isHost: p.id === this.hostId,
         presentationScore: p.presentationScore,
+        acceptCount: p.acceptCount,
         rejectCount: p.rejectCount,
         unanimousAcceptedCount: p.unanimousAcceptedCount,
       })),
@@ -493,6 +548,9 @@ export class Room {
       votedPlayerIds: this.phase === 'voting' ? Object.keys(this.votes) : [],
       myVote: this.votes[forId] ?? null,
       myComment: this.comments[forId] ?? null,
+      myReason: this.reasons[forId] ?? null,
+      isRebuttal: this.isRebuttal,
+      rebuttalUsed: this.rebuttalUsed,
       presentEndsAt: this.phase === 'present' ? this.presentEndsAt : null,
       serverNow: Date.now(),
       reveal: this.phase === 'reveal' ? this.lastReveal : null,
