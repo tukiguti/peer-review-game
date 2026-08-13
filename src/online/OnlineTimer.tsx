@@ -36,7 +36,14 @@ export const OnlineTimer = ({ endsAt, serverNow, onExpire }: Props) => {
     };
     update();
     const id = window.setInterval(update, 250);
-    return () => window.clearInterval(id);
+    // 画面が消えている間ブラウザはタイマーを間引く（止める）。
+    // 復帰した瞬間に古い残り時間を見せないよう、その場で計算し直す。
+    // 締切は絶対時刻なので、間引かれていても復帰後は必ず正しい値になる。
+    document.addEventListener('visibilitychange', update);
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener('visibilitychange', update);
+    };
   }, [endsAt, onExpire]);
 
   const minutes = Math.floor(remaining / 60);
