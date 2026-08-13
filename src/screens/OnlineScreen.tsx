@@ -12,6 +12,9 @@ import type { CardGenre, CardKind, CardsByKind, DeckMode, GenreMode } from '../g
 
 const cards = cardsData as CardsByKind;
 
+// 過半数判定が成立する最小人数（発表者1 + 査読者2）。サーバ側の MIN_PLAYERS と揃える。
+const MIN_ONLINE_PLAYERS = 3;
+
 type Props = {
   onBack: () => void;
 };
@@ -55,10 +58,38 @@ const PHASE_TITLE: Record<string, string> = {
 
 export const OnlineScreen = ({ onBack }: Props) => {
   const room = useRoom();
+  if (room.restoring) {
+    return (
+      <section className={appStyles.screen}>
+        <div className={styles.votePanel}>
+          <p className={styles.bigLead}>前回の部屋に戻っています…</p>
+          <button className={appStyles.secondaryButton} type="button" onClick={room.leave}>
+            やめて最初から
+          </button>
+        </div>
+      </section>
+    );
+  }
   if (!room.room) {
     return <OnlineEntry room={room} onBack={onBack} />;
   }
   return <OnlineRoom room={room} onBack={onBack} />;
+};
+
+// 接続が切れている間だけ出る帯。操作できない理由を隠さない。
+const ConnectionBanner = ({ room }: { room: UseRoom }) => {
+  if (room.status === 'open') return null;
+  const label =
+    room.status === 'reconnecting' || room.status === 'connecting'
+      ? '接続が切れました。再接続しています…'
+      : room.status === 'error'
+        ? (room.error ?? '接続エラー')
+        : '切断されました';
+  return (
+    <p className={styles.connBanner} role="status">
+      {label}
+    </p>
+  );
 };
 
 const OnlineEntry = ({ room, onBack }: { room: UseRoom; onBack: () => void }) => {
@@ -136,6 +167,8 @@ const OnlineRoom = ({ room, onBack }: { room: UseRoom; onBack: () => void }) => 
   const iAmPresenter = snap.presenterId === room.playerId;
   const connectedCount = snap.players.filter((p) => p.connected).length;
   const voterTotal = snap.players.filter((p) => p.connected && p.id !== snap.presenterId).length;
+  // 司会が切断中なら、残った人が進行を引き継げるようにする（部屋が固まらないように）。
+  const hostOffline = !snap.players.some((p) => p.isHost && p.connected);
 
   const leave = () => {
     room.leave();
@@ -157,6 +190,17 @@ const OnlineRoom = ({ room, onBack }: { room: UseRoom; onBack: () => void }) => 
         </button>
       </div>
 
+      <ConnectionBanner room={room} />
+
+      {hostOffline && snap.phase !== 'final' && (
+        <div className={styles.hostTakeover}>
+          <span>司会が切断中です。進行が止まっている場合は引き継げます。</span>
+          <button className={appStyles.secondaryButton} type="button" onClick={() => room.send({ t: 'claimHost' })}>
+            司会を引き継ぐ
+          </button>
+        </div>
+      )}
+
       {snap.phase === 'lobby' && <LobbyBody snap={snap} isHost={isHost} connectedCount={connectedCount} room={room} />}
 
       {snap.phase === 'present' && (
@@ -171,9 +215,16 @@ const OnlineRoom = ({ room, onBack }: { room: UseRoom; onBack: () => void }) => 
           </p>
           <Hand snap={snap} />
           {isHost && (
-            <button className={appStyles.primaryButton} type="button" onClick={() => room.send({ t: 'openVoting' })}>
-              投票を始める
-            </button>
+            <div className={styles.hostBar}>
+              <button className={appStyles.primaryButton} type="button" onClick={() => room.send({ t: 'openVoting' })}>
+                投票を始める
+              </button>
+              {!presenter?.connected && (
+                <button className={appStyles.secondaryButton} type="button" onClick={() => room.send({ t: 'skipTurn' })}>
+                  発表者が戻らないので飛ばす
+                </button>
+              )}
+            </div>
           )}
         </div>
       )}
@@ -182,6 +233,16 @@ const OnlineRoom = ({ room, onBack }: { room: UseRoom; onBack: () => void }) => 
         <div className={styles.turnPanel}>
           <Hand snap={snap} />
           <VotingBody snap={snap} room={room} iAmPresenter={iAmPresenter} voterTotal={voterTotal} />
+          {isHost && (
+            <div className={styles.hostBar}>
+              <button className={appStyles.secondaryButton} type="button" onClick={() => room.send({ t: 'closeVoting' })}>
+                締め切って結果を出す
+              </button>
+              <button className={appStyles.secondaryButton} type="button" onClick={() => room.send({ t: 'skipTurn' })}>
+                この手番を飛ばす
+              </button>
+            </div>
+          )}
         </div>
       )}
 
@@ -224,7 +285,9 @@ const LobbyBody = ({
     room.send({ t: 'setSettings', settings: next });
   };
   const settingsValid = areCardSlotsValid(draft.cardSlots) && canDrawCardSlots(cards, draft.genreMode, draft.cardSlots);
-  const canStart = connectedCount >= 2 && (!isHost || settingsValid);
+  // 過半数判定が成立する最小人数は3人（発表者1 + 査読者2）。オフラインと揃える。
+  const enoughPlayers = connectedCount >= MIN_ONLINE_PLAYERS;
+  const canStart = enoughPlayers && (!isHost || settingsValid);
 
   return (
     <div className={styles.lobby}>
@@ -257,7 +320,11 @@ const LobbyBody = ({
           disabled={!canStart}
           onClick={() => room.send({ t: 'startRound' })}
         >
-          {connectedCount < 2 ? 'あと1人以上の参加を待っています' : !settingsValid ? 'カード構成を調整してください' : 'ゲームを始める'}
+          {!enoughPlayers
+            ? `あと${MIN_ONLINE_PLAYERS - connectedCount}人の参加を待っています（最少${MIN_ONLINE_PLAYERS}人）`
+            : !settingsValid
+              ? 'カード構成を調整してください'
+              : 'ゲームを始める'}
         </button>
       ) : (
         <p className={styles.waitNote}>司会がゲームを始めるのを待っています…</p>
